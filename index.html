@@ -20,11 +20,14 @@ img{display:block}
 a img{transition:transform 1.4s cubic-bezier(.2,.7,.2,1),filter 1.4s}
 a:hover img{transform:scale(1.035)}
 a[style*="height: 620px"]:hover img{filter:grayscale(1) contrast(1.05) brightness(0.95) !important}
+a[style*="height: 620px"] svg{transition:opacity 1.2s}
+a[style*="height: 620px"]:hover svg{opacity:1}
 @media (max-width:760px){
   h1{font-size:72px !important}
+  h1 svg{width:140px !important;height:140px !important}
   h2{font-size:44px !important}
   a[style*="height: 620px"]{height:420px !important}
-  a[aria-label="Quinto elemento"]{height:240px !important}
+  a[aria-label="Il quinto elemento"]{height:240px !important}
   section[style*="min-height: 820px"]{min-height:600px !important}
   span[style*="font-size: 88px"]{font-size:48px !important}
   span[style*="font-size: 52px"],a[style*="font-size: 72px"]{font-size:36px !important}
@@ -40,12 +43,12 @@ a[style*="height: 620px"]:hover img{filter:grayscale(1) contrast(1.05) brightnes
 
 <header style="max-width: 1360px; margin: 0 auto; padding: 28px 24px; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 16px">
   <a href="#" style="text-decoration: none; color: #F7F7F5; font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 500; letter-spacing: 0.02em">Daniele Mingucci</a>
-  <nav aria-label="Mondi" style="display: flex; flex-wrap: wrap; gap: 4px 8px; font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase">
-    <a href="acqua.html" style="padding: 12px 10px; text-decoration: none; color: #A3A29E">I Acqua</a>
-    <a href="terra.html" style="padding: 12px 10px; text-decoration: none; color: #A3A29E">II Terra</a>
-    <a href="aria.html" style="padding: 12px 10px; text-decoration: none; color: #A3A29E">III Aria</a>
-    <a href="fuoco.html" style="padding: 12px 10px; text-decoration: none; color: #A3A29E">IV Fuoco</a>
-    <a href="quinto.html" style="padding: 12px 10px; text-decoration: none; color: #A3A29E">V</a>
+  <nav aria-label="Mondi" style="display: flex; flex-wrap: wrap; gap: 4px 6px; align-items: center">
+    <a href="acqua.html" style="padding: 12px 10px; text-decoration: none; color: #A3A29E" aria-label="Acqua"><svg aria-hidden="true" viewBox="0 0 100 100" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" style="display: block; "><polygon points="10,18 90,18 50,88" vector-effect="non-scaling-stroke"></polygon></svg></a>
+    <a href="terra.html" style="padding: 12px 10px; text-decoration: none; color: #A3A29E" aria-label="Terra"><svg aria-hidden="true" viewBox="0 0 100 100" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" style="display: block; "><polygon points="10,18 90,18 50,88" vector-effect="non-scaling-stroke"></polygon><line x1="23.7" y1="42" x2="76.3" y2="42" vector-effect="non-scaling-stroke"></line></svg></a>
+    <a href="aria.html" style="padding: 12px 10px; text-decoration: none; color: #A3A29E" aria-label="Aria"><svg aria-hidden="true" viewBox="0 0 100 100" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" style="display: block; "><polygon points="50,12 90,82 10,82" vector-effect="non-scaling-stroke"></polygon><line x1="23.7" y1="58" x2="76.3" y2="58" vector-effect="non-scaling-stroke"></line></svg></a>
+    <a href="fuoco.html" style="padding: 12px 10px; text-decoration: none; color: #A3A29E" aria-label="Fuoco"><svg aria-hidden="true" viewBox="0 0 100 100" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" style="display: block; "><polygon points="50,12 90,82 10,82" vector-effect="non-scaling-stroke"></polygon></svg></a>
+    <a href="quinto.html" style="padding: 12px 10px; text-decoration: none; color: #A3A29E" aria-label="Il quinto elemento"><svg aria-hidden="true" viewBox="0 0 100 100" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" style="display: block; "><circle cx="38" cy="50" r="24" vector-effect="non-scaling-stroke"></circle><circle cx="62" cy="50" r="24" vector-effect="non-scaling-stroke"></circle></svg></a>
   </nav>
 </header>
 
@@ -57,44 +60,40 @@ a[style*="height: 620px"]:hover img{filter:grayscale(1) contrast(1.05) brightnes
 
 <section aria-label="I mondi" style="padding: 0 24px 104px">
   <div style="max-width: 1360px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px">
-    <a href="acqua.html" style="position: relative; flex: 1 1 220px; min-width: 0; height: 620px; overflow: hidden; text-decoration: none; color: #F7F7F5; display: block">
+    <a href="acqua.html" aria-label="Acqua · Mare" style="position: relative; flex: 1 1 220px; min-width: 0; height: 620px; overflow: hidden; text-decoration: none; color: #F7F7F5; display: block">
       <img loading="lazy" src="img/boat.jpg" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; filter: grayscale(1) contrast(1.05) brightness(0.8)">
       <div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(0deg, rgba(18,18,18,0.92) 0%, rgba(18,18,18,0.05) 55%)"></div>
+      <div aria-hidden="true" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #F7F7F5; opacity: 0.6"><svg aria-hidden="true" viewBox="0 0 100 100" width="170" height="170" fill="none" stroke="currentColor" stroke-width="1" style="display: block; "><polygon points="10,18 90,18 50,88" vector-effect="non-scaling-stroke"></polygon></svg></div>
       <div style="position: absolute; left: 28px; right: 28px; bottom: 32px; display: flex; flex-direction: column; gap: 10px">
-        <span style="font-family: 'Cormorant Garamond', serif; font-size: 20px; color: #B8925A">I</span>
-        <span style="font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; line-height: 1">Acqua</span>
         <span style="font-size: 14px; line-height: 1.5; color: #D4D3CF">Mare · Stramba</span>
       </div>
     </a>
-    <a href="terra.html" style="position: relative; flex: 1 1 220px; min-width: 0; height: 620px; overflow: hidden; text-decoration: none; color: #F7F7F5; display: block">
+    <a href="terra.html" aria-label="Terra · Imprese" style="position: relative; flex: 1 1 220px; min-width: 0; height: 620px; overflow: hidden; text-decoration: none; color: #F7F7F5; display: block">
       <img loading="lazy" src="img/books121.jpg" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%; filter: grayscale(1) contrast(1.05) brightness(0.8)">
       <div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(0deg, rgba(18,18,18,0.92) 0%, rgba(18,18,18,0.05) 55%)"></div>
+      <div aria-hidden="true" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #F7F7F5; opacity: 0.6"><svg aria-hidden="true" viewBox="0 0 100 100" width="170" height="170" fill="none" stroke="currentColor" stroke-width="1" style="display: block; "><polygon points="10,18 90,18 50,88" vector-effect="non-scaling-stroke"></polygon><line x1="23.7" y1="42" x2="76.3" y2="42" vector-effect="non-scaling-stroke"></line></svg></div>
       <div style="position: absolute; left: 28px; right: 28px; bottom: 32px; display: flex; flex-direction: column; gap: 10px">
-        <span style="font-family: 'Cormorant Garamond', serif; font-size: 20px; color: #B8925A">II</span>
-        <span style="font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; line-height: 1">Terra</span>
         <span style="font-size: 14px; line-height: 1.5; color: #D4D3CF">Imprese · Traspality, Books121, Capital Units</span>
       </div>
     </a>
-    <a href="aria.html" style="position: relative; flex: 1 1 220px; min-width: 0; height: 620px; overflow: hidden; text-decoration: none; color: #F7F7F5; display: block">
+    <a href="aria.html" aria-label="Aria · Parole" style="position: relative; flex: 1 1 220px; min-width: 0; height: 620px; overflow: hidden; text-decoration: none; color: #F7F7F5; display: block">
       <img loading="lazy" src="img/lettera22.jpg" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.05) brightness(0.8)">
       <div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(0deg, rgba(18,18,18,0.92) 0%, rgba(18,18,18,0.05) 55%)"></div>
+      <div aria-hidden="true" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #F7F7F5; opacity: 0.6"><svg aria-hidden="true" viewBox="0 0 100 100" width="170" height="170" fill="none" stroke="currentColor" stroke-width="1" style="display: block; "><polygon points="50,12 90,82 10,82" vector-effect="non-scaling-stroke"></polygon><line x1="23.7" y1="58" x2="76.3" y2="58" vector-effect="non-scaling-stroke"></line></svg></div>
       <div style="position: absolute; left: 28px; right: 28px; bottom: 32px; display: flex; flex-direction: column; gap: 10px">
-        <span style="font-family: 'Cormorant Garamond', serif; font-size: 20px; color: #B8925A">III</span>
-        <span style="font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; line-height: 1">Aria</span>
         <span style="font-size: 14px; line-height: 1.5; color: #D4D3CF">Parole · scritti e romanzi</span>
       </div>
     </a>
-    <a href="fuoco.html" style="position: relative; flex: 1 1 220px; min-width: 0; height: 620px; overflow: hidden; text-decoration: none; color: #F7F7F5; display: block">
+    <a href="fuoco.html" aria-label="Fuoco · Linguaggi" style="position: relative; flex: 1 1 220px; min-width: 0; height: 620px; overflow: hidden; text-decoration: none; color: #F7F7F5; display: block">
       <img loading="lazy" src="img/fiume.jpg" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.05) brightness(0.8)">
       <div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(0deg, rgba(18,18,18,0.92) 0%, rgba(18,18,18,0.05) 55%)"></div>
+      <div aria-hidden="true" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #F7F7F5; opacity: 0.6"><svg aria-hidden="true" viewBox="0 0 100 100" width="170" height="170" fill="none" stroke="currentColor" stroke-width="1" style="display: block; "><polygon points="50,12 90,82 10,82" vector-effect="non-scaling-stroke"></polygon></svg></div>
       <div style="position: absolute; left: 28px; right: 28px; bottom: 32px; display: flex; flex-direction: column; gap: 10px">
-        <span style="font-family: 'Cormorant Garamond', serif; font-size: 20px; color: #B8925A">IV</span>
-        <span style="font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; line-height: 1">Fuoco</span>
         <span style="font-size: 14px; line-height: 1.5; color: #D4D3CF">Linguaggi · MNG-crea</span>
       </div>
     </a>
-    <a href="quinto.html" aria-label="Quinto elemento" style="position: relative; flex: 1 1 220px; min-width: 0; height: 620px; overflow: hidden; text-decoration: none; color: #121212; display: flex; align-items: center; justify-content: center; background: #F7F7F5">
-      <span style="font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 120px; line-height: 1">V</span>
+    <a href="quinto.html" aria-label="Il quinto elemento" style="position: relative; flex: 1 1 220px; min-width: 0; height: 620px; overflow: hidden; text-decoration: none; color: #121212; display: flex; align-items: center; justify-content: center; background: #F7F7F5">
+      <svg aria-hidden="true" viewBox="0 0 100 100" width="150" height="150" fill="none" stroke="currentColor" stroke-width="1" style="display: block; "><circle cx="38" cy="50" r="24" vector-effect="non-scaling-stroke"></circle><circle cx="62" cy="50" r="24" vector-effect="non-scaling-stroke"></circle></svg>
     </a>
   </div>
 </section>
