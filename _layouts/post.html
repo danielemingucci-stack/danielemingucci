@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="it">
+<head>
+{% include testa.html %}
+<title>{{ page.title }} — Daniele Mingucci</title>
+<meta name="description" content="{{ page.excerpt | strip_html | strip_newlines | truncatewords: 30 }}">
+<meta property="og:title" content="{{ page.title }}">
+<meta property="og:description" content="{{ page.excerpt | strip_html | strip_newlines | truncatewords: 30 }}">
+<meta property="og:type" content="article">
+{%- if page.immagine %}
+<meta property="og:image" content="{{ site.url }}{{ page.immagine }}">
+{%- else %}
+<meta property="og:image" content="{{ site.url }}/img/lettera22.jpg">
+{%- endif %}
+</head>
+<body>
+{% include testata.html %}
+
+<article class="scritto">
+  <p class="etichetta" style="margin: 0">{% include data.html d=page.date %}</p>
+  <h1>{{ page.title }}</h1>
+  {%- if page.immagine %}
+  <img class="copertina" src="{{ page.immagine }}" alt="">
+  {%- endif %}
+  <div class="testo">
+    {{ content }}
+  </div>
+  {%- if page.tumblr %}
+  <p class="origine">Pubblicato anche su <a href="{{ page.tumblr }}">Tumblr</a></p>
+  {%- endif %}
+</article>
+
+<nav class="sequenza" aria-label="Altri scritti">
+  {%- if page.next %}
+  <a href="{{ page.next.url }}"><span class="etichetta">Più recente</span><span class="titolo">{{ page.next.title }}</span></a>
+  {%- else %}<span></span>{% endif %}
+  {%- if page.previous %}
+  <a href="{{ page.previous.url }}" style="text-align: right"><span class="etichetta">Precedente</span><span class="titolo">{{ page.previous.title }}</span></a>
+  {%- endif %}
+</nav>
+<p class="wrap" style="max-width: 720px; padding-bottom: 72px"><a href="/scritti/" class="etichetta" style="text-decoration: none; color: #121212; border-bottom: 1px solid #121212; padding: 14px 0">Tutti gli scritti</a></p>
+
+{% include piede.html %}
+</body>
+</html>

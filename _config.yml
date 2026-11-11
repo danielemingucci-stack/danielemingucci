@@ -1,0 +1,24 @@
+title: Daniele Mingucci
+description: Inventore, imprenditore, autore. Scritti, startup, mare, linguaggi.
+url: https://www.danielemingucci.com
+lang: it
+timezone: Europe/Rome
+
+# Ogni scritto vive in /scritti/titolo-dello-scritto/
+permalink: /scritti/:title/
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+# Gli scritti usano da soli l'impaginazione "post": non serve scriverlo in ogni file
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+
+exclude:
+  - README.md
