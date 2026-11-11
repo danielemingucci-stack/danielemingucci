@@ -32,9 +32,26 @@ img{display:block;max-width:100%;height:auto}
 .elenco a{display:flex;flex-wrap:wrap;gap:8px 32px;justify-content:space-between;align-items:baseline;padding:32px 0;border-bottom:1px solid #DCDBD6;text-decoration:none}
 .elenco .titolo{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:48px;line-height:1.05;flex:999 1 420px}
 .elenco .quando{font-size:13px;color:#57564F}
-.elenco .attacco{flex:0 0 100%;margin:0;font-size:15px;line-height:1.65;color:#57564F;max-width:720px}
+.elenco .attacco{flex:0 0 100%;box-sizing:border-box;margin:0;padding-right:max(0px,calc(100% - 760px));font-size:15px;line-height:1.65;color:#57564F}
 .piede{background:#121212;color:#A3A29E;font-size:12px}
 .piede .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;padding-top:32px;padding-bottom:40px}
 .piede a{color:#A3A29E;padding:10px 0}
-@media (max-width:760px){.scritto h1{font-size:44px}.testo{font-size:21px}.elenco .titolo{font-size:34px}}
+.scritto h1.piccolo{font-size:40px;line-height:1.15}
+.testo .fonte{font-family:Jost,sans-serif;font-size:14px;color:#57564F}
+.testo .video{position:relative;padding-top:56.25%;margin:2em 0}
+.testo .video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.testo iframe{max-width:100%}
+.testo figure{margin:2em 0}
+.anni{display:flex;flex-wrap:wrap;gap:4px 16px;margin:0 0 24px;font-size:13px;letter-spacing:.12em}
+.anni a{padding:8px 0;color:#57564F}
+.anno{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:56px;margin:64px 0 8px;padding-bottom:12px;border-bottom:1px solid #121212}
+.griglia{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:32px 24px;margin-top:24px}
+.voce{display:flex;flex-direction:column;gap:10px;text-decoration:none;min-width:0}
+.voce .titolo,.elenco .titolo,.scritto h1,.testo{overflow-wrap:anywhere}
+.voce img{width:100%;aspect-ratio:4/3;object-fit:cover;filter:grayscale(1) contrast(1.05);transition:filter .8s}
+.voce:hover img{filter:none}
+.voce .tipo{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#57564F}
+.voce .titolo{font-family:'Cormorant Garamond',serif;font-size:24px;line-height:1.2}
+.voce-quote .titolo{font-style:italic}
+@media (max-width:760px){section.wrap>h1{font-size:72px !important}.scritto h1{font-size:44px}.testo{font-size:21px}.elenco .titolo{font-size:34px}.anno{font-size:40px}}
 </style>

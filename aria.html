@@ -67,9 +67,9 @@ a[style*="height: 620px"]:hover svg{opacity:1}
 <section aria-label="Scritti" style="max-width: 1360px; margin: 0 auto; padding: 0 24px 104px">
   <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid #F7F7F5">
     <h2 style="margin: 0; font-size: 12px; font-weight: 500; letter-spacing: 0.32em; text-transform: uppercase; color: #B8925A">Scritti</h2>
-    <a href="/scritti/" style="padding: 10px 0; font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: #A3A29E">Tutti gli scritti</a>
+    <span style="display: flex; gap: 28px"><a href="/scritti/" style="padding: 10px 0; font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: #A3A29E">Tutti gli scritti</a><a href="/taccuino/" style="padding: 10px 0; font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: #A3A29E">Taccuino</a></span>
   </div>
-  {% if site.posts.size > 0 %}{% for post in site.posts limit:6 %}
+  {% if site.categories.scritti.size > 0 %}{% for post in site.categories.scritti limit:6 %}
   <a href="{{ post.url }}" style="display: flex; flex-wrap: wrap; gap: 8px 32px; justify-content: space-between; align-items: baseline; padding: 32px 0; border-bottom: 1px solid #2A2A28; text-decoration: none; color: #F7F7F5">
     <span style="font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 52px; line-height: 1.05">{{ post.title }}</span>
     <span style="font-size: 13px; color: #A3A29E">{% include data.html d=post.date %}</span>

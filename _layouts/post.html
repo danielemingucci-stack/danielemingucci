@@ -17,9 +17,10 @@
 {% include testata.html %}
 
 <article class="scritto">
-  <p class="etichetta" style="margin: 0">{% include data.html d=page.date %}</p>
-  <h1>{{ page.title }}</h1>
-  {%- if page.immagine %}
+  {%- assign taccuino = false %}{% if page.categories contains 'taccuino' %}{% assign taccuino = true %}{% endif %}
+  <p class="etichetta" style="margin: 0">{% if taccuino %}<a href="/taccuino/" style="color: inherit">Taccuino</a> · {% endif %}{% include data.html d=page.date %}</p>
+  <h1{% if taccuino %} class="piccolo"{% endif %}>{{ page.title }}</h1>
+  {%- if page.immagine and taccuino == false %}
   <img class="copertina" src="{{ page.immagine }}" alt="">
   {%- endif %}
   <div class="testo">
@@ -38,7 +39,7 @@
   <a href="{{ page.previous.url }}" style="text-align: right"><span class="etichetta">Precedente</span><span class="titolo">{{ page.previous.title }}</span></a>
   {%- endif %}
 </nav>
-<p class="wrap" style="max-width: 720px; padding-bottom: 72px"><a href="/scritti/" class="etichetta" style="text-decoration: none; color: #121212; border-bottom: 1px solid #121212; padding: 14px 0">Tutti gli scritti</a></p>
+<p class="wrap" style="max-width: 720px; padding-bottom: 72px">{% if page.categories contains 'taccuino' %}<a href="/taccuino/" class="etichetta" style="text-decoration: none; color: #121212; border-bottom: 1px solid #121212; padding: 14px 0">Tutto il taccuino</a>{% else %}<a href="/scritti/" class="etichetta" style="text-decoration: none; color: #121212; border-bottom: 1px solid #121212; padding: 14px 0">Tutti gli scritti</a>{% endif %}</p>
 
 {% include piede.html %}
 </body>

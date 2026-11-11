@@ -7,26 +7,34 @@ title: Scritti
 <head>
 {% include testa.html %}
 <title>Scritti — Daniele Mingucci</title>
-<meta name="description" content="Gli scritti di Daniele Mingucci: lavoro, impresa, innovazione, cultura.">
+<meta name="description" content="Gli scritti di Daniele Mingucci: lavoro, impresa, innovazione, cultura. Dal 2012 a oggi.">
 </head>
 <body>
 {% include testata.html %}
+{%- assign scritti = site.categories.scritti -%}
 
 <section class="wrap" style="padding-top: 48px; padding-bottom: 96px">
   <p class="etichetta" style="margin: 0">Aria</p>
-  <h1 style="margin: 16px 0 56px; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 120px; line-height: 0.95">Scritti</h1>
-  <div class="elenco" style="border-top: 1px solid #121212">
-  {%- for post in site.posts %}
+  <h1 style="margin: 16px 0 24px; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 120px; line-height: 0.95">Scritti</h1>
+  <p style="margin: 0 0 56px; font-size: 15px; color: #57564F">{{ scritti.size }} testi, dal più recente. Accanto, il <a href="/taccuino/">taccuino</a>: immagini, citazioni, link.</p>
+
+  {%- assign anni = scritti | group_by_exp: "p", "p.date | date: '%Y'" -%}
+  <nav aria-label="Anni" class="anni">
+    {%- for a in anni %}<a href="#anno-{{ a.name }}">{{ a.name }}</a>{% endfor %}
+  </nav>
+
+  {%- for a in anni %}
+  <h2 id="anno-{{ a.name }}" class="anno">{{ a.name }}</h2>
+  <div class="elenco">
+    {%- for post in a.items %}
     <a href="{{ post.url }}">
       <span class="titolo">{{ post.title }}</span>
       <span class="quando">{% include data.html d=post.date %}</span>
       <p class="attacco">{{ post.excerpt | strip_html | strip_newlines | truncatewords: 32 }}</p>
     </a>
-  {%- endfor %}
+    {%- endfor %}
   </div>
-  {%- if site.posts.size == 0 %}
-  <p style="margin: 40px 0 0; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 28px; color: #57564F">Gli scritti stanno arrivando.</p>
-  {%- endif %}
+  {%- endfor %}
 </section>
 
 {% include piede.html %}

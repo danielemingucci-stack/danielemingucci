@@ -104,7 +104,7 @@ a[style*="height: 620px"]:hover svg{opacity:1}
 <section style="background: #F7F7F5; color: #121212">
   <div style="max-width: 1360px; margin: 0 auto; padding: 88px 24px; display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-end; justify-content: space-between">
     <div style="flex: 999 1 520px; min-width: 0">
-      {% if site.posts.size > 0 %}{% assign ultimo = site.posts.first %}<p style="margin: 0 0 18px; font-size: 12px; letter-spacing: 0.32em; text-transform: uppercase; color: #57564F">Ultimo scritto · {% include data.html d=ultimo.date %}</p>
+      {% if site.categories.scritti.size > 0 %}{% assign ultimo = site.categories.scritti.first %}<p style="margin: 0 0 18px; font-size: 12px; letter-spacing: 0.32em; text-transform: uppercase; color: #57564F">Ultimo scritto · {% include data.html d=ultimo.date %}</p>
       <a href="{{ ultimo.url }}" style="text-decoration: none; color: #121212; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 72px; line-height: 1">{{ ultimo.title }}</a>
       <p style="margin: 20px 0 0; max-width: 640px; font-size: 15px; line-height: 1.6; color: #57564F">{{ ultimo.excerpt | strip_html | strip_newlines | truncatewords: 24 }}</p>
     {% else %}<p style="margin: 0 0 18px; font-size: 12px; letter-spacing: 0.32em; text-transform: uppercase; color: #57564F">Ultimo scritto · 9 novembre 2026</p>
