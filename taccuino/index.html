@@ -32,7 +32,7 @@ title: Taccuino
       <img src="{{ post.immagine }}" alt="" loading="lazy">
       {%- endif %}
       <span class="tipo">{% case post.formato %}{% when 'photo' %}Immagine{% when 'quote' %}Citazione{% when 'link' %}Link{% when 'video' %}Video{% when 'audio' %}Audio{% else %}Appunto{% endcase %} · {% include data.html d=post.date %}</span>
-      <span class="titolo">{{ post.title }}</span>
+      <span class="titolo">{{ post.title | escape }}</span>
     </a>
     {%- endfor %}
   </div>

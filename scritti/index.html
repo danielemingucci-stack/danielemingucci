@@ -28,7 +28,7 @@ title: Scritti
   <div class="elenco">
     {%- for post in a.items %}
     <a href="{{ post.url }}">
-      <span class="titolo">{{ post.title }}</span>
+      <span class="titolo">{{ post.title | escape }}</span>
       <span class="quando">{% include data.html d=post.date %}</span>
       <p class="attacco">{{ post.excerpt | strip_html | strip_newlines | truncatewords: 32 }}</p>
     </a>

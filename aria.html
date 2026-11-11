@@ -71,7 +71,7 @@ a[style*="height: 620px"]:hover svg{opacity:1}
   </div>
   {% if site.categories.scritti.size > 0 %}{% for post in site.categories.scritti limit:6 %}
   <a href="{{ post.url }}" style="display: flex; flex-wrap: wrap; gap: 8px 32px; justify-content: space-between; align-items: baseline; padding: 32px 0; border-bottom: 1px solid #2A2A28; text-decoration: none; color: #F7F7F5">
-    <span style="font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 52px; line-height: 1.05">{{ post.title }}</span>
+    <span style="font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 52px; line-height: 1.05">{{ post.title | escape }}</span>
     <span style="font-size: 13px; color: #A3A29E">{% include data.html d=post.date %}</span>
   </a>
   {% endfor %}{% else %}
