@@ -9,33 +9,37 @@ title: Scritti
 <title>Scritti — Daniele Mingucci</title>
 <meta name="description" content="Gli scritti di Daniele Mingucci: lavoro, impresa, innovazione, cultura. Dal 2012 a oggi.">
 </head>
-<body>
+<body class="li">
 {% include testata.html %}
 {%- assign scritti = site.categories.scritti -%}
+{%- assign anni = scritti | group_by_exp: "p", "p.date | date: '%Y'" -%}
 
-<section class="wrap" style="padding-top: 48px; padding-bottom: 96px">
-  <p class="etichetta" style="margin: 0">Aria</p>
-  <h1 style="margin: 16px 0 24px; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 120px; line-height: 0.95">Scritti</h1>
-  <p style="margin: 0 0 56px; font-size: 15px; color: #57564F">{{ scritti.size }} testi, dal più recente. Accanto, il <a href="/taccuino/">taccuino</a>: immagini, citazioni, link.</p>
+<main class="li-pagina li-feed">
+  <div class="li-col li-sx">
+    {% include biglietto.html %}
+  </div>
 
-  {%- assign anni = scritti | group_by_exp: "p", "p.date | date: '%Y'" -%}
-  <nav aria-label="Anni" class="anni">
-    {%- for a in anni %}<a href="#anno-{{ a.name }}">{{ a.name }}</a>{% endfor %}
-  </nav>
-
-  {%- for a in anni %}
-  <h2 id="anno-{{ a.name }}" class="anno">{{ a.name }}</h2>
-  <div class="elenco">
+  <div class="li-col">
+    <div class="li-card li-pad">
+      <h1 style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 36px">Scritti</h1>
+      <p class="li-sub">{{ scritti.size }} testi, dal più recente</p>
+    </div>
+    {%- for a in anni %}
+    <p class="li-anno" id="anno-{{ a.name }}">{{ a.name }}</p>
     {%- for post in a.items %}
-    <a href="{{ post.url }}">
-      <span class="titolo">{{ post.title | escape }}</span>
-      <span class="quando">{% include data.html d=post.date %}</span>
-      <p class="attacco">{{ post.excerpt | strip_html | strip_newlines | truncatewords: 32 }}</p>
-    </a>
+    {% include scheda.html p=post %}
+    {%- endfor %}
     {%- endfor %}
   </div>
-  {%- endfor %}
-</section>
+
+  <aside class="li-col">
+    <div class="li-card li-pad">
+      <h2>Archivio</h2>
+      <nav class="li-anni" aria-label="Anni">{% for a in anni %}<a href="#anno-{{ a.name }}">{{ a.name }}</a>{% endfor %}</nav>
+    </div>
+    {% include mondi.html %}
+  </aside>
+</main>
 
 {% include piede.html %}
 </body>

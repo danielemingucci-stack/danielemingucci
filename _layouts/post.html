@@ -8,38 +8,58 @@
 <meta property="og:description" content="{{ page.excerpt | strip_html | strip_newlines | truncatewords: 30 | escape }}">
 <meta property="og:type" content="article">
 {%- if page.immagine %}
-<meta property="og:image" content="{{ site.url }}{{ page.immagine }}">
+<meta property="og:image" content="{% if page.immagine contains '://' %}{{ page.immagine }}{% else %}{{ site.url }}{{ page.immagine }}{% endif %}">
 {%- else %}
 <meta property="og:image" content="{{ site.url }}/img/lettera22.jpg">
 {%- endif %}
 </head>
-<body>
+<body class="li">
 {% include testata.html %}
+{%- assign taccuino = false %}{% if page.categories contains 'taccuino' %}{% assign taccuino = true %}{% endif %}
+{%- assign headline = site.data.cv.titolo | default: "Inventore · Imprenditore · Autore" -%}
 
-<article class="scritto">
-  {%- assign taccuino = false %}{% if page.categories contains 'taccuino' %}{% assign taccuino = true %}{% endif %}
-  <p class="etichetta" style="margin: 0">{% if taccuino %}<a href="/taccuino/" style="color: inherit">Taccuino</a> · {% endif %}{% include data.html d=page.date %}</p>
-  <h1{% if taccuino %} class="piccolo"{% endif %}>{{ page.title | escape }}</h1>
-  {%- if page.immagine and taccuino == false %}
-  <img class="copertina" src="{{ page.immagine }}" alt="">
-  {%- endif %}
-  <div class="testo">
-    {{ content }}
+<main class="li-pagina li-due">
+  <div class="li-col">
+    <article class="li-card">
+      <div class="li-post-testa">
+        <img class="li-avatar" src="/img/avatar.jpg" alt="">
+        <div>
+          <p class="n"><a href="/curriculum/" style="color: inherit; text-decoration: none">Daniele Mingucci</a></p>
+          <p class="h">{{ headline | escape }}</p>
+          <p class="t">{% if taccuino %}<a href="/taccuino/" style="color: inherit">Taccuino</a> · {% endif %}{% include data.html d=page.date %}</p>
+        </div>
+      </div>
+      <div class="li-articolo">
+        <h1>{{ page.title | escape }}</h1>
+        {%- if page.immagine and taccuino == false %}
+        <img class="copertina" src="{{ page.immagine }}" alt="" style="margin-top: 24px; width: 100%; max-height: 520px; object-fit: cover; filter: grayscale(1) contrast(1.05)">
+        {%- endif %}
+        <div class="testo">
+          {{ content }}
+        </div>
+      </div>
+      <div class="li-post-azioni">
+        {%- if taccuino %}<a href="/taccuino/">Tutto il taccuino</a>{% else %}<a href="/scritti/">Tutti gli scritti</a>{% endif %}
+        {%- if page.tumblr %}<a href="{{ page.tumblr }}">Su Tumblr</a>{% endif %}
+        <a href="mailto:dacco@mng-crea.com?subject={{ page.title | uri_escape }}">Rispondi</a>
+      </div>
+    </article>
+
+    <nav class="li-card li-pad" aria-label="Altri scritti" style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px">
+      {%- if page.next %}
+      <a href="{{ page.next.url }}" style="text-decoration: none; max-width: 48%"><span class="li-sub">Più recente</span><br><span style="font-family: 'Cormorant Garamond', serif; font-size: 22px; color: #121212">{{ page.next.title | escape }}</span></a>
+      {%- else %}<span></span>{% endif %}
+      {%- if page.previous %}
+      <a href="{{ page.previous.url }}" style="text-decoration: none; max-width: 48%; text-align: right"><span class="li-sub">Precedente</span><br><span style="font-family: 'Cormorant Garamond', serif; font-size: 22px; color: #121212">{{ page.previous.title | escape }}</span></a>
+      {%- endif %}
+    </nav>
   </div>
-  {%- if page.tumblr %}
-  <p class="origine">Pubblicato anche su <a href="{{ page.tumblr }}">Tumblr</a></p>
-  {%- endif %}
-</article>
 
-<nav class="sequenza" aria-label="Altri scritti">
-  {%- if page.next %}
-  <a href="{{ page.next.url }}"><span class="etichetta">Più recente</span><span class="titolo">{{ page.next.title | escape }}</span></a>
-  {%- else %}<span></span>{% endif %}
-  {%- if page.previous %}
-  <a href="{{ page.previous.url }}" style="text-align: right"><span class="etichetta">Precedente</span><span class="titolo">{{ page.previous.title | escape }}</span></a>
-  {%- endif %}
-</nav>
-<p class="wrap" style="max-width: 720px; padding-bottom: 72px">{% if page.categories contains 'taccuino' %}<a href="/taccuino/" class="etichetta" style="text-decoration: none; color: #121212; border-bottom: 1px solid #121212; padding: 14px 0">Tutto il taccuino</a>{% else %}<a href="/scritti/" class="etichetta" style="text-decoration: none; color: #121212; border-bottom: 1px solid #121212; padding: 14px 0">Tutti gli scritti</a>{% endif %}</p>
+  <aside class="li-col">
+    {% include biglietto.html %}
+    {% include mondi.html %}
+  </aside>
+</main>
 
 {% include piede.html %}
 </body>

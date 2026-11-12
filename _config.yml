@@ -20,6 +20,16 @@ defaults:
     values:
       layout: post
 
+# Feed per chi segue: /feed.xml (tutto) e /feed/scritti.xml (solo gli scritti, per le email)
+plugins:
+  - jekyll-feed
+feed:
+  categories:
+    - scritti
+
+# Nome utente Buttondown per l'iscrizione via email (vuoto = "Segui" apre una mail a Daniele)
+newsletter_buttondown: ""
+
 exclude:
   - README.md
   - scripts

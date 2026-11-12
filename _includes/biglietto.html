@@ -1,0 +1,12 @@
+{%- assign headline = site.data.cv.titolo | default: "Inventore · Imprenditore · Autore" -%}
+<div class="li-card">
+  <div class="li-cover mini"></div>
+  <div class="li-mini">
+    <img class="li-avatar" src="/img/avatar.jpg" alt="">
+    <a class="nome" href="/curriculum/">Daniele Mingucci</a>
+    <p>{{ headline | escape }}</p>
+    {%- if site.data.cv.luogo and site.data.cv.luogo != "" %}<p>{{ site.data.cv.luogo | escape }}</p>{% endif %}
+    <div class="li-azioni" style="justify-content: center">{% include segui.html id="biglietto" %}</div>
+  </div>
+  <a class="li-piede" href="/curriculum/">Vedi il profilo</a>
+</div>
