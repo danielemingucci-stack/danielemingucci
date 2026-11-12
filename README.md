@@ -1,5 +1,20 @@
 # danielemingucci.com
 
+## Scrivere: l'editor
+
+Vai su **danielemingucci.com/scrivi/** ed entra con il tuo token GitHub (vedi sotto).
+- **Scritti**: "New Scritto", titolo, testo, immagine se vuoi, poi **Save**. Dopo un paio di minuti è online.
+- **Archivio Tumblr**: i post importati, per correggere titoli e testi. Non toccare le righe `{% raw %}` e `{% endraw %}`.
+- **Curriculum**: tutte le sezioni come su LinkedIn, da riempire una voce alla volta. Online su danielemingucci.com/curriculum/
+
+### Il token (una volta sola)
+GitHub › Settings › Developer settings › Personal access tokens › Fine-grained tokens › Generate new token.
+Repository access: solo `danielemingucci`. Permissions › Contents: Read and write. Copialo e incollalo nell'editor.
+
+## Tumblr → sito, in automatico
+Due volte al giorno GitHub controlla dacco1971.tumblr.com e porta sul sito i post nuovi (solo i tuoi, non i reblog).
+Per farlo subito: Actions › "Tumblr → sito" › Run workflow.
+
 ## Come aggiungere uno scritto
 
 1. Apri la cartella `_posts` e scegli **Add file › Create new file**.

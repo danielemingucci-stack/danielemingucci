@@ -1,0 +1,48 @@
+name: Tumblr → sito
+
+on:
+  schedule:
+    - cron: "17 5,17 * * *"   # due volte al giorno (06:17 e 18:17 ora italiana)
+  workflow_dispatch: {}        # e quando vuoi, dal pulsante "Run workflow"
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: tumblr-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Porta i nuovi post da Tumblr
+        run: python scripts/tumblr_sync.py
+
+      - name: Pubblica se ci sono novità
+        id: commit
+        run: |
+          git config user.name "danielemingucci-stack"
+          git config user.email "danielemingucci-stack@users.noreply.github.com"
+          git add _posts
+          if git diff --cached --quiet; then
+            echo "Nessun post nuovo."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "Da Tumblr: nuovi post"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Aggiorna il sito
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" || true

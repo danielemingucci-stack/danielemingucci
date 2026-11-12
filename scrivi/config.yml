@@ -1,0 +1,186 @@
+backend:
+  name: github
+  repo: danielemingucci-stack/danielemingucci
+  branch: main
+  commit_messages:
+    create: "Nuovo: {{slug}}"
+    update: "Modifica: {{slug}}"
+    delete: "Eliminato: {{slug}}"
+    uploadMedia: "Immagine: {{path}}"
+    deleteMedia: "Immagine eliminata: {{path}}"
+
+site_url: https://www.danielemingucci.com
+display_url: https://www.danielemingucci.com
+locale: it
+
+media_folder: img/scritti
+public_folder: /img/scritti
+
+collections:
+  - name: scritti
+    label: Scritti
+    label_singular: Scritto
+    description: I nuovi scritti, pubblicati su danielemingucci.com/scritti/
+    folder: _posts
+    extension: md
+    format: frontmatter
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{title}} · {{date | date('DD/MM/YYYY')}}"
+    sortable_fields: [date, title]
+    preview_path: "scritti/{{slug}}/"
+    fields:
+      - { name: title, label: Titolo, widget: string }
+      - { name: date, label: Data, widget: datetime, format: "YYYY-MM-DD HH:mm:ss ZZ" }
+      - { name: immagine, label: "Immagine (facoltativa)", widget: image, required: false }
+      - { name: categories, label: Sezione, widget: hidden, default: [scritti] }
+      - { name: body, label: Testo, widget: markdown }
+
+  - name: archivio
+    label: Archivio Tumblr
+    label_singular: Post dall'archivio
+    description: I post portati da Tumblr. Qui puoi correggere titoli, date e testi.
+    folder: _posts
+    extension: html
+    format: frontmatter
+    create: false
+    delete: false
+    summary: "{{title}} · {{date | date('DD/MM/YYYY')}} · {{categories}}"
+    sortable_fields: [date, title]
+    fields:
+      - { name: title, label: Titolo, widget: string }
+      - { name: date, label: Data, widget: string }
+      - name: categories
+        label: Sezione
+        widget: select
+        multiple: true
+        options: [scritti, taccuino]
+      - { name: formato, label: Formato, widget: hidden, required: false }
+      - { name: tumblr, label: Originale su Tumblr, widget: string, required: false }
+      - { name: tags, label: Tag, widget: list, required: false }
+      - { name: immagine, label: Immagine, widget: string, required: false }
+      - { name: body, label: "Testo (HTML)", widget: text }
+
+  - name: profilo
+    label: Curriculum
+    files:
+      - name: cv
+        label: Curriculum
+        file: _data/cv.yml
+        fields:
+          - { name: titolo, label: "Titolo (sotto il nome)", widget: string, required: false }
+          - { name: luogo, label: Località, widget: string, required: false }
+          - { name: informazioni, label: Informazioni, widget: markdown, required: false }
+          - name: esperienze
+            label: Esperienza
+            label_singular: esperienza
+            widget: list
+            required: false
+            summary: "{{ruolo}} · {{organizzazione}}"
+            fields:
+              - { name: ruolo, label: Ruolo, widget: string }
+              - { name: organizzazione, label: "Azienda o organizzazione", widget: string }
+              - { name: tipo, label: "Tipo di impiego", widget: select, required: false, options: ["Fondatore", "Lavoro autonomo", "A tempo pieno", "Part time", "Consulenza", "Incarico", "Volontariato"] }
+              - { name: luogo, label: Località, widget: string, required: false }
+              - { name: inizio, label: "Inizio (es. marzo 2019)", widget: string }
+              - { name: attuale, label: "Ricopro attualmente questo ruolo", widget: boolean, default: false, required: false }
+              - { name: fine, label: "Fine (es. giugno 2022)", widget: string, required: false }
+              - { name: descrizione, label: Descrizione, widget: markdown, required: false }
+              - { name: link, label: "Link (facoltativo)", widget: string, required: false }
+          - name: formazione
+            label: Formazione
+            label_singular: titolo di studio
+            widget: list
+            required: false
+            summary: "{{titolo}} · {{istituto}}"
+            fields:
+              - { name: istituto, label: "Scuola o università", widget: string }
+              - { name: titolo, label: "Titolo di studio", widget: string, required: false }
+              - { name: campo, label: "Campo di studio", widget: string, required: false }
+              - { name: inizio, label: Inizio, widget: string, required: false }
+              - { name: fine, label: "Fine (o prevista)", widget: string, required: false }
+              - { name: descrizione, label: Descrizione, widget: markdown, required: false }
+          - name: competenze
+            label: Competenze
+            label_singular: competenza
+            widget: list
+            required: false
+            field: { name: competenza, label: Competenza, widget: string }
+          - name: lingue
+            label: Lingue
+            label_singular: lingua
+            widget: list
+            required: false
+            summary: "{{lingua}} · {{livello}}"
+            fields:
+              - { name: lingua, label: Lingua, widget: string }
+              - { name: livello, label: Livello, widget: select, required: false, options: ["Madrelingua o bilingue", "Professionale completa", "Professionale", "Limitata", "Elementare"] }
+          - name: pubblicazioni
+            label: Pubblicazioni
+            label_singular: pubblicazione
+            widget: list
+            required: false
+            summary: "{{titolo}} · {{anno}}"
+            fields:
+              - { name: titolo, label: Titolo, widget: string }
+              - { name: editore, label: "Editore o testata", widget: string, required: false }
+              - { name: anno, label: Data, widget: string, required: false }
+              - { name: link, label: Link, widget: string, required: false }
+              - { name: descrizione, label: Descrizione, widget: markdown, required: false }
+          - name: brevetti
+            label: Brevetti
+            label_singular: brevetto
+            widget: list
+            required: false
+            summary: "{{titolo}} · {{numero}}"
+            fields:
+              - { name: titolo, label: Titolo, widget: string }
+              - { name: ufficio, label: "Ufficio brevetti", widget: string, required: false }
+              - { name: numero, label: Numero, widget: string, required: false }
+              - { name: anno, label: Data, widget: string, required: false }
+              - { name: link, label: Link, widget: string, required: false }
+              - { name: descrizione, label: Descrizione, widget: markdown, required: false }
+          - name: progetti
+            label: Progetti
+            label_singular: progetto
+            widget: list
+            required: false
+            summary: "{{nome}}"
+            fields:
+              - { name: nome, label: Nome, widget: string }
+              - { name: periodo, label: Periodo, widget: string, required: false }
+              - { name: link, label: Link, widget: string, required: false }
+              - { name: descrizione, label: Descrizione, widget: markdown, required: false }
+          - name: certificazioni
+            label: "Licenze e certificazioni"
+            label_singular: certificazione
+            widget: list
+            required: false
+            summary: "{{nome}} · {{ente}}"
+            fields:
+              - { name: nome, label: Nome, widget: string }
+              - { name: ente, label: "Ente che l'ha rilasciata", widget: string, required: false }
+              - { name: anno, label: Data, widget: string, required: false }
+              - { name: link, label: Link, widget: string, required: false }
+          - name: riconoscimenti
+            label: "Premi e riconoscimenti"
+            label_singular: riconoscimento
+            widget: list
+            required: false
+            summary: "{{titolo}} · {{anno}}"
+            fields:
+              - { name: titolo, label: Titolo, widget: string }
+              - { name: ente, label: "Assegnato da", widget: string, required: false }
+              - { name: anno, label: Data, widget: string, required: false }
+              - { name: descrizione, label: Descrizione, widget: markdown, required: false }
+          - name: volontariato
+            label: Volontariato
+            label_singular: attività
+            widget: list
+            required: false
+            summary: "{{ruolo}} · {{organizzazione}}"
+            fields:
+              - { name: ruolo, label: Ruolo, widget: string }
+              - { name: organizzazione, label: Organizzazione, widget: string }
+              - { name: periodo, label: Periodo, widget: string, required: false }
+              - { name: descrizione, label: Descrizione, widget: markdown, required: false }

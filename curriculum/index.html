@@ -1,0 +1,194 @@
+---
+layout: null
+title: Curriculum
+---
+<!doctype html>
+<html lang="it">
+<head>
+{% include testa.html %}
+<title>Curriculum — Daniele Mingucci</title>
+<meta name="description" content="Curriculum di Daniele Mingucci: esperienze, formazione, pubblicazioni, brevetti, progetti.">
+<style>
+.cv{max-width:960px;margin:0 auto;padding:48px 24px 112px}
+.cv h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:96px;line-height:.95;margin:16px 0 0}
+.cv .sotto{margin:20px 0 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:28px;color:#3A3935}
+.cv .dove{margin:8px 0 0;font-size:14px;color:#57564F}
+.cv section{margin-top:72px}
+.cv h2{font-size:12px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;color:#57564F;margin:0;padding-bottom:16px;border-bottom:1px solid #121212}
+.cv .voce{display:flex;flex-wrap:wrap;gap:4px 32px;padding:28px 0;border-bottom:1px solid #DCDBD6}
+.cv .quando{flex:0 0 200px;font-size:14px;line-height:1.6;color:#57564F;padding-top:6px}
+.cv .cosa{flex:999 1 420px;min-width:0}
+.cv .cosa h3{margin:0;font-family:'Cormorant Garamond',serif;font-weight:400;font-size:30px;line-height:1.2}
+.cv .cosa .dove-chi{margin:4px 0 0;font-size:15px;color:#3A3935}
+.cv .cosa .testo{margin-top:12px;font-size:19px}
+.cv .cosa .testo p{margin:0 0 .8em}
+.cv .lista{display:flex;flex-wrap:wrap;gap:10px;padding-top:24px}
+.cv .lista span{padding:8px 14px;border:1px solid #121212;border-radius:999px;font-size:14px}
+.cv .intro{margin-top:40px}
+@media (max-width:760px){.cv h1{font-size:56px}.cv .quando{flex-basis:100%;padding-top:0}}
+</style>
+</head>
+<body>
+{% include testata.html attivo="quinto" %}
+{%- assign cv = site.data.cv -%}
+
+<article class="cv">
+  <p class="etichetta" style="margin: 0">Curriculum</p>
+  <h1>Daniele <span style="font-style: italic">Mingucci</span></h1>
+  {%- if cv.titolo and cv.titolo != "" %}<p class="sotto">{{ cv.titolo | escape }}</p>{% endif %}
+  {%- if cv.luogo and cv.luogo != "" %}<p class="dove">{{ cv.luogo | escape }}</p>{% endif %}
+  {%- if cv.informazioni and cv.informazioni != "" %}<div class="testo intro">{{ cv.informazioni | markdownify }}</div>{% endif %}
+
+  {%- if cv.esperienze.size > 0 %}
+  <section aria-label="Esperienza">
+    <h2>Esperienza</h2>
+    {%- for e in cv.esperienze %}
+    <div class="voce">
+      <p class="quando">{{ e.inizio }}{% if e.attuale %} – oggi{% elsif e.fine and e.fine != "" %} – {{ e.fine }}{% endif %}{% if e.luogo and e.luogo != "" %}<br>{{ e.luogo }}{% endif %}</p>
+      <div class="cosa">
+        <h3>{{ e.ruolo | escape }}</h3>
+        <p class="dove-chi">{% if e.link and e.link != "" %}<a href="{{ e.link }}">{{ e.organizzazione | escape }}</a>{% else %}{{ e.organizzazione | escape }}{% endif %}{% if e.tipo and e.tipo != "" %} · {{ e.tipo }}{% endif %}</p>
+        {%- if e.descrizione and e.descrizione != "" %}<div class="testo">{{ e.descrizione | markdownify }}</div>{% endif %}
+      </div>
+    </div>
+    {%- endfor %}
+  </section>
+  {%- endif %}
+
+  {%- if cv.formazione.size > 0 %}
+  <section aria-label="Formazione">
+    <h2>Formazione</h2>
+    {%- for f in cv.formazione %}
+    <div class="voce">
+      <p class="quando">{{ f.inizio }}{% if f.fine and f.fine != "" %} – {{ f.fine }}{% endif %}</p>
+      <div class="cosa">
+        <h3>{{ f.istituto | escape }}</h3>
+        <p class="dove-chi">{{ f.titolo | escape }}{% if f.campo and f.campo != "" %}, {{ f.campo | escape }}{% endif %}</p>
+        {%- if f.descrizione and f.descrizione != "" %}<div class="testo">{{ f.descrizione | markdownify }}</div>{% endif %}
+      </div>
+    </div>
+    {%- endfor %}
+  </section>
+  {%- endif %}
+
+  {%- if cv.brevetti.size > 0 %}
+  <section aria-label="Brevetti">
+    <h2>Brevetti</h2>
+    {%- for b in cv.brevetti %}
+    <div class="voce">
+      <p class="quando">{{ b.anno }}{% if b.numero and b.numero != "" %}<br>{{ b.numero }}{% endif %}</p>
+      <div class="cosa">
+        <h3>{% if b.link and b.link != "" %}<a href="{{ b.link }}">{{ b.titolo | escape }}</a>{% else %}{{ b.titolo | escape }}{% endif %}</h3>
+        {%- if b.ufficio and b.ufficio != "" %}<p class="dove-chi">{{ b.ufficio | escape }}</p>{% endif %}
+        {%- if b.descrizione and b.descrizione != "" %}<div class="testo">{{ b.descrizione | markdownify }}</div>{% endif %}
+      </div>
+    </div>
+    {%- endfor %}
+  </section>
+  {%- endif %}
+
+  {%- if cv.pubblicazioni.size > 0 %}
+  <section aria-label="Pubblicazioni">
+    <h2>Pubblicazioni</h2>
+    {%- for p in cv.pubblicazioni %}
+    <div class="voce">
+      <p class="quando">{{ p.anno }}</p>
+      <div class="cosa">
+        <h3>{% if p.link and p.link != "" %}<a href="{{ p.link }}">{{ p.titolo | escape }}</a>{% else %}{{ p.titolo | escape }}{% endif %}</h3>
+        {%- if p.editore and p.editore != "" %}<p class="dove-chi">{{ p.editore | escape }}</p>{% endif %}
+        {%- if p.descrizione and p.descrizione != "" %}<div class="testo">{{ p.descrizione | markdownify }}</div>{% endif %}
+      </div>
+    </div>
+    {%- endfor %}
+  </section>
+  {%- endif %}
+
+  {%- if cv.progetti.size > 0 %}
+  <section aria-label="Progetti">
+    <h2>Progetti</h2>
+    {%- for p in cv.progetti %}
+    <div class="voce">
+      <p class="quando">{{ p.periodo }}</p>
+      <div class="cosa">
+        <h3>{% if p.link and p.link != "" %}<a href="{{ p.link }}">{{ p.nome | escape }}</a>{% else %}{{ p.nome | escape }}{% endif %}</h3>
+        {%- if p.descrizione and p.descrizione != "" %}<div class="testo">{{ p.descrizione | markdownify }}</div>{% endif %}
+      </div>
+    </div>
+    {%- endfor %}
+  </section>
+  {%- endif %}
+
+  {%- if cv.certificazioni.size > 0 %}
+  <section aria-label="Licenze e certificazioni">
+    <h2>Licenze e certificazioni</h2>
+    {%- for c in cv.certificazioni %}
+    <div class="voce">
+      <p class="quando">{{ c.anno }}</p>
+      <div class="cosa">
+        <h3>{% if c.link and c.link != "" %}<a href="{{ c.link }}">{{ c.nome | escape }}</a>{% else %}{{ c.nome | escape }}{% endif %}</h3>
+        {%- if c.ente and c.ente != "" %}<p class="dove-chi">{{ c.ente | escape }}</p>{% endif %}
+      </div>
+    </div>
+    {%- endfor %}
+  </section>
+  {%- endif %}
+
+  {%- if cv.riconoscimenti.size > 0 %}
+  <section aria-label="Premi e riconoscimenti">
+    <h2>Premi e riconoscimenti</h2>
+    {%- for r in cv.riconoscimenti %}
+    <div class="voce">
+      <p class="quando">{{ r.anno }}</p>
+      <div class="cosa">
+        <h3>{{ r.titolo | escape }}</h3>
+        {%- if r.ente and r.ente != "" %}<p class="dove-chi">{{ r.ente | escape }}</p>{% endif %}
+        {%- if r.descrizione and r.descrizione != "" %}<div class="testo">{{ r.descrizione | markdownify }}</div>{% endif %}
+      </div>
+    </div>
+    {%- endfor %}
+  </section>
+  {%- endif %}
+
+  {%- if cv.volontariato.size > 0 %}
+  <section aria-label="Volontariato">
+    <h2>Volontariato</h2>
+    {%- for v in cv.volontariato %}
+    <div class="voce">
+      <p class="quando">{{ v.periodo }}</p>
+      <div class="cosa">
+        <h3>{{ v.ruolo | escape }}</h3>
+        <p class="dove-chi">{{ v.organizzazione | escape }}</p>
+        {%- if v.descrizione and v.descrizione != "" %}<div class="testo">{{ v.descrizione | markdownify }}</div>{% endif %}
+      </div>
+    </div>
+    {%- endfor %}
+  </section>
+  {%- endif %}
+
+  {%- if cv.competenze.size > 0 %}
+  <section aria-label="Competenze">
+    <h2>Competenze</h2>
+    <div class="lista">{% for c in cv.competenze %}<span>{{ c | escape }}</span>{% endfor %}</div>
+  </section>
+  {%- endif %}
+
+  {%- if cv.lingue.size > 0 %}
+  <section aria-label="Lingue">
+    <h2>Lingue</h2>
+    {%- for l in cv.lingue %}
+    <div class="voce">
+      <p class="quando">{{ l.livello }}</p>
+      <div class="cosa"><h3>{{ l.lingua | escape }}</h3></div>
+    </div>
+    {%- endfor %}
+  </section>
+  {%- endif %}
+
+  {%- if cv.esperienze.size == 0 and cv.formazione.size == 0 %}
+  <p class="sotto" style="margin-top: 56px; color: #57564F">Il curriculum è in compilazione.</p>
+  {%- endif %}
+</article>
+
+{% include piede.html %}
+</body>
+</html>
