@@ -1,0 +1,93 @@
+---
+layout: null
+title: Free Linkable Profile
+---
+<!doctype html>
+<html lang="it">
+<head>
+{% include testa.html %}
+<title>Free Linkable Profile — un profilo professionale sul tuo sito, senza piattaforma</title>
+<meta name="description" content="Free Linkable Profile: un profilo professionale che vive sul tuo sito, si fa trovare dai motori di ricerca e riconosce gli altri profili. Kit scaricabile, con prompt di installazione.">
+<link rel="canonical" href="{{ site.url }}/free-linkable-profile/">
+</head>
+<body class="li">
+{% include testata.html attivo="quinto" %}
+{%- capture nl %}
+{% endcapture -%}
+{%- capture prompt_md %}{% include_relative kit/PROMPT.md %}{% endcapture -%}
+{%- assign sep = nl | append: "---" | append: nl -%}
+{%- assign prompt_parti = prompt_md | split: sep -%}
+
+<main class="li-pagina li-due">
+  <div class="li-col">
+
+    <section class="li-card li-pad">
+      <p class="li-sub" style="letter-spacing: .2em; text-transform: uppercase; font-size: 12px">Versione 0.1</p>
+      <h1 style="margin: 8px 0 0; font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 48px; line-height: 1.05">Free Linkable Profile</h1>
+      <p style="margin: 14px 0 0; font-size: 18px; line-height: 1.55">Un profilo professionale come quelli che conosci, ma sul tuo sito. Si fa trovare dai motori di ricerca e riconosce gli altri profili dello stesso tipo, senza piattaforma in mezzo.</p>
+      <div class="li-azioni">
+        <a class="li-btn pieno" href="free-linkable-profile-0.1.zip" download>Scarica il kit</a>
+        <a class="li-btn" href="/curriculum/">Guarda un profilo</a>
+        <a class="li-btn" href="specifica/">Leggi la specifica</a>
+      </div>
+    </section>
+
+    <section class="li-card li-pad">
+      <h2>Come funziona</h2>
+      <div class="li-voce"><div class="li-logo" aria-hidden="true">1</div><div class="corpo"><h3>Il profilo è una pagina del tuo sito</h3><p class="r">Copertina, foto, titolo, esperienza, formazione, competenze: la struttura è quella che tutti sanno leggere. I colori e i caratteri sono i tuoi.</p></div></div>
+      <div class="li-voce"><div class="li-logo" aria-hidden="true">2</div><div class="corpo"><h3>Ti trovano con il tuo nome</h3><p class="r">La pagina porta i dati che i motori di ricerca usano per le persone: nome e cognome, ruolo, organizzazioni, gli altri tuoi profili.</p></div></div>
+      <div class="li-voce"><div class="li-logo" aria-hidden="true">3</div><div class="corpo"><h3>I profili si riconoscono tra loro</h3><p class="r">Aggiungi l'indirizzo del profilo di chi conosci. Quando anche l'altra persona aggiunge il tuo, sulle due pagine compare "Collegamento reciproco". Lo verificano le pagine stesse, leggendosi a vicenda.</p></div></div>
+      <div class="li-voce"><div class="li-logo" aria-hidden="true">4</div><div class="corpo"><h3>Chi vuole ti segue</h3><p class="r">Il pulsante Segui porta al feed di ciò che pubblichi, o alla tua newsletter.</p></div></div>
+    </section>
+
+    <section class="li-card li-pad">
+      <h2>Installarlo con un assistente AI</h2>
+      <p class="li-sub" style="margin-top: 4px">Scarica il kit, poi copia questo prompt e dallo al tuo assistente insieme alla cartella e al tuo curriculum. Ti fa le domande, compila i dati e ti dice come caricare la pagina.</p>
+      <pre class="li-pre" id="prompt" tabindex="0">{{ prompt_parti[1] | strip | escape }}</pre>
+      <p style="margin: 12px 0 0"><button class="li-btn" type="button" id="copia" style="cursor: pointer; font-family: inherit">Copia il prompt</button></p>
+    </section>
+
+    <section class="li-card li-pad">
+      <h2>Installarlo a mano</h2>
+      <div class="li-voce"><div class="corpo"><h3>1. Compila <code>profile.json</code></h3><p class="q">È l'unico file che scrivi: i tuoi dati, nel formato aperto JSON Resume.</p></div></div>
+      <div class="li-voce"><div class="corpo"><h3>2. Esegui <code>python3 build.py</code></h3><p class="q">Genera la pagina <code>index.html</code>. Non servono librerie.</p></div></div>
+      <div class="li-voce"><div class="corpo"><h3>3. Carica quattro file sul tuo sito</h3><p class="q"><code>index.html</code>, <code>profile.json</code>, <code>flp.css</code>, <code>flp.js</code>, in una cartella come <code>/profilo/</code>.</p></div></div>
+    </section>
+
+  </div>
+
+  <aside class="li-col">
+    <div class="li-card li-pad">
+      <h2>Nel kit</h2>
+      <nav class="li-elenco" aria-label="File del kit">
+        <a href="kit/profile.json">profile.json · i dati</a>
+        <a href="kit/build.py">build.py · il generatore</a>
+        <a href="kit/flp.css">flp.css · lo stile</a>
+        <a href="kit/flp.js">flp.js · il riconoscimento</a>
+        <a href="specifica/">SPEC.md · la specifica</a>
+      </nav>
+      <p class="li-sub" style="margin-top: 12px">Codice libero, licenza MIT.</p>
+    </div>
+    <div class="li-card li-pad">
+      <h2>Su standard aperti</h2>
+      <p class="li-sub" style="margin-top: 4px">JSON Resume per i dati, schema.org e h-card per farsi leggere, link <code>rel="me"</code> e <code>rel="contact"</code> per i legami. Niente di proprietario.</p>
+    </div>
+    {% include biglietto.html %}
+  </aside>
+</main>
+
+{% include piede.html %}
+<script>
+document.getElementById("copia").addEventListener("click", function () {
+  var b = this, t = document.getElementById("prompt").textContent;
+  (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () {
+    b.textContent = "Copiato";
+    setTimeout(function () { b.textContent = "Copia il prompt"; }, 2000);
+  }).catch(function () {
+    var r = document.createRange(); r.selectNodeContents(document.getElementById("prompt"));
+    var s = getSelection(); s.removeAllRanges(); s.addRange(r);
+  });
+});
+</script>
+</body>
+</html>

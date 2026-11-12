@@ -1,0 +1,85 @@
+---
+layout: null
+permalink: /curriculum/profile.json
+---
+{%- assign cv = site.data.cv -%}
+{
+  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
+  "basics": {
+    "name": "Daniele Mingucci",
+    "label": {{ cv.titolo | default: "Inventore · Imprenditore · Autore" | jsonify }},
+    "image": "{{ site.url }}/img/avatar.jpg",
+    "email": "dacco@mng-crea.com",
+    "url": "{{ site.url }}/",
+    "summary": {{ cv.informazioni | default: "" | jsonify }},
+    "location": { "city": {{ cv.luogo | default: "" | jsonify }} },
+    "profiles": [
+      { "network": "Tumblr", "url": "https://dacco1971.tumblr.com" },
+      { "network": "MNG-crea", "url": "https://www.mng-crea.com" },
+      { "network": "Stramba", "url": "https://www.stramba.it" },
+      { "network": "Traspality", "url": "https://www.traspality.com" }
+    ]
+  },
+  "work": [
+    {%- for e in cv.esperienze %}
+    { "name": {{ e.organizzazione | default: "" | jsonify }}, "position": {{ e.ruolo | default: "" | jsonify }}, "url": {{ e.link | default: "" | jsonify }}, "location": {{ e.luogo | default: "" | jsonify }}, "startDate": {{ e.inizio | default: "" | jsonify }}, "endDate": {% if e.attuale %}""{% else %}{{ e.fine | default: "" | jsonify }}{% endif %}, "summary": {{ e.descrizione | default: "" | jsonify }} }{% unless forloop.last %},{% endunless %}
+    {%- endfor %}
+  ],
+  "education": [
+    {%- for f in cv.formazione %}
+    { "institution": {{ f.istituto | default: "" | jsonify }}, "studyType": {{ f.titolo | default: "" | jsonify }}, "area": {{ f.campo | default: "" | jsonify }}, "startDate": {{ f.inizio | default: "" | jsonify }}, "endDate": {{ f.fine | default: "" | jsonify }}, "summary": {{ f.descrizione | default: "" | jsonify }} }{% unless forloop.last %},{% endunless %}
+    {%- endfor %}
+  ],
+  "publications": [
+    {%- for p in cv.pubblicazioni %}
+    { "name": {{ p.titolo | default: "" | jsonify }}, "publisher": {{ p.editore | default: "" | jsonify }}, "releaseDate": {{ p.anno | default: "" | jsonify }}, "url": {{ p.link | default: "" | jsonify }}, "summary": {{ p.descrizione | default: "" | jsonify }} }{% unless forloop.last %},{% endunless %}
+    {%- endfor %}
+  ],
+  "patents": [
+    {%- for b in cv.brevetti %}
+    { "name": {{ b.titolo | default: "" | jsonify }}, "office": {{ b.ufficio | default: "" | jsonify }}, "number": {{ b.numero | default: "" | jsonify }}, "date": {{ b.anno | default: "" | jsonify }}, "url": {{ b.link | default: "" | jsonify }}, "summary": {{ b.descrizione | default: "" | jsonify }} }{% unless forloop.last %},{% endunless %}
+    {%- endfor %}
+  ],
+  "projects": [
+    {%- for p in cv.progetti %}
+    { "name": {{ p.nome | default: "" | jsonify }}, "startDate": {{ p.periodo | default: "" | jsonify }}, "url": {{ p.link | default: "" | jsonify }}, "description": {{ p.descrizione | default: "" | jsonify }} }{% unless forloop.last %},{% endunless %}
+    {%- endfor %}
+  ],
+  "certificates": [
+    {%- for c in cv.certificazioni %}
+    { "name": {{ c.nome | default: "" | jsonify }}, "issuer": {{ c.ente | default: "" | jsonify }}, "date": {{ c.anno | default: "" | jsonify }}, "url": {{ c.link | default: "" | jsonify }} }{% unless forloop.last %},{% endunless %}
+    {%- endfor %}
+  ],
+  "awards": [
+    {%- for r in cv.riconoscimenti %}
+    { "title": {{ r.titolo | default: "" | jsonify }}, "awarder": {{ r.ente | default: "" | jsonify }}, "date": {{ r.anno | default: "" | jsonify }}, "summary": {{ r.descrizione | default: "" | jsonify }} }{% unless forloop.last %},{% endunless %}
+    {%- endfor %}
+  ],
+  "volunteer": [
+    {%- for v in cv.volontariato %}
+    { "organization": {{ v.organizzazione | default: "" | jsonify }}, "position": {{ v.ruolo | default: "" | jsonify }}, "startDate": {{ v.periodo | default: "" | jsonify }}, "summary": {{ v.descrizione | default: "" | jsonify }} }{% unless forloop.last %},{% endunless %}
+    {%- endfor %}
+  ],
+  "skills": [
+    {%- for c in cv.competenze %}
+    { "name": {{ c | jsonify }} }{% unless forloop.last %},{% endunless %}
+    {%- endfor %}
+  ],
+  "languages": [
+    {%- for l in cv.lingue %}
+    { "language": {{ l.lingua | default: "" | jsonify }}, "fluency": {{ l.livello | default: "" | jsonify }} }{% unless forloop.last %},{% endunless %}
+    {%- endfor %}
+  ],
+  "flp": {
+    "version": "0.1",
+    "lang": "it",
+    "url": "{{ site.url }}/curriculum/",
+    "cover": "{{ site.url }}/img/copertina.jpg",
+    "feed": "{{ site.url }}/feed/scritti.xml",
+    "connections": [
+      {%- for c in cv.collegamenti %}
+      { "name": {{ c.nome | default: "" | jsonify }}, "url": {{ c.url | default: "" | jsonify }} }{% unless forloop.last %},{% endunless %}
+      {%- endfor %}
+    ]
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
+  "basics": {
+    "name": "Nome Cognome",
+    "label": "Il tuo titolo, in una riga",
+    "image": "",
+    "email": "nome@esempio.it",
+    "url": "https://www.esempio.it/",
+    "summary": "Due o tre frasi su di te.\n\nUna riga vuota separa i paragrafi.",
+    "location": { "city": "Città", "region": "Regione", "countryCode": "IT" },
+    "profiles": [
+      { "network": "Sito", "url": "https://www.esempio.it/" }
+    ]
+  },
+  "work": [
+    {
+      "name": "Azienda",
+      "position": "Ruolo",
+      "url": "",
+      "location": "Città",
+      "startDate": "2020-03",
+      "endDate": "",
+      "summary": "Cosa fai o hai fatto. Lascia vuoto endDate se è il ruolo attuale."
+    }
+  ],
+  "education": [
+    {
+      "institution": "Università",
+      "studyType": "Laurea",
+      "area": "Campo di studio",
+      "startDate": "1990",
+      "endDate": "1995"
+    }
+  ],
+  "publications": [],
+  "patents": [],
+  "projects": [],
+  "certificates": [],
+  "awards": [],
+  "volunteer": [],
+  "skills": [
+    { "name": "Una competenza" }
+  ],
+  "languages": [
+    { "language": "Italiano", "fluency": "Madrelingua" }
+  ],
+  "flp": {
+    "version": "0.1",
+    "lang": "it",
+    "url": "https://www.esempio.it/profilo/",
+    "cover": "",
+    "feed": "",
+    "follow": "",
+    "theme": {
+      "accent": "#7E6034",
+      "background": "#F2F1ED",
+      "card": "#FFFFFF",
+      "ink": "#121212",
+      "muted": "#57564F",
+      "font": "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+      "titleFont": "Georgia, 'Times New Roman', serif"
+    },
+    "connections": []
+  }
+}

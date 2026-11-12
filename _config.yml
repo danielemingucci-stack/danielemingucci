@@ -33,3 +33,5 @@ newsletter_buttondown: ""
 exclude:
   - README.md
   - scripts
+  - "free-linkable-profile/kit/*.md"
+  - free-linkable-profile/kit/LICENSE

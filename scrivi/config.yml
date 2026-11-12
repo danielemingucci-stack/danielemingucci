@@ -184,3 +184,12 @@ collections:
               - { name: organizzazione, label: Organizzazione, widget: string }
               - { name: periodo, label: Periodo, widget: string, required: false }
               - { name: descrizione, label: Descrizione, widget: markdown, required: false }
+          - name: collegamenti
+            label: "Collegamenti (altri profili liberi)"
+            label_singular: collegamento
+            widget: list
+            required: false
+            summary: "{{nome}} · {{url}}"
+            fields:
+              - { name: nome, label: "Nome e cognome", widget: string }
+              - { name: url, label: "Indirizzo del suo profilo (es. https://www.sito.it/profilo/)", widget: string }

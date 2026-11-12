@@ -1,0 +1,38 @@
+---
+layout: null
+title: Specifica
+permalink: /free-linkable-profile/specifica/
+---
+<!doctype html>
+<html lang="it">
+<head>
+{% include testa.html %}
+<title>Free Linkable Profile — specifica 0.1</title>
+<meta name="description" content="La specifica di Free Linkable Profile 0.1: formato dei dati, collegamenti reciproci, dati per i motori di ricerca.">
+<link rel="canonical" href="{{ site.url }}/free-linkable-profile/specifica/">
+</head>
+<body class="li">
+{% include testata.html attivo="quinto" %}
+{%- capture spec %}{% include_relative kit/SPEC.md %}{% endcapture -%}
+
+<main class="li-pagina li-due">
+  <div class="li-col">
+    <article class="li-card li-pad li-prosa">
+      {{ spec | markdownify }}
+    </article>
+  </div>
+  <aside class="li-col">
+    <div class="li-card li-pad">
+      <h2>Free Linkable Profile</h2>
+      <p class="li-sub" style="margin-top: 4px">Un profilo professionale sul tuo sito, senza piattaforma in mezzo.</p>
+      <div class="li-azioni">
+        <a class="li-btn pieno" href="../free-linkable-profile-0.1.zip" download>Scarica il kit</a>
+        <a class="li-btn" href="../">Come funziona</a>
+      </div>
+    </div>
+  </aside>
+</main>
+
+{% include piede.html %}
+</body>
+</html>
