@@ -47,3 +47,17 @@ Le immagini vanno nella cartella `img/scritti`.
 4. **Commit changes.** Dopo un paio di minuti lo scritto è online in
    `danielemingucci.com/scritti/titolo/`, ed entra da solo nell'elenco degli scritti,
    nella pagina Aria e, se è il più recente, sulla soglia.
+
+## Il sito in inglese
+Tutto ciò che è in italiano ha una versione inglese sotto `/en/` (in alto, dopo "Profilo", c'è **EN** / **IT**).
+
+- **Home e cinque mondi**: le pagine in `en/` si rigenerano da quelle italiane con `python3 scripts/en_pages.py`
+  (le traduzioni dei testi sono dentro lo script; se manca una frase, lo script si ferma e dice quale).
+- **Testi dell'interfaccia** (menu, pulsanti, etichette): `_data/t.yml`, nelle due lingue.
+- **Curriculum in inglese**: `_data/cv_en.yml`, dall'editor alla voce "Curriculum (English)".
+- **Scritti e taccuino**: le traduzioni stanno in `_en/`, un file per ogni post di `_posts/`, con lo stesso nome.
+  `python3 scripts/en_posts.py stato` dice quanti post non hanno ancora la traduzione (per esempio quelli nuovi arrivati
+  da Tumblr o scritti dall'editor); `da-tradurre` li elenca e `applica` scrive le traduzioni.
+  Un post senza traduzione compare solo in italiano: dalla sua pagina, EN porta all'elenco inglese.
+- Poesie e canzoni di altri autori, e alcune citazioni lunghe, nella versione inglese restano in originale.
+

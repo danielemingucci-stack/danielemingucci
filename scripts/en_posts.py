@@ -12,6 +12,8 @@
       Legge un file nello stesso formato, con titolo e corpo tradotti, e scrive i file in _en/.
       Se un blocco ha solo il titolo, il corpo resta quello originale (post senza testo).
       Un corpo fatto solo di "=" lascia il testo originale (già in inglese, o poesie e canzoni di altri).
+  python3 scripts/en_posts.py resto
+      Copia in _en/ così come sono i post che restano (già in inglese, solo nomi o link).
   python3 scripts/en_posts.py generici
       Traduce da solo i post senza testo con titolo generico (Immagine, Video…).
 
@@ -179,6 +181,14 @@ def main():
             write(post, title, body)
             n += 1
         print("%d traduzioni scritte in _en/" % n)
+    elif cmd == "resto":
+        # i post rimasti (già in inglese, solo nomi o link, testi di altri) passano così come sono
+        n = 0
+        for p in posts:
+            if p["stem"] not in have:
+                write(p, p["title"], p["body"])
+                n += 1
+        print("%d post copiati senza modifiche" % n)
     elif cmd == "generici":
         n = 0
         for p in posts:
