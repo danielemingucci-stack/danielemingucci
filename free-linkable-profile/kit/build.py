@@ -13,6 +13,10 @@ Uso:
 Trasloco: se profile.json contiene flp.movedTo, la pagina diventa un avviso che porta al
 nuovo indirizzo. Nel profilo nuovo, flp.previous elenca gli indirizzi vecchi.
 
+A ogni esecuzione controlla i collegamenti: se qualcuno si è trasferito, e il vecchio e il
+nuovo indirizzo lo confermano entrambi, aggiorna da solo l'indirizzo in profile.json.
+Per saltare il controllo (per esempio senza rete): aggiungi --senza-rete.
+
 Non servono librerie: basta Python 3.
 """
 import html
@@ -21,6 +25,7 @@ import os
 import re
 import shutil
 import sys
+import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
@@ -399,6 +404,70 @@ def build(profile, assets=""):
         main="".join(m for m in main if m), side="".join(s for s in side if s))
 
 
+def norm(url):
+    """Stesso confronto di flp.js: ignora http/https, www., maiuscole, index.html e barra finale."""
+    m = re.match(r"^https?://([^/?#]+)([^?#]*)", str(url or "").strip(), re.I)
+    if not m:
+        return ""
+    path = re.sub(r"/+$", "", re.sub(r"index\.html$", "", m.group(2)))
+    return (re.sub(r"^www\.", "", m.group(1), flags=re.I) + path).lower()
+
+
+def fetch_profile(url):
+    """Legge il profile.json di un altro profilo. Restituisce None se non è leggibile."""
+    url = link(url)
+    if not url.lower().startswith("http"):
+        return None
+    target = (url if url.endswith("/") else url + "/") + "profile.json"
+    try:
+        req = urllib.request.Request(target, headers={"User-Agent": "FreeLinkableProfile/0.2"})
+        with urllib.request.urlopen(req, timeout=8) as r:
+            data = json.loads(r.read(1000000).decode("utf-8"))
+        return data if isinstance(data, dict) else None
+    except Exception:
+        return None
+
+
+def moved_target(url):
+    """Se il profilo a questo indirizzo si è trasferito, restituisce il nuovo indirizzo; altrimenti "".
+
+    Il trasloco vale solo se confermato dai due lati: il vecchio indirizzo dichiara flp.movedTo
+    e il nuovo elenca il vecchio in flp.previous. Segue al massimo tre passaggi.
+    """
+    current = url
+    for _ in range(3):
+        old = fetch_profile(current)
+        to = link(((old or {}).get("flp") or {}).get("movedTo"))
+        if not to.lower().startswith("http") or norm(to) == norm(current):
+            break
+        new = fetch_profile(to)
+        previous = ((new or {}).get("flp") or {}).get("previous") or []
+        if not isinstance(previous, list) or norm(current) not in [norm(x) for x in previous]:
+            break
+        current = to
+    return current if norm(current) != norm(url) else ""
+
+
+def refresh_connections(path):
+    """Aggiorna in profile.json gli indirizzi dei collegamenti che si sono trasferiti."""
+    profile = read(path)
+    changed = False
+    for c in (profile.get("flp") or {}).get("connections") or []:
+        if not isinstance(c, dict):
+            continue
+        to = moved_target(c.get("url"))
+        if to:
+            print("Trasloco: %s  %s → %s" % (c.get("name") or "", c.get("url"), to))
+            c["url"] = to
+            c.pop("json", None)
+            changed = True
+    if changed:
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(profile, f, ensure_ascii=False, indent=2)
+            f.write("\n")
+    return profile
+
+
 def read(path):
     with open(path, encoding="utf-8") as f:
         return json.load(f)
@@ -419,6 +488,9 @@ def copy_assets(folder):
 
 def main():
     args = sys.argv[1:]
+    online = "--senza-rete" not in args
+    args = [a for a in args if a != "--senza-rete"]
+    load = refresh_connections if online else read
     if args and args[0] == "--vetrina":
         if len(args) < 2:
             raise SystemExit("Uso: python3 build.py --vetrina https://www.sito.it/profilo/ [cartella]")
@@ -440,7 +512,7 @@ def main():
             src = os.path.join(folder, slug, "profile.json")
             if not re.match(r"^[a-z0-9][a-z0-9-]*$", slug) or not os.path.exists(src):
                 continue
-            profile = read(src)
+            profile = load(src)
             write(os.path.join(folder, slug, "index.html"), build(profile, assets="../"))
             if not link((profile.get("flp") or {}).get("movedTo")):
                 people.append((slug, profile))
@@ -450,7 +522,7 @@ def main():
         return
     src = args[0] if args else os.path.join(HERE, "profile.json")
     dst = args[1] if len(args) > 1 else os.path.join(os.path.dirname(os.path.abspath(src)), "index.html")
-    write(dst, build(read(src)))
+    write(dst, build(load(src)))
 
 
 if __name__ == "__main__":

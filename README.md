@@ -11,6 +11,11 @@ Vai su **danielemingucci.com/scrivi/** ed entra con il tuo token GitHub (vedi so
 GitHub › Settings › Developer settings › Personal access tokens › Fine-grained tokens › Generate new token.
 Repository access: solo `danielemingucci`. Permissions › Contents: Read and write. Copialo e incollalo nell'editor.
 
+## Collegamenti, in automatico
+Una volta al giorno GitHub controlla i collegamenti del profilo: se una persona ha cambiato indirizzo
+(e il trasloco è confermato dal vecchio e dal nuovo indirizzo) lo aggiorna da solo nel curriculum.
+Per farlo subito: Actions › "Collegamenti → aggiornati" › Run workflow.
+
 ## Tumblr → sito, in automatico
 Due volte al giorno GitHub controlla dacco1971.tumblr.com e porta sul sito i post nuovi (solo i tuoi, non i reblog).
 Per farlo subito: Actions › "Tumblr → sito" › Run workflow.

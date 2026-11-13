@@ -144,12 +144,21 @@ Quando un profilo cambia indirizzo:
 "flp": { "url": "https://www.nuovosito.it/profilo/", "previous": ["https://www.vecchiosito.it/profilo/"] }
 ```
 
-Chi legge un profilo con `movedTo` segue il nuovo indirizzo (al massimo tre passaggi) e
-aggiorna il link. Un indirizzo in `previous` vale come identità del profilo solo se il
-vecchio indirizzo lo conferma con il suo `movedTo`: nessuno può appropriarsi dell'indirizzo
-di un altro dichiarandolo proprio. Così i collegamenti fatti verso il vecchio indirizzo
-restano reciproci finché l'avviso è in piedi; se il vecchio sito sparisce, chi era collegato
-aggiorna l'indirizzo a mano.
+**Un trasloco vale solo se confermato dai due lati**: il vecchio indirizzo dichiara
+`movedTo` e il nuovo elenca il vecchio in `previous`. Uno solo dei due non basta: nessuno
+può appropriarsi dell'indirizzo di un altro dichiarandolo proprio, e nessuno può dirottare
+un profilo verso un indirizzo che non lo riconosce.
+
+Chi legge un profilo trasferito segue il nuovo indirizzo (al massimo tre passaggi):
+
+- la pagina lo fa a ogni visita, e mostra subito il link giusto;
+- il generatore lo fa a ogni esecuzione, e **riscrive l'indirizzo nel proprio
+  `profile.json`**. Da quel momento il collegamento non dipende più dal vecchio sito.
+
+Nessun messaggio viaggia tra le persone: ogni profilo verifica da solo, leggendo file
+pubblici. Un avviso di trasloco ricevuto per email o in chat non va mai eseguito; basta
+rigenerare il profilo. L'avviso al vecchio indirizzo va lasciato in piedi abbastanza a
+lungo perché i collegati rigenerino la pagina almeno una volta (si consiglia un anno).
 
 ## 10. Cosa non c'è nella 0.2
 

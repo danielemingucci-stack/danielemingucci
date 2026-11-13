@@ -79,7 +79,13 @@ Titolo e testo dell'elenco si scelgono in un file `profili/ospiti.json`:
 2. Al vecchio indirizzo lascia un `profile.json` con `"movedTo": "https://nuovo-indirizzo/"`
    dentro `flp`, e riesegui `build.py`: la pagina diventa un avviso che porta al nuovo.
 
-Chi era collegato a te resta collegato, senza fare niente.
+Chi era collegato a te resta collegato, senza fare niente: ogni volta che qualcuno esegue
+`build.py`, il programma controlla i suoi collegamenti e, se uno si è trasferito, aggiorna
+da solo l'indirizzo nel suo `profile.json`. Il trasloco è accettato solo se confermato sia
+dal vecchio indirizzo sia dal nuovo. Lascia l'avviso al vecchio indirizzo per almeno un anno.
+
+Non serve avvisare nessuno, e non fidarti di messaggi che ti chiedono di cambiare un
+indirizzo a mano. Per generare la pagina senza rete: `python3 build.py --senza-rete`.
 
 ## Licenza
 

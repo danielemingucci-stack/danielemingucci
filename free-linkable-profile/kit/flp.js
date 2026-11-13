@@ -1,7 +1,8 @@
 /* Free Linkable Profile 0.2 — i profili si riconoscono tra loro, senza piattaforma.
    1. Collegamenti: per ognuno legge il profile.json dell'altro sito e controlla se anche lui
       collega questo profilo. Se sì, il collegamento è reciproco.
-   2. Trasloco: se un profilo dichiara flp.movedTo, segue il nuovo indirizzo.
+   2. Trasloco: se un profilo dichiara flp.movedTo e il nuovo indirizzo lo conferma
+      (flp.previous), segue il nuovo indirizzo.
    3. Vetrina: una pagina con data-flp-showcase mostra un profilo che vive su un altro sito.
    Nessun dato viene inviato: sono solo letture di file pubblici.
    I dati letti da altri siti entrano nella pagina solo come testo, mai come HTML. */
@@ -57,9 +58,18 @@
     return fetch(j, { mode: "cors", credentials: "omit" })
       .then(function (r) { if (!r.ok) throw new Error("http"); return r.json(); })
       .then(function (p) {
+        var here = { profile: p || {}, url: url };
         var to = p && p.flp ? web(p.flp.movedTo) : "";
-        if (to && norm(to) !== norm(url) && (hops || 0) < 3) return load(to, null, (hops || 0) + 1);
-        return { profile: p || {}, url: url };
+        if (!to || norm(to) === norm(url) || (hops || 0) >= 3) return here;
+        /* il trasloco vale solo se anche il nuovo indirizzo riconosce il vecchio (flp.previous) */
+        return fetch(jsonUrl(to), { mode: "cors", credentials: "omit" })
+          .then(function (r) { if (!r.ok) throw new Error("http"); return r.json(); })
+          .then(function (n) {
+            var prev = n && n.flp && Array.isArray(n.flp.previous) ? n.flp.previous : [];
+            var ok = prev.some(function (x) { return norm(web(x)) === norm(url); });
+            return ok ? load(to, null, (hops || 0) + 1) : here;
+          })
+          .catch(function () { return here; });
       });
   }
 
