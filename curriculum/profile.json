@@ -22,7 +22,7 @@ permalink: /curriculum/profile.json
   },
   "work": [
     {%- for e in cv.esperienze %}
-    { "name": {{ e.organizzazione | default: "" | jsonify }}, "position": {{ e.ruolo | default: "" | jsonify }}, "url": {{ e.link | default: "" | jsonify }}, "location": {{ e.luogo | default: "" | jsonify }}, "startDate": {{ e.inizio | default: "" | jsonify }}, "endDate": {% if e.attuale %}""{% else %}{{ e.fine | default: "" | jsonify }}{% endif %}, "summary": {{ e.descrizione | default: "" | jsonify }} }{% unless forloop.last %},{% endunless %}
+    { "name": {{ e.organizzazione | default: "" | jsonify }}, "position": {{ e.ruolo | default: "" | jsonify }}, "url": "{% include indirizzo.html u=e.link %}", "location": {{ e.luogo | default: "" | jsonify }}, "startDate": {{ e.inizio | default: "" | jsonify }}, "endDate": {% if e.attuale %}""{% else %}{{ e.fine | default: "" | jsonify }}{% endif %}, "summary": {{ e.descrizione | default: "" | jsonify }} }{% unless forloop.last %},{% endunless %}
     {%- endfor %}
   ],
   "education": [
@@ -32,22 +32,22 @@ permalink: /curriculum/profile.json
   ],
   "publications": [
     {%- for p in cv.pubblicazioni %}
-    { "name": {{ p.titolo | default: "" | jsonify }}, "publisher": {{ p.editore | default: "" | jsonify }}, "releaseDate": {{ p.anno | default: "" | jsonify }}, "url": {{ p.link | default: "" | jsonify }}, "summary": {{ p.descrizione | default: "" | jsonify }} }{% unless forloop.last %},{% endunless %}
+    { "name": {{ p.titolo | default: "" | jsonify }}, "publisher": {{ p.editore | default: "" | jsonify }}, "releaseDate": {{ p.anno | default: "" | jsonify }}, "url": "{% include indirizzo.html u=p.link %}", "summary": {{ p.descrizione | default: "" | jsonify }} }{% unless forloop.last %},{% endunless %}
     {%- endfor %}
   ],
   "patents": [
     {%- for b in cv.brevetti %}
-    { "name": {{ b.titolo | default: "" | jsonify }}, "office": {{ b.ufficio | default: "" | jsonify }}, "number": {{ b.numero | default: "" | jsonify }}, "date": {{ b.anno | default: "" | jsonify }}, "url": {{ b.link | default: "" | jsonify }}, "summary": {{ b.descrizione | default: "" | jsonify }} }{% unless forloop.last %},{% endunless %}
+    { "name": {{ b.titolo | default: "" | jsonify }}, "office": {{ b.ufficio | default: "" | jsonify }}, "number": {{ b.numero | default: "" | jsonify }}, "date": {{ b.anno | default: "" | jsonify }}, "url": "{% include indirizzo.html u=b.link %}", "summary": {{ b.descrizione | default: "" | jsonify }} }{% unless forloop.last %},{% endunless %}
     {%- endfor %}
   ],
   "projects": [
     {%- for p in cv.progetti %}
-    { "name": {{ p.nome | default: "" | jsonify }}, "startDate": {{ p.periodo | default: "" | jsonify }}, "url": {{ p.link | default: "" | jsonify }}, "description": {{ p.descrizione | default: "" | jsonify }} }{% unless forloop.last %},{% endunless %}
+    { "name": {{ p.nome | default: "" | jsonify }}, "startDate": {{ p.periodo | default: "" | jsonify }}, "url": "{% include indirizzo.html u=p.link %}", "description": {{ p.descrizione | default: "" | jsonify }} }{% unless forloop.last %},{% endunless %}
     {%- endfor %}
   ],
   "certificates": [
     {%- for c in cv.certificazioni %}
-    { "name": {{ c.nome | default: "" | jsonify }}, "issuer": {{ c.ente | default: "" | jsonify }}, "date": {{ c.anno | default: "" | jsonify }}, "url": {{ c.link | default: "" | jsonify }} }{% unless forloop.last %},{% endunless %}
+    { "name": {{ c.nome | default: "" | jsonify }}, "issuer": {{ c.ente | default: "" | jsonify }}, "date": {{ c.anno | default: "" | jsonify }}, "url": "{% include indirizzo.html u=c.link %}" }{% unless forloop.last %},{% endunless %}
     {%- endfor %}
   ],
   "awards": [
@@ -78,7 +78,7 @@ permalink: /curriculum/profile.json
     "feed": "{{ site.url }}/feed/scritti.xml",
     "connections": [
       {%- for c in cv.collegamenti %}
-      { "name": {{ c.nome | default: "" | jsonify }}, "url": {{ c.url | default: "" | jsonify }} }{% unless forloop.last %},{% endunless %}
+      { "name": {{ c.nome | default: "" | jsonify }}, "url": "{% include indirizzo.html u=c.url %}" }{% unless forloop.last %},{% endunless %}
       {%- endfor %}
     ]
   }

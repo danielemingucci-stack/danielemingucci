@@ -1,0 +1,1 @@
+{%- assign _u = include.u | default: "" | strip -%}{%- if _u != "" -%}{%- assign _p = _u | slice: 0, 4 -%}{%- unless _p == "http" or _p == "mail" -%}{%- assign _u = _u | prepend: "https://" -%}{%- endunless -%}{%- endif -%}{{- _u | escape -}}
