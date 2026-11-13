@@ -105,7 +105,13 @@ def expand(translated, source):
     used = [int(x) for x in re.findall(r"<#(\d+)>", translated)]
     if sorted(used) != list(range(1, len(tags) + 1)):
         return None
-    return re.sub(r"<#(\d+)>", lambda m: tags[int(m.group(1)) - 1], translated)
+    out = re.sub(r"<#(\d+)>", lambda m: tags[int(m.group(1)) - 1], translated)
+    # <@em1>, <@em2>…: riprende tale e quale dall'originale l'ennesimo <em>…</em> (versi citati, da non tradurre)
+    ems = re.findall(r"<em>.*?</em>", source, re.S)
+    try:
+        return re.sub(r"<@em(\d+)>", lambda m: ems[int(m.group(1)) - 1], out)
+    except IndexError:
+        return None
 
 
 def shape(html):
