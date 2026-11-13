@@ -7,10 +7,11 @@
       Stampa i prossimi post senza traduzione (dal più recente), fino a circa N parole, così:
           @@@ 2026-11-09-lavoro-opera-azione
           Titolo
-          <p>corpo in HTML…</p>
+          <p>corpo in HTML…</p>      (i tag molto lunghi compaiono come <#1>, <#2>… e vanno lasciati dove sono)
   python3 scripts/en_posts.py applica FILE
       Legge un file nello stesso formato, con titolo e corpo tradotti, e scrive i file in _en/.
       Se un blocco ha solo il titolo, il corpo resta quello originale (post senza testo).
+      Un corpo fatto solo di "=" lascia il testo originale (già in inglese, o poesie e canzoni di altri).
   python3 scripts/en_posts.py generici
       Traduce da solo i post senza testo con titolo generico (Immagine, Video…).
 
@@ -85,6 +86,28 @@ def write(post, title, body):
     open(os.path.join(DST, post["stem"] + post["ext"]), "w", encoding="utf-8").write(text)
 
 
+LONG = re.compile(r"<[^<>]{80,}>")
+
+
+def compact(body):
+    """I tag molto lunghi (immagini con srcset, link con dati) diventano <#1>, <#2>…: non vanno tradotti."""
+    n = [0]
+
+    def sub(m):
+        n[0] += 1
+        return "<#%d>" % n[0]
+    return LONG.sub(sub, body)
+
+
+def expand(translated, source):
+    """Rimette al loro posto i tag lunghi dell'originale."""
+    tags = LONG.findall(source)
+    used = [int(x) for x in re.findall(r"<#(\d+)>", translated)]
+    if sorted(used) != list(range(1, len(tags) + 1)):
+        return None
+    return re.sub(r"<#(\d+)>", lambda m: tags[int(m.group(1)) - 1], translated)
+
+
 def shape(html):
     tags = Counter(re.findall(r"<\s*([a-zA-Z0-9]+)", html))
     urls = Counter(re.findall(r'(?:href|src)="([^"]*)"', html))
@@ -115,7 +138,7 @@ def main():
             print("@@@ " + p["stem"])
             print(p["title"])
             if words(p["body"]):
-                print(p["body"])
+                print(compact(p["body"]))
     elif cmd == "applica":
         by_stem = {p["stem"]: p for p in posts}
         text = open(sys.argv[2], encoding="utf-8").read()
@@ -130,12 +153,21 @@ def main():
             if not title:
                 print("!! senza titolo:", st)
                 continue
-            if not body:
+            if title == "=":                 # anche il titolo resta com'è
+                title = post["title"]
+            if body.strip() == "=":          # il corpo resta com'è (già in inglese, o testo di altri lasciato in originale)
+                body = post["body"]
+            elif not body:
                 if words(post["body"]):
                     print("!! manca il corpo:", st)
                     continue
                 body = post["body"]
-            elif shape(body) != shape(post["body"]):
+            else:
+                body = expand(body, post["body"])
+                if body is None:
+                    print("!! segnaposto <#n> non corrispondenti:", st)
+                    continue
+            if shape(body) != shape(post["body"]):
                 a, b = shape(post["body"]), shape(body)
                 print("?? struttura diversa:", st, dict((a[0] - b[0]) + (b[0] - a[0])), list((a[1] - b[1]) + (b[1] - a[1]))[:3])
             write(post, title, body)

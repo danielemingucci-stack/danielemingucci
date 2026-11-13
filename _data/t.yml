@@ -21,6 +21,7 @@ it:
   taccuino: Taccuino
   scritti: Scritti
   italia: "Riccione RN, Italia"
+  piva: "P.IVA 04615660406"
   scrivi: Scrivi
   vedi_profilo: Vedi il profilo
   altro: altro
@@ -105,6 +106,7 @@ en:
   taccuino: Notebook
   scritti: Writings
   italia: "Riccione RN, Italy"
+  piva: "VAT no. IT04615660406"
   scrivi: Write
   vedi_profilo: View profile
   altro: more
