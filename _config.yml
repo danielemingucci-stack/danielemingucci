@@ -19,6 +19,21 @@ defaults:
       type: posts
     values:
       layout: post
+  - scope:
+      path: ""
+      type: en
+    values:
+      layout: post
+      lang: en
+  - scope:
+      path: "en"
+    values:
+      lang: en
+
+# Le traduzioni inglesi degli scritti stanno in _en/ e vivono in /en/scritti/titolo/
+collections:
+  en:
+    output: true
 
 # Feed per chi segue: /feed.xml (tutto) e /feed/scritti.xml (solo gli scritti, per le email)
 plugins:
@@ -26,6 +41,10 @@ plugins:
 feed:
   categories:
     - scritti
+  collections:
+    en:
+      categories:
+        - scritti
 
 # Nome utente Buttondown per l'iscrizione via email (vuoto = "Segui" apre una mail a Daniele)
 newsletter_buttondown: ""

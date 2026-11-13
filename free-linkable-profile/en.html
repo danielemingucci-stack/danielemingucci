@@ -1,0 +1,103 @@
+---
+layout: null
+title: Free Linkable Profile
+lang: en
+permalink: /en/free-linkable-profile/
+---
+<!doctype html>
+<html lang="en">
+<head>
+{% include testa.html %}
+{% include lingua.html testa=true %}
+<title>Free Linkable Profile — a professional profile on your own site, no platform</title>
+<meta name="description" content="Free Linkable Profile: a professional profile that lives on your own website, gets found by search engines and recognises other profiles. Downloadable kit, with an installation prompt.">
+<link rel="canonical" href="{{ site.url }}/en/free-linkable-profile/">
+</head>
+<body class="li">
+{% include testata.html attivo="quinto" %}
+{%- capture nl %}
+{% endcapture -%}
+{%- capture prompt_md %}{% include_relative kit/PROMPT.en.md %}{% endcapture -%}
+{%- assign sep = nl | append: "---" | append: nl -%}
+{%- assign prompt_parti = prompt_md | split: sep -%}
+
+<main class="li-pagina li-due">
+  <div class="li-col">
+
+    <section class="li-card li-pad">
+      <p class="li-sub" style="letter-spacing: .2em; text-transform: uppercase; font-size: 12px">Version 0.2</p>
+      <h1 style="margin: 8px 0 0; font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 48px; line-height: 1.05">Free Linkable Profile</h1>
+      <p style="margin: 14px 0 0; font-size: 18px; line-height: 1.55">A professional profile like the ones you know, but on your own site. It gets found by search engines and recognises other profiles of the same kind, with no platform in between.</p>
+      <div class="li-azioni">
+        <a class="li-btn pieno" href="/free-linkable-profile/free-linkable-profile-0.2.zip" download>Download the kit</a>
+        <a class="li-btn" href="/en/curriculum/">See a profile</a>
+        <a class="li-btn" href="specifica/">Read the specification</a>
+      </div>
+    </section>
+
+    <section class="li-card li-pad">
+      <h2>How it works</h2>
+      <div class="li-voce"><div class="li-logo" aria-hidden="true">1</div><div class="corpo"><h3>The profile is a page of your site</h3><p class="r">Cover, photo, headline, experience, education, skills: the structure is the one everybody knows how to read. The colours and fonts are yours.</p></div></div>
+      <div class="li-voce"><div class="li-logo" aria-hidden="true">2</div><div class="corpo"><h3>People find you by your name</h3><p class="r">The page carries the data search engines use for people: first and last name, role, organisations, your other profiles.</p></div></div>
+      <div class="li-voce"><div class="li-logo" aria-hidden="true">3</div><div class="corpo"><h3>Profiles recognise each other</h3><p class="r">Add the address of the profile of someone you know. When the other person adds yours too, both pages show "Mutual connection". The pages check it themselves, by reading each other.</p></div></div>
+      <div class="li-voce"><div class="li-logo" aria-hidden="true">4</div><div class="corpo"><h3>Anyone who wants can follow you</h3><p class="r">The Follow button leads to the feed of what you publish, or to your newsletter.</p></div></div>
+    </section>
+
+    <section class="li-card li-pad">
+      <h2>Even without a site of your own, even on several sites</h2>
+      <div class="li-voce"><div class="corpo"><h3>Hosting</h3><p class="r">Anyone with a site can host the profiles of people who don't have one: a company for its staff, an association for its members, a friend. Each person has their own page and address, and there is a list of the people hosted.</p></div></div>
+      <div class="li-voce"><div class="corpo"><h3>Showcase</h3><p class="r">The same profile can be shown on a second site. The showcase reads the data from the original on every visit, so it updates itself, and it states which one is the original.</p></div></div>
+      <div class="li-voce"><div class="corpo"><h3>Moving</h3><p class="r">The profile is a file: you take it wherever you like. A notice stays at the old address, and the profiles of the people connected to you update your address by themselves. A move counts only if both the old address and the new one confirm it.</p></div></div>
+    </section>
+
+    <section class="li-card li-pad">
+      <h2>Installing it with an AI assistant</h2>
+      <p class="li-sub" style="margin-top: 4px">Download the kit, then copy this prompt and give it to your assistant together with the folder and your résumé. It asks you the questions, fills in the data and tells you how to upload the page.</p>
+      <pre class="li-pre" id="prompt" tabindex="0">{{ prompt_parti[1] | strip | escape }}</pre>
+      <p style="margin: 12px 0 0"><button class="li-btn" type="button" id="copia" style="cursor: pointer; font-family: inherit">Copy the prompt</button></p>
+    </section>
+
+    <section class="li-card li-pad">
+      <h2>Installing it by hand</h2>
+      <div class="li-voce"><div class="corpo"><h3>1. Fill in <code>profile.json</code></h3><p class="q">It is the only file you write: your data, in the open JSON Resume format.</p></div></div>
+      <div class="li-voce"><div class="corpo"><h3>2. Run <code>python3 build.py</code></h3><p class="q">It generates the <code>index.html</code> page. No libraries needed.</p></div></div>
+      <div class="li-voce"><div class="corpo"><h3>3. Upload four files to your site</h3><p class="q"><code>index.html</code>, <code>profile.json</code>, <code>flp.css</code>, <code>flp.js</code>, in a folder such as <code>/profile/</code>.</p></div></div>
+    </section>
+
+  </div>
+
+  <aside class="li-col">
+    <div class="li-card li-pad">
+      <h2>In the kit</h2>
+      <nav class="li-elenco" aria-label="Kit files">
+        <a href="/free-linkable-profile/kit/profile.json">profile.json · the data</a>
+        <a href="/free-linkable-profile/kit/build.py">build.py · the generator</a>
+        <a href="/free-linkable-profile/kit/flp.css">flp.css · the styling</a>
+        <a href="/free-linkable-profile/kit/flp.js">flp.js · the recognition</a>
+        <a href="specifica/">SPEC.en.md · the specification</a>
+      </nav>
+      <p class="li-sub" style="margin-top: 12px">Free code, MIT licence. The kit's README is in Italian, with a short English summary; the labels of the profile switch to English with <code>"lang": "en"</code>.</p>
+    </div>
+    <div class="li-card li-pad">
+      <h2>Built on open standards</h2>
+      <p class="li-sub" style="margin-top: 4px">JSON Resume for the data, schema.org and h-card to be read, <code>rel="me"</code> and <code>rel="contact"</code> links for the ties. Nothing proprietary.</p>
+    </div>
+    {% include biglietto.html %}
+  </aside>
+</main>
+
+{% include piede.html %}
+<script>
+document.getElementById("copia").addEventListener("click", function () {
+  var b = this, t = document.getElementById("prompt").textContent;
+  (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () {
+    b.textContent = "Copied";
+    setTimeout(function () { b.textContent = "Copy the prompt"; }, 2000);
+  }).catch(function () {
+    var r = document.createRange(); r.selectNodeContents(document.getElementById("prompt"));
+    var s = getSelection(); s.removeAllRanges(); s.addRange(r);
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+# Testi dell'interfaccia nelle due lingue. I contenuti (scritti, curriculum) stanno altrove.
+it:
+  codice: it
+  altra_sigla: EN
+  altra_nome: English
+  mesi: [gennaio, febbraio, marzo, aprile, maggio, giugno, luglio, agosto, settembre, ottobre, novembre, dicembre]
+  ruolo: "Inventore · Imprenditore · Autore"
+  bio: "Fondatore di STRAMBA, sistemi velici brevettati per la nautica e il trasporto marittimo. Ideatore di piattaforme per la qualità, l'editoria e il valore d'impresa. Oltre vent'anni alla guida di un'agenzia di comunicazione, una laurea in Lettere Classiche, diversi romanzi."
+  descrizione_sito: "Daniele Mingucci — inventore, imprenditore, autore. Stramba, Traspality, Books121, Capital Units, MNG-crea, scritti e romanzi."
+  mondi: Mondi
+  acqua: Acqua
+  terra: Terra
+  aria: Aria
+  fuoco: Fuoco
+  quinto: Il quinto elemento
+  profilo: Profilo
+  mondo_acqua: "Mare · Stramba"
+  mondo_terra: Startup
+  mondo_aria: Parole
+  mondo_fuoco: "Linguaggi · MNG-crea"
+  taccuino: Taccuino
+  scritti: Scritti
+  italia: "Riccione RN, Italia"
+  scrivi: Scrivi
+  vedi_profilo: Vedi il profilo
+  altro: altro
+  leggi: Leggi
+  su_tumblr: Su Tumblr
+  rispondi: Rispondi
+  segui: "+ Segui"
+  segui_titolo: Ricevi i nuovi scritti via email
+  segui_email: La tua email
+  segui_esempio: nome@esempio.it
+  segui_iscriviti: Iscriviti
+  segui_nota: Una mail per ogni nuovo scritto. Ti cancelli quando vuoi.
+  segui_scrivimi: "Scrivimi e ti aggiungo alla lista: riceverai una mail per ogni nuovo scritto."
+  segui_iscrivimi: Iscrivimi
+  segui_oggetto: "Iscrivimi%20agli%20scritti"
+  segui_corpo: "Vorrei%20ricevere%20i%20nuovi%20scritti%20via%20email."
+  segui_rss: Oppure segui con un lettore RSS
+  tutto_taccuino: Tutto il taccuino
+  tutti_scritti: Tutti gli scritti
+  altri_scritti: Altri scritti
+  piu_recente: Più recente
+  precedente: Precedente
+  solo_italiano: ""
+  scritti_descrizione: "Gli scritti di Daniele Mingucci: lavoro, impresa, innovazione, cultura. Dal 2012 a oggi."
+  scritti_conta: "testi, dal più recente"
+  archivio: Archivio
+  anni: Anni
+  taccuino_descrizione: "Il taccuino di Daniele Mingucci: immagini, citazioni, link e video raccolti dal 2012 a oggi."
+  taccuino_conta: "appunti: immagini, citazioni, link, video. Gli"
+  taccuino_conta2: sono a parte.
+  scritti_min: scritti
+  f_photo: Immagine
+  f_quote: Citazione
+  f_link: Link
+  f_video: Video
+  f_audio: Audio
+  f_altro: Appunto
+  cv_titolo: "Daniele Mingucci — Profilo"
+  cv_descrizione: "Profilo e curriculum di Daniele Mingucci: esperienze, formazione, brevetti, pubblicazioni, progetti."
+  reciproco: Collegamento reciproco
+  attesa: In attesa di conferma
+  contatto_info: Informazioni di contatto
+  contatta: Contatta
+  informazioni: Informazioni
+  attivita: Attività
+  ha_pubblicato: Daniele ha pubblicato questo scritto
+  mostra_scritti: "Mostra tutti gli scritti →"
+  esperienza: Esperienza
+  presente: Presente
+  formazione: Formazione
+  brevetti: Brevetti
+  pubblicazioni: Pubblicazioni
+  progetti: Progetti
+  certificazioni: Licenze e certificazioni
+  riconoscimenti: Premi e riconoscimenti
+  volontariato: Volontariato
+  competenze: Competenze
+  lingue: Lingue
+  collegamenti: Collegamenti
+  altri_profili: Altri profili
+  flp_tuo: "Questo profilo vive sul mio sito, senza piattaforma in mezzo. Puoi farne uno uguale sul tuo."
+  flp_fai: Fai il tuo
+en:
+  codice: en
+  altra_sigla: IT
+  altra_nome: Italiano
+  mesi: [January, February, March, April, May, June, July, August, September, October, November, December]
+  ruolo: "Inventor · Entrepreneur · Author"
+  bio: "Founder of STRAMBA, patented sail systems for boating and maritime transport. Creator of platforms for quality, publishing and business value. More than twenty years at the head of a communication agency, a degree in Classics, several novels."
+  descrizione_sito: "Daniele Mingucci — inventor, entrepreneur, author. Stramba, Traspality, Books121, Capital Units, MNG-crea, writings and novels."
+  mondi: Worlds
+  acqua: Water
+  terra: Earth
+  aria: Air
+  fuoco: Fire
+  quinto: The fifth element
+  profilo: Profile
+  mondo_acqua: "Sea · Stramba"
+  mondo_terra: Startups
+  mondo_aria: Words
+  mondo_fuoco: "Languages · MNG-crea"
+  taccuino: Notebook
+  scritti: Writings
+  italia: "Riccione RN, Italy"
+  scrivi: Write
+  vedi_profilo: View profile
+  altro: more
+  leggi: Read
+  su_tumblr: On Tumblr
+  rispondi: Reply
+  segui: "+ Follow"
+  segui_titolo: Get new writings by email
+  segui_email: Your email
+  segui_esempio: name@example.com
+  segui_iscriviti: Subscribe
+  segui_nota: One email for each new piece. Unsubscribe whenever you like.
+  segui_scrivimi: "Write to me and I'll add you to the list: you'll get one email for each new piece."
+  segui_iscrivimi: Sign me up
+  segui_oggetto: "Sign%20me%20up%20for%20the%20writings"
+  segui_corpo: "I%20would%20like%20to%20receive%20new%20writings%20by%20email."
+  segui_rss: Or follow with an RSS reader
+  tutto_taccuino: The whole notebook
+  tutti_scritti: All writings
+  altri_scritti: More writings
+  piu_recente: Newer
+  precedente: Older
+  solo_italiano: "Translated from the Italian."
+  scritti_descrizione: "Writings by Daniele Mingucci: work, business, innovation, culture. From 2012 to today."
+  scritti_conta: "pieces, newest first"
+  archivio: Archive
+  anni: Years
+  taccuino_descrizione: "Daniele Mingucci's notebook: images, quotes, links and videos collected from 2012 to today."
+  taccuino_conta: "notes: images, quotes, links, videos. The"
+  taccuino_conta2: are kept separately.
+  scritti_min: writings
+  f_photo: Image
+  f_quote: Quote
+  f_link: Link
+  f_video: Video
+  f_audio: Audio
+  f_altro: Note
+  cv_titolo: "Daniele Mingucci — Profile"
+  cv_descrizione: "Profile and résumé of Daniele Mingucci: experience, education, patents, publications, projects."
+  reciproco: Mutual connection
+  attesa: Awaiting confirmation
+  contatto_info: Contact info
+  contatta: Contact
+  informazioni: About
+  attivita: Activity
+  ha_pubblicato: Daniele published this piece
+  mostra_scritti: "Show all writings →"
+  esperienza: Experience
+  presente: Present
+  formazione: Education
+  brevetti: Patents
+  pubblicazioni: Publications
+  progetti: Projects
+  certificazioni: "Licenses & certifications"
+  riconoscimenti: "Honors & awards"
+  volontariato: Volunteering
+  competenze: Skills
+  lingue: Languages
+  collegamenti: Connections
+  altri_profili: Other profiles
+  flp_tuo: "This profile lives on my own site, with no platform in between. You can make one just like it on yours."
+  flp_fai: Make yours

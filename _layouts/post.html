@@ -1,11 +1,13 @@
 <!doctype html>
-<html lang="it">
+<html lang="{{ page.lang | default: "it" }}">
 <head>
 {% include testa.html %}
+{% include lingua.html testa=true %}
+{%- assign estratto = page.excerpt | default: content -%}
 <title>{{ page.title | escape }} — Daniele Mingucci</title>
-<meta name="description" content="{{ page.excerpt | strip_html | strip_newlines | truncatewords: 30 | escape }}">
+<meta name="description" content="{{ estratto | strip_html | strip_newlines | truncatewords: 30 | escape }}">
 <meta property="og:title" content="{{ page.title | escape }}">
-<meta property="og:description" content="{{ page.excerpt | strip_html | strip_newlines | truncatewords: 30 | escape }}">
+<meta property="og:description" content="{{ estratto | strip_html | strip_newlines | truncatewords: 30 | escape }}">
 <meta property="og:type" content="article">
 {%- if page.immagine %}
 <meta property="og:image" content="{% if page.immagine contains '://' %}{{ page.immagine }}{% else %}{{ site.url }}{{ page.immagine }}{% endif %}">
@@ -16,7 +18,7 @@
 <body class="li">
 {% include testata.html %}
 {%- assign taccuino = false %}{% if page.categories contains 'taccuino' %}{% assign taccuino = true %}{% endif %}
-{%- assign headline = site.data.cv.titolo | default: "Inventore · Imprenditore · Autore" -%}
+{%- assign headline = ruolo_base -%}
 
 <main class="li-pagina li-due">
   <div class="li-col">
@@ -24,9 +26,9 @@
       <div class="li-post-testa">
         <img class="li-avatar" src="/img/avatar.jpg" alt="">
         <div>
-          <p class="n"><a href="/curriculum/" style="color: inherit; text-decoration: none">Daniele Mingucci</a></p>
+          <p class="n"><a href="{{ base }}/curriculum/" style="color: inherit; text-decoration: none">Daniele Mingucci</a></p>
           <p class="h">{{ headline | escape }}</p>
-          <p class="t">{% if taccuino %}<a href="/taccuino/" style="color: inherit">Taccuino</a> · {% endif %}{% include data.html d=page.date %}</p>
+          <p class="t">{% if taccuino %}<a href="{{ base }}/taccuino/" style="color: inherit">{{ t.taccuino }}</a> · {% endif %}{% include data.html d=page.date %}</p>
         </div>
       </div>
       <div class="li-articolo">
@@ -39,18 +41,18 @@
         </div>
       </div>
       <div class="li-post-azioni">
-        {%- if taccuino %}<a href="/taccuino/">Tutto il taccuino</a>{% else %}<a href="/scritti/">Tutti gli scritti</a>{% endif %}
-        {%- if page.tumblr %}<a href="{{ page.tumblr }}">Su Tumblr</a>{% endif %}
-        <a href="mailto:dacco@mng-crea.com?subject={{ page.title | uri_escape }}">Rispondi</a>
+        {%- if taccuino %}<a href="{{ base }}/taccuino/">{{ t.tutto_taccuino }}</a>{% else %}<a href="{{ base }}/scritti/">{{ t.tutti_scritti }}</a>{% endif %}
+        {%- if page.tumblr %}<a href="{{ page.tumblr }}">{{ t.su_tumblr }}</a>{% endif %}
+        <a href="mailto:dacco@mng-crea.com?subject={{ page.title | uri_escape }}">{{ t.rispondi }}</a>
       </div>
     </article>
 
-    <nav class="li-card li-pad" aria-label="Altri scritti" style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px">
+    <nav class="li-card li-pad" aria-label="{{ t.altri_scritti }}" style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px">
       {%- if page.next %}
-      <a href="{{ page.next.url }}" style="text-decoration: none; max-width: 48%"><span class="li-sub">Più recente</span><br><span style="font-family: 'Cormorant Garamond', serif; font-size: 22px; color: #121212">{{ page.next.title | escape }}</span></a>
+      <a href="{{ page.next.url }}" style="text-decoration: none; max-width: 48%"><span class="li-sub">{{ t.piu_recente }}</span><br><span style="font-family: 'Cormorant Garamond', serif; font-size: 22px; color: #121212">{{ page.next.title | escape }}</span></a>
       {%- else %}<span></span>{% endif %}
       {%- if page.previous %}
-      <a href="{{ page.previous.url }}" style="text-decoration: none; max-width: 48%; text-align: right"><span class="li-sub">Precedente</span><br><span style="font-family: 'Cormorant Garamond', serif; font-size: 22px; color: #121212">{{ page.previous.title | escape }}</span></a>
+      <a href="{{ page.previous.url }}" style="text-decoration: none; max-width: 48%; text-align: right"><span class="li-sub">{{ t.precedente }}</span><br><span style="font-family: 'Cormorant Garamond', serif; font-size: 22px; color: #121212">{{ page.previous.title | escape }}</span></a>
       {%- endif %}
     </nav>
   </div>

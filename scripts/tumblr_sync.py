@@ -90,7 +90,8 @@ for p in reversed(new):
         body=p.get("conversation-text","")
     title=title or "Senza titolo"
     slug=slugify(p.get("slug") or title) or str(p["id"])
-    if f"{d.strftime('%Y-%m-%d')}-{slug}" in existing: slug=f"{slug}-{str(str(p['id']))[-6:]}"
+    # l'indirizzo è /scritti/<slug>/: se un altro post (anche di un altro giorno) ha già questo slug, lo rendo unico
+    if slug in {re.sub(r"^\d{4}-\d{2}-\d{2}-","",x) for x in existing}: slug=f"{slug}-{str(str(p['id']))[-6:]}"
     existing.add(f"{d.strftime('%Y-%m-%d')}-{slug}")
     fm=["---",f"title: {json.dumps(title,ensure_ascii=False)}",f"date: {d.strftime('%Y-%m-%d %H:%M:%S')} +0000",f"categories: [{cat}]",f"formato: {t}",f"tumblr: {p['url']}"]
     tags=[x for x in (p.get("tags") or []) if x]

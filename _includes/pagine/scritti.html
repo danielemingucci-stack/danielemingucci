@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="{{ page.lang | default: "it" }}">
+<head>
+{% include testa.html %}
+{% include lingua.html testa=true %}
+{% include elenchi.html %}
+<title>{{ t.scritti }} — Daniele Mingucci</title>
+<meta name="description" content="{{ t.scritti_descrizione }}">
+</head>
+<body class="li">
+{% include testata.html %}
+{%- assign anni = scritti | group_by_exp: "p", "p.date | date: '%Y'" -%}
+
+<main class="li-pagina li-feed">
+  <div class="li-col li-sx">
+    {% include biglietto.html %}
+  </div>
+
+  <div class="li-col">
+    <div class="li-card li-pad">
+      <h1 style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 36px">{{ t.scritti }}</h1>
+      <p class="li-sub">{{ scritti.size }} {{ t.scritti_conta }}</p>
+    </div>
+    {%- for a in anni %}
+    <p class="li-anno" id="anno-{{ a.name }}">{{ a.name }}</p>
+    {%- for post in a.items %}
+    {% include scheda.html p=post %}
+    {%- endfor %}
+    {%- endfor %}
+  </div>
+
+  <aside class="li-col">
+    <div class="li-card li-pad">
+      <h2>{{ t.archivio }}</h2>
+      <nav class="li-anni" aria-label="{{ t.anni }}">{% for a in anni %}<a href="#anno-{{ a.name }}">{{ a.name }}</a>{% endfor %}</nav>
+    </div>
+    {% include mondi.html %}
+  </aside>
+</main>
+
+{% include piede.html %}
+</body>
+</html>

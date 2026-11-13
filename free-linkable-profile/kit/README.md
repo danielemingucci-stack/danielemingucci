@@ -17,6 +17,7 @@ Versione 0.2.
 | `flp.js` | Fa riconoscere tra loro i profili collegati, segue i traslochi, disegna le vetrine. |
 | `PROMPT.md` | Il prompt da dare a un assistente AI perché faccia tutto con te. |
 | `SPEC.md` | Le regole del formato, per chi vuole capirle o reimplementarle. |
+| `PROMPT.en.md`, `SPEC.en.md` | Prompt e specifica in inglese. |
 
 ## Installarlo
 
@@ -100,4 +101,4 @@ files to a folder on your site. `build.py --vetrina URL` makes a showcase page o
 hosted elsewhere; `build.py --ospiti FOLDER` builds many hosted profiles plus a directory;
 `flp.movedTo` / `flp.previous` handle a change of address. Profiles that list each other recognise the mutual connection
 by reading each other's `profile.json`: no platform in between. Set `"lang": "en"` in `flp`
-for English labels. See `SPEC.md`.
+for English labels. `PROMPT.en.md` is the installation prompt in English and `SPEC.en.md` the specification.

@@ -1,0 +1,40 @@
+---
+layout: null
+title: Specification
+lang: en
+permalink: /en/free-linkable-profile/specifica/
+---
+<!doctype html>
+<html lang="en">
+<head>
+{% include testa.html %}
+{% include lingua.html testa=true %}
+<title>Free Linkable Profile — specification 0.2</title>
+<meta name="description" content="The Free Linkable Profile 0.2 specification: data format, mutual connections, showcase, hosting, moving.">
+<link rel="canonical" href="{{ site.url }}/en/free-linkable-profile/specifica/">
+</head>
+<body class="li">
+{% include testata.html attivo="quinto" %}
+{%- capture spec %}{% include_relative kit/SPEC.en.md %}{% endcapture -%}
+
+<main class="li-pagina li-due">
+  <div class="li-col">
+    <article class="li-card li-pad li-prosa">
+      {{ spec | markdownify }}
+    </article>
+  </div>
+  <aside class="li-col">
+    <div class="li-card li-pad">
+      <h2>Free Linkable Profile</h2>
+      <p class="li-sub" style="margin-top: 4px">A professional profile on your own site, with no platform in between.</p>
+      <div class="li-azioni">
+        <a class="li-btn pieno" href="/free-linkable-profile/free-linkable-profile-0.2.zip" download>Download the kit</a>
+        <a class="li-btn" href="../">How it works</a>
+      </div>
+    </div>
+  </aside>
+</main>
+
+{% include piede.html %}
+</body>
+</html>

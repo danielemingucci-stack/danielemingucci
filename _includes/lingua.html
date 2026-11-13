@@ -1,0 +1,35 @@
+{%- assign L = page.lang | default: "it" -%}
+{%- assign t = site.data.t[L] -%}
+{%- if L == "en" -%}
+  {%- assign base = "/en" -%}
+  {%- assign cv = site.data.cv_en -%}
+  {%- assign url_it = page.url | remove_first: "/en" | replace: "index.html", "" -%}
+  {%- assign url_en = page.url | replace: "index.html", "" -%}
+  {%- assign altra = url_it -%}
+  {%- assign coppia = true -%}
+{%- else -%}
+  {%- assign base = "" -%}
+  {%- assign cv = site.data.cv -%}
+  {%- assign url_it = page.url | replace: "index.html", "" -%}
+  {%- assign url_en = url_it | prepend: "/en" -%}
+  {%- assign coppia = true -%}
+  {%- if page.collection == "posts" -%}
+    {%- assign nome_file = page.path | split: "/" | last | split: "." | first -%}
+    {%- assign tradotto = site.en | where: "orig", nome_file | first -%}
+    {%- if tradotto -%}
+      {%- assign url_en = tradotto.url -%}
+    {%- else -%}
+      {%- assign coppia = false -%}
+      {%- if page.categories contains "taccuino" %}{% assign url_en = "/en/taccuino/" %}{% else %}{% assign url_en = "/en/scritti/" %}{% endif -%}
+    {%- endif -%}
+  {%- endif -%}
+  {%- assign altra = url_en -%}
+{%- endif -%}
+{%- assign ruolo_base = cv.titolo | default: t.ruolo -%}
+{%- if include.testa %}
+{%- if coppia %}
+<link rel="alternate" hreflang="it" href="{{ site.url }}{{ url_it }}">
+<link rel="alternate" hreflang="en" href="{{ site.url }}{{ url_en }}">
+<link rel="alternate" hreflang="x-default" href="{{ site.url }}{{ url_it }}">
+{%- endif %}
+{%- endif -%}

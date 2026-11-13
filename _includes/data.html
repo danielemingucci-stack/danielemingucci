@@ -1,3 +1,4 @@
-{%- assign mesi = "gennaio,febbraio,marzo,aprile,maggio,giugno,luglio,agosto,settembre,ottobre,novembre,dicembre" | split: "," -%}
+{%- assign _lg = page.lang | default: "it" -%}
+{%- assign mesi = site.data.t[_lg].mesi -%}
 {%- assign m = include.d | date: "%-m" | minus: 1 -%}
 {{- include.d | date: "%-d" }} {{ mesi[m] }} {{ include.d | date: "%Y" -}}

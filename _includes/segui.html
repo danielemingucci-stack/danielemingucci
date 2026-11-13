@@ -1,19 +1,19 @@
 <details class="li-segui">
-  <summary class="li-btn pieno">+ Segui</summary>
+  <summary class="li-btn pieno">{{ t.segui }}</summary>
   <div class="li-segui-box">
-    <p class="titolo">Ricevi i nuovi scritti via email</p>
+    <p class="titolo">{{ t.segui_titolo }}</p>
     {%- if site.newsletter_buttondown and site.newsletter_buttondown != "" %}
     <form action="https://buttondown.com/api/emails/embed-subscribe/{{ site.newsletter_buttondown }}" method="post" target="_blank">
-      <label for="segui-email-{{ include.id | default: 'p' }}">La tua email</label>
-      <input id="segui-email-{{ include.id | default: 'p' }}" type="email" name="email" required autocomplete="email" placeholder="nome@esempio.it">
+      <label for="segui-email-{{ include.id | default: 'p' }}">{{ t.segui_email }}</label>
+      <input id="segui-email-{{ include.id | default: 'p' }}" type="email" name="email" required autocomplete="email" placeholder="{{ t.segui_esempio }}">
       <input type="hidden" name="tag" value="danielemingucci.com">
-      <button class="li-btn pieno" type="submit">Iscriviti</button>
+      <button class="li-btn pieno" type="submit">{{ t.segui_iscriviti }}</button>
     </form>
-    <p class="nota">Una mail per ogni nuovo scritto. Ti cancelli quando vuoi.</p>
+    <p class="nota">{{ t.segui_nota }}</p>
     {%- else %}
-    <p class="nota">Scrivimi e ti aggiungo alla lista: riceverai una mail per ogni nuovo scritto.</p>
-    <a class="li-btn pieno" href="mailto:dacco@mng-crea.com?subject=Iscrivimi%20agli%20scritti&amp;body=Vorrei%20ricevere%20i%20nuovi%20scritti%20via%20email.">Iscrivimi</a>
+    <p class="nota">{{ t.segui_scrivimi }}</p>
+    <a class="li-btn pieno" href="mailto:dacco@mng-crea.com?subject={{ t.segui_oggetto }}&amp;body={{ t.segui_corpo }}">{{ t.segui_iscrivimi }}</a>
     {%- endif %}
-    <p class="nota"><a href="/feed/scritti.xml">Oppure segui con un lettore RSS</a></p>
+    <p class="nota"><a href="{% if L == "en" %}/feed/en/scritti.xml{% else %}/feed/scritti.xml{% endif %}">{{ t.segui_rss }}</a></p>
   </div>
 </details>

@@ -67,7 +67,7 @@ collections:
       - name: cv
         label: Curriculum
         file: _data/cv.yml
-        fields:
+        fields: &campi_cv
           - { name: titolo, label: "Titolo (sotto il nome)", widget: string, required: false }
           - { name: luogo, label: Località, widget: string, required: false }
           - { name: informazioni, label: Informazioni, widget: markdown, required: false }
@@ -193,3 +193,7 @@ collections:
             fields:
               - { name: nome, label: "Nome e cognome", widget: string }
               - { name: url, label: "Indirizzo del suo profilo (es. https://www.sito.it/profilo/)", widget: string }
+      - name: cv_en
+        label: "Curriculum (English)"
+        file: _data/cv_en.yml
+        fields: *campi_cv

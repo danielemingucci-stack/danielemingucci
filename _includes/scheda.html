@@ -1,5 +1,6 @@
 {%- assign p = include.p -%}
-{%- assign headline = site.data.cv.titolo | default: "Inventore · Imprenditore · Autore" -%}
+{%- assign headline = ruolo_base -%}
+{%- assign estratto = p.excerpt | default: p.content -%}
 <article class="li-card">
   <div class="li-post-testa">
     <img class="li-avatar" src="/img/avatar.jpg" alt="">
@@ -11,15 +12,15 @@
   </div>
   <div class="li-post-corpo">
     <h2><a href="{{ p.url }}" style="color: inherit; text-decoration: none">{{ p.title | escape }}</a></h2>
-    {%- assign parole = p.excerpt | strip_html | strip_newlines | number_of_words %}
-    <p>{{ p.excerpt | strip_html | strip_newlines | truncatewords: 45, "" }}{% if parole > 45 or p.content.size > p.excerpt.size %}… <a class="altro" href="{{ p.url }}">altro</a>{% endif %}</p>
+    {%- assign parole = estratto | strip_html | strip_newlines | number_of_words %}
+    <p>{{ estratto | strip_html | strip_newlines | truncatewords: 45, "" }}{% if parole > 45 or p.content.size > estratto.size %}… <a class="altro" href="{{ p.url }}">{{ t.altro }}</a>{% endif %}</p>
   </div>
   {%- if p.immagine %}
   <a href="{{ p.url }}"><img class="li-post-img" src="{{ p.immagine }}" alt="" loading="lazy"></a>
   {%- endif %}
   <div class="li-post-azioni">
-    <a href="{{ p.url }}">Leggi</a>
-    {%- if p.tumblr %}<a href="{{ p.tumblr }}">Su Tumblr</a>{% endif %}
-    <a href="mailto:dacco@mng-crea.com?subject={{ p.title | uri_escape }}">Rispondi</a>
+    <a href="{{ p.url }}">{{ t.leggi }}</a>
+    {%- if p.tumblr %}<a href="{{ p.tumblr }}">{{ t.su_tumblr }}</a>{% endif %}
+    <a href="mailto:dacco@mng-crea.com?subject={{ p.title | uri_escape }}">{{ t.rispondi }}</a>
   </div>
 </article>

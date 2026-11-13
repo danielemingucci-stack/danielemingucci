@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="{{ page.lang | default: "it" }}">
+<head>
+{% include testa.html %}
+{% include lingua.html testa=true %}
+{% include elenchi.html %}
+<title>{{ t.taccuino }} — Daniele Mingucci</title>
+<meta name="description" content="{{ t.taccuino_descrizione }}">
+</head>
+<body>
+{% include testata.html %}
+
+<section class="wrap" style="padding-top: 48px; padding-bottom: 96px">
+  <p class="etichetta" style="margin: 0">{{ t.aria }}</p>
+  <h1 style="margin: 16px 0 24px; font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 120px; line-height: 0.95">{{ t.taccuino }}</h1>
+  <p style="margin: 0 0 56px; font-size: 15px; color: #57564F">{{ voci.size }} {{ t.taccuino_conta }} <a href="{{ base }}/scritti/">{{ t.scritti_min }}</a> {{ t.taccuino_conta2 }}</p>
+
+  {%- assign anni = voci | group_by_exp: "p", "p.date | date: '%Y'" -%}
+  <nav aria-label="{{ t.anni }}" class="anni">
+    {%- for a in anni %}<a href="#anno-{{ a.name }}">{{ a.name }}</a>{% endfor %}
+  </nav>
+
+  {%- for a in anni %}
+  <h2 id="anno-{{ a.name }}" class="anno">{{ a.name }}</h2>
+  <div class="griglia">
+    {%- for post in a.items %}
+    <a href="{{ post.url }}" class="voce voce-{{ post.formato }}">
+      {%- if post.immagine %}
+      <img src="{{ post.immagine }}" alt="" loading="lazy">
+      {%- endif %}
+      <span class="tipo">{% case post.formato %}{% when 'photo' %}{{ t.f_photo }}{% when 'quote' %}{{ t.f_quote }}{% when 'link' %}{{ t.f_link }}{% when 'video' %}{{ t.f_video }}{% when 'audio' %}{{ t.f_audio }}{% else %}{{ t.f_altro }}{% endcase %} · {% include data.html d=post.date %}</span>
+      <span class="titolo">{{ post.title | escape }}</span>
+    </a>
+    {%- endfor %}
+  </div>
+  {%- endfor %}
+</section>
+
+{% include piede.html %}
+</body>
+</html>

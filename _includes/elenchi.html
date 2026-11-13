@@ -1,0 +1,7 @@
+{%- if L == "en" -%}
+  {%- assign scritti = site.en | where_exp: "p", "p.categories contains 'scritti'" | sort: "date" | reverse -%}
+  {%- assign voci = site.en | where_exp: "p", "p.categories contains 'taccuino'" | sort: "date" | reverse -%}
+{%- else -%}
+  {%- assign scritti = site.categories.scritti -%}
+  {%- assign voci = site.categories.taccuino -%}
+{%- endif -%}
