@@ -1,13 +1,25 @@
 #!/usr/bin/env python3
-"""Free Linkable Profile 0.1 — genera index.html da profile.json.
+"""Free Linkable Profile 0.2 — genera le pagine dei profili.
 
-Uso:  python3 build.py            (legge profile.json, scrive index.html nella stessa cartella)
+Uso:
+  python3 build.py
+      Il tuo profilo: legge profile.json e scrive index.html nella stessa cartella.
+  python3 build.py --vetrina https://www.altrosito.it/profilo/ [cartella]
+      Vetrina: una pagina che mostra un profilo che vive su un altro sito, sempre aggiornata.
+  python3 build.py --ospiti cartella
+      Ospitalità: più profili sullo stesso sito. Ogni sottocartella con un profile.json
+      diventa un profilo; nella cartella nasce l'elenco delle persone ospitate.
+
+Trasloco: se profile.json contiene flp.movedTo, la pagina diventa un avviso che porta al
+nuovo indirizzo. Nel profilo nuovo, flp.previous elenca gli indirizzi vecchi.
+
 Non servono librerie: basta Python 3.
 """
 import html
 import json
 import os
 import re
+import shutil
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -20,6 +32,9 @@ TXT = {
            "follow": "+ Segui", "contact": "Contatta", "contact_info": "Informazioni di contatto",
            "present": "Presente", "mutual": "Collegamento reciproco", "oneway": "In attesa di conferma",
            "made": "Profilo libero, senza piattaforma",
+           "moved": "Questo profilo si è trasferito", "moved_go": "Vai al nuovo indirizzo",
+           "wait": "Sto leggendo il profilo…", "original": "Profilo originale",
+           "hosted": "Profili", "hosted_none": "Nessun profilo, per ora.",
            "months": ["gen", "feb", "mar", "apr", "mag", "giu", "lug", "ago", "set", "ott", "nov", "dic"]},
     "en": {"about": "About", "work": "Experience", "education": "Education", "patents": "Patents",
            "publications": "Publications", "projects": "Projects", "certificates": "Licenses & certifications",
@@ -28,6 +43,9 @@ TXT = {
            "follow": "+ Follow", "contact": "Contact", "contact_info": "Contact info",
            "present": "Present", "mutual": "Mutual connection", "oneway": "Awaiting confirmation",
            "made": "A free profile, no platform in between",
+           "moved": "This profile has moved", "moved_go": "Go to the new address",
+           "wait": "Loading the profile…", "original": "Original profile",
+           "hosted": "Profiles", "hosted_none": "No profiles yet.",
            "months": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]},
 }
 
@@ -95,7 +113,121 @@ def join(parts, sep=" · "):
     return sep.join(str(p) for p in parts if p)
 
 
-def build(profile):
+def theme_style(theme):
+    css_vars = []
+    for key, var in (("accent", "--flp-accent"), ("background", "--flp-bg"), ("card", "--flp-card"),
+                     ("ink", "--flp-ink"), ("muted", "--flp-muted"), ("font", "--flp-font"),
+                     ("titleFont", "--flp-title")):
+        val = str((theme or {}).get(key) or "")
+        if val and not re.search(r"[;{}<>]", val):
+            css_vars.append("%s:%s" % (var, val))
+    return ' style="%s"' % e(";".join(css_vars)) if css_vars else ""
+
+
+def foot(t):
+    return ('<p class="flp-foot">%s · <a href="https://www.danielemingucci.com/free-linkable-profile/">'
+            'Free Linkable Profile</a></p>' % e(t["made"]))
+
+
+def moved_page(profile, assets=""):
+    """Il profilo si è trasferito: la pagina resta come avviso e porta al nuovo indirizzo."""
+    basics = profile.get("basics") or {}
+    flp = profile.get("flp") or {}
+    t = TXT[flp.get("lang") if flp.get("lang") in TXT else "it"]
+    to = link(flp.get("movedTo"))
+    name = basics.get("name") or ""
+    return """<!doctype html>
+<html lang="{lang}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{name} — {moved}</title>
+<link rel="canonical" href="{to}">
+<meta http-equiv="refresh" content="4;url={to}">
+<link rel="alternate" type="application/json" title="Free Linkable Profile" href="profile.json">
+<link rel="stylesheet" href="{assets}flp.css">
+</head>
+<body class="flp"{style}>
+<main class="flp-page flp-single">
+<div class="flp-col"><section class="flp-card flp-pad flp-notice"><h1>{name}</h1><h2>{moved}</h2>
+<div class="flp-actions"><a class="flp-btn flp-full" href="{to}">{go}</a></div></section>{foot}</div>
+</main>
+</body>
+</html>
+""".format(lang="en" if t is TXT["en"] else "it", name=e(name), moved=e(t["moved"]), go=e(t["moved_go"]),
+           to=e(to), assets=e(assets), style=theme_style(flp.get("theme")), foot=foot(t))
+
+
+def showcase_page(origin, lang="it", theme=None, assets=""):
+    """Vetrina: mostra un profilo che vive altrove. I dati li legge flp.js a ogni visita."""
+    origin = link(origin)
+    if not origin.lower().startswith("http"):
+        raise SystemExit("Serve l'indirizzo del profilo originale, per esempio https://www.sito.it/profilo/")
+    t = TXT[lang if lang in TXT else "it"]
+    return """<!doctype html>
+<html lang="{lang}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{original}</title>
+<link rel="canonical" href="{origin}">
+<link rel="stylesheet" href="{assets}flp.css">
+</head>
+<body class="flp"{style}>
+<main class="flp-page" data-flp-showcase="{origin}" data-flp-lang="{lang}">
+<div class="flp-col"><section class="flp-card flp-pad flp-notice"><h2>{original}</h2>
+<p data-flp-wait>{wait}</p><p><a rel="canonical" href="{origin}">{origin}</a></p></section></div>
+</main>
+<script src="{assets}flp.js" defer></script>
+</body>
+</html>
+""".format(lang=lang if lang in TXT else "it", original=e(t["original"]), wait=e(t["wait"]), origin=e(origin),
+           assets=e(assets), style=theme_style(theme))
+
+
+def directory_page(people, settings):
+    """Ospitalità: l'elenco dei profili ospitati su questo sito."""
+    lang = settings.get("lang") if settings.get("lang") in TXT else "it"
+    t = TXT[lang]
+    title = settings.get("title") or t["hosted"]
+    rows = []
+    for slug, profile in people:
+        basics = profile.get("basics") or {}
+        image = link(basics.get("image"))
+        logo = ('<img class="flp-logo" src="%s" alt="" loading="lazy">' % e(image) if image
+                else '<div class="flp-logo" aria-hidden="true">%s</div>' % initial(basics.get("name")))
+        rows.append('<div class="flp-item">%s<div class="flp-body"><h3><a href="%s/">%s</a></h3><p class="flp-q">%s</p></div></div>'
+                    % (logo, e(slug), e(basics.get("name") or slug), e(basics.get("label"))))
+    base = link(settings.get("url"))
+    ld = {"@context": "https://schema.org", "@type": "CollectionPage", "name": title}
+    if base:
+        ld["url"] = base
+        ld["hasPart"] = [{"@type": "ProfilePage", "url": base.rstrip("/") + "/" + slug + "/",
+                          "name": (profile.get("basics") or {}).get("name") or slug} for slug, profile in people]
+    intro = '<div class="flp-about">%s</div>' % paragraphs(settings.get("intro")) if settings.get("intro") else ""
+    return """<!doctype html>
+<html lang="{lang}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+{canonical}<link rel="stylesheet" href="flp.css">
+<script type="application/ld+json">{ld}</script>
+</head>
+<body class="flp"{style}>
+<main class="flp-page flp-single">
+<div class="flp-col"><section class="flp-card flp-pad"><h1>{title}</h1>{intro}{rows}</section>{foot}</div>
+</main>
+</body>
+</html>
+""".format(lang=lang, title=e(title), intro=intro, rows="".join(rows) or '<p class="flp-q">%s</p>' % e(t["hosted_none"]),
+           canonical='<link rel="canonical" href="%s">\n' % e(base) if base else "",
+           ld=json.dumps(ld, ensure_ascii=False).replace("</", "<\\/"), style=theme_style(settings.get("theme")), foot=foot(t))
+
+
+def build(profile, assets=""):
+    if link((profile.get("flp") or {}).get("movedTo")):
+        return moved_page(profile, assets)
     basics = profile.get("basics") or {}
     flp = profile.get("flp") or {}
     lang = flp.get("lang") if flp.get("lang") in TXT else "it"
@@ -111,13 +243,7 @@ def build(profile):
     image = link(basics.get("image"))
     cover = link(flp.get("cover"))
 
-    css_vars = []
-    for key, var in (("accent", "--flp-accent"), ("background", "--flp-bg"), ("card", "--flp-card"),
-                     ("ink", "--flp-ink"), ("muted", "--flp-muted"), ("font", "--flp-font"),
-                     ("titleFont", "--flp-title")):
-        val = str(theme.get(key) or "")
-        if val and not re.search(r"[;{}<>]", val):
-            css_vars.append("%s:%s" % (var, val))
+    previous = " ".join(u for u in (link(x) for x in flp.get("previous") or []) if u.lower().startswith("http"))
 
     # --- intestazione
     head = ['<section class="flp-card h-card" aria-label="%s">' % e(name)]
@@ -203,7 +329,7 @@ def build(profile):
                 for p in basics.get("profiles") or [] if link(p.get("url"))]
     if profiles:
         side.append(section(t["profiles"], '<nav class="flp-list">%s</nav>' % "".join(profiles)))
-    side.append('<p class="flp-foot">%s · <a href="https://www.danielemingucci.com/free-linkable-profile/">Free Linkable Profile</a></p>' % e(t["made"]))
+    side.append(foot(t))
 
     # --- dati per i motori di ricerca (schema.org)
     person = {"@type": "Person", "name": name}
@@ -250,36 +376,81 @@ def build(profile):
 <meta property="og:title" content="{name}">
 <meta property="og:description" content="{description}">
 {og_image}{canonical}<link rel="alternate" type="application/json" title="Free Linkable Profile" href="profile.json">
-{feed}<link rel="stylesheet" href="flp.css">
+{feed}<link rel="stylesheet" href="{assets}flp.css">
 <script type="application/ld+json">{ld}</script>
 </head>
 <body class="flp"{style}>
-<main class="flp-page" data-flp-profile="{profile_url}" data-flp-text-mutual="{mutual}" data-flp-text-oneway="{oneway}">
+<main class="flp-page" data-flp-profile="{profile_url}"{previous} data-flp-text-mutual="{mutual}" data-flp-text-oneway="{oneway}">
 <div class="flp-col">{main}</div>
 <aside class="flp-col">{side}</aside>
 </main>
-<script src="flp.js" defer></script>
+<script src="{assets}flp.js" defer></script>
 </body>
 </html>
 """.format(
+        assets=e(assets), previous=' data-flp-previous="%s"' % e(previous) if previous else "",
         lang=lang, name=e(name), title_sep=" — " if basics.get("label") else "", label=e(basics.get("label")),
         description=e(description),
         og_image='<meta property="og:image" content="%s">\n' % e(image) if image else "",
         canonical='<link rel="canonical" href="%s">\n' % e(page_url) if page_url else "",
         feed='<link rel="alternate" type="application/atom+xml" href="%s">\n' % e(link(flp.get("feed"))) if link(flp.get("feed")) else "",
-        ld=ld_json, style=' style="%s"' % e(";".join(css_vars)) if css_vars else "",
+        ld=ld_json, style=theme_style(theme),
         profile_url=e(page_url), mutual=e(t["mutual"]), oneway=e(t["oneway"]),
         main="".join(m for m in main if m), side="".join(s for s in side if s))
 
 
+def read(path):
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def write(path, text):
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(text)
+    print("Scritto %s" % path)
+
+
+def copy_assets(folder):
+    for name in ("flp.css", "flp.js"):
+        src, dst = os.path.join(HERE, name), os.path.join(folder, name)
+        if os.path.abspath(src) != os.path.abspath(dst):
+            shutil.copyfile(src, dst)
+
+
 def main():
-    src = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "profile.json")
-    dst = sys.argv[2] if len(sys.argv) > 2 else os.path.join(os.path.dirname(os.path.abspath(src)), "index.html")
-    with open(src, encoding="utf-8") as f:
-        profile = json.load(f)
-    with open(dst, "w", encoding="utf-8") as f:
-        f.write(build(profile))
-    print("Scritto %s" % dst)
+    args = sys.argv[1:]
+    if args and args[0] == "--vetrina":
+        if len(args) < 2:
+            raise SystemExit("Uso: python3 build.py --vetrina https://www.sito.it/profilo/ [cartella]")
+        folder = args[2] if len(args) > 2 else os.path.join(HERE, "vetrina")
+        os.makedirs(folder, exist_ok=True)
+        local = os.path.join(HERE, "profile.json")
+        flp = (read(local).get("flp") or {}) if os.path.exists(local) else {}
+        write(os.path.join(folder, "index.html"), showcase_page(args[1], flp.get("lang") or "it", flp.get("theme")))
+        copy_assets(folder)
+        return
+    if args and args[0] == "--ospiti":
+        if len(args) < 2 or not os.path.isdir(args[1]):
+            raise SystemExit("Uso: python3 build.py --ospiti cartella   (una sottocartella per persona, con il suo profile.json)")
+        folder = args[1]
+        settings_path = os.path.join(folder, "ospiti.json")
+        settings = read(settings_path) if os.path.exists(settings_path) else {}
+        people = []
+        for slug in sorted(os.listdir(folder)):
+            src = os.path.join(folder, slug, "profile.json")
+            if not re.match(r"^[a-z0-9][a-z0-9-]*$", slug) or not os.path.exists(src):
+                continue
+            profile = read(src)
+            write(os.path.join(folder, slug, "index.html"), build(profile, assets="../"))
+            if not link((profile.get("flp") or {}).get("movedTo")):
+                people.append((slug, profile))
+        people.sort(key=lambda sp: str((sp[1].get("basics") or {}).get("name") or sp[0]).split()[-1].lower())
+        write(os.path.join(folder, "index.html"), directory_page(people, settings))
+        copy_assets(folder)
+        return
+    src = args[0] if args else os.path.join(HERE, "profile.json")
+    dst = args[1] if len(args) > 1 else os.path.join(os.path.dirname(os.path.abspath(src)), "index.html")
+    write(dst, build(read(src)))
 
 
 if __name__ == "__main__":

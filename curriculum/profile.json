@@ -71,7 +71,7 @@ permalink: /curriculum/profile.json
     {%- endfor %}
   ],
   "flp": {
-    "version": "0.1",
+    "version": "0.2",
     "lang": "it",
     "url": "{{ site.url }}/curriculum/",
     "cover": "{{ site.url }}/img/copertina.jpg",

@@ -1,4 +1,4 @@
-# Free Linkable Profile — specifica 0.1
+# Free Linkable Profile — specifica 0.2
 
 Un profilo professionale che vive sul sito di chi lo scrive, leggibile dalle persone, dai
 motori di ricerca e dagli altri profili. Nessuna piattaforma in mezzo.
@@ -32,7 +32,7 @@ lo indica nel collegamento (vedi punto 3, campo `json`).
 
 ```json
 "flp": {
-  "version": "0.1",
+  "version": "0.2",
   "lang": "it",
   "url": "https://www.miosito.it/profilo/",
   "feed": "https://www.miosito.it/feed.xml",
@@ -47,6 +47,8 @@ lo indica nel collegamento (vedi punto 3, campo `json`).
 ```
 
 `flp.url` è l'identità del profilo: è l'indirizzo che gli altri scrivono per collegarsi.
+Un profilo ha una sola identità, anche quando è mostrato su più siti (punto 7) o ospitato
+sul sito di qualcun altro (punto 8).
 
 ## 3. I collegamenti
 
@@ -91,13 +93,71 @@ La ricerca è quella dei motori di ricerca. La pagina porta:
 dove iscriversi per riceverlo via email. Il pulsante "Segui" porta a `follow`, o in
 mancanza a `feed`.
 
-## 7. Cosa non c'è nella 0.1
+## 7. Vetrina: lo stesso profilo su più siti
+
+Un profilo può essere mostrato anche su altri siti, senza copiarne i dati. La vetrina è una
+pagina che a ogni visita legge il `profile.json` dell'originale e lo disegna:
+
+```html
+<link rel="canonical" href="https://www.miosito.it/profilo/">
+<main data-flp-showcase="https://www.miosito.it/profilo/"></main>
+```
+
+Regole:
+
+- la vetrina dichiara l'originale con `rel="canonical"` e lo mostra in chiaro nella pagina,
+  così i motori di ricerca attribuiscono il nome a un indirizzo solo;
+- la vetrina non ha un proprio `profile.json` e non è un'identità: i collegamenti si fanno
+  sempre verso l'originale, e la reciprocità si calcola rispetto all'originale;
+- se l'originale non è raggiungibile, la vetrina mostra solo il link.
+
+## 8. Ospitalità: più profili sullo stesso sito
+
+Chi non ha un sito può essere ospitato da chi ne ha uno: una persona, un'azienda,
+un'associazione. Ogni profilo ospitato sta in una sua cartella, con la sua pagina e il suo
+`profile.json`, e ha come identità quell'indirizzo:
+
+```
+/profili/                  elenco delle persone ospitate
+/profili/anna-bianchi/     index.html + profile.json
+/profili/luca-verdi/       index.html + profile.json
+```
+
+Il nome della cartella usa solo lettere minuscole, cifre e trattini. L'elenco è una pagina
+schema.org `CollectionPage`. Un file facoltativo `ospiti.json` nella cartella ne dà titolo,
+testo introduttivo, indirizzo e tema (`title`, `intro`, `url`, `lang`, `theme`).
+
+Il profilo resta della persona: è un file, e chi è ospitato può portarlo altrove quando
+vuole (punto 9). Chi ospita si impegna, se la persona se ne va, a lasciare l'avviso di
+trasloco al vecchio indirizzo.
+
+## 9. Trasloco
+
+Quando un profilo cambia indirizzo:
+
+- **al vecchio indirizzo** resta un `profile.json` con `flp.movedTo`, il nuovo indirizzo;
+  la pagina diventa un avviso che porta lì e lo dichiara come `canonical`;
+- **nel profilo nuovo**, `flp.previous` elenca gli indirizzi vecchi.
+
+```json
+"flp": { "url": "https://www.vecchiosito.it/profilo/", "movedTo": "https://www.nuovosito.it/profilo/" }
+"flp": { "url": "https://www.nuovosito.it/profilo/", "previous": ["https://www.vecchiosito.it/profilo/"] }
+```
+
+Chi legge un profilo con `movedTo` segue il nuovo indirizzo (al massimo tre passaggi) e
+aggiorna il link. Un indirizzo in `previous` vale come identità del profilo solo se il
+vecchio indirizzo lo conferma con il suo `movedTo`: nessuno può appropriarsi dell'indirizzo
+di un altro dichiarandolo proprio. Così i collegamenti fatti verso il vecchio indirizzo
+restano reciproci finché l'avviso è in piedi; se il vecchio sito sparisce, chi era collegato
+aggiorna l'indirizzo a mano.
+
+## 10. Cosa non c'è nella 0.2
 
 - Notifiche tra siti in tempo reale (si farà con [Webmention](https://www.w3.org/TR/webmention/)).
 - Un feed che riunisce i post dei propri collegamenti.
 - Messaggi privati, raccomandazioni, conferme di competenze.
 
-## 8. Sicurezza per chi implementa
+## 11. Sicurezza per chi implementa
 
 I dati letti dai profili altrui sono testo non fidato: vanno inseriti nella pagina come
 testo, mai come HTML. Gli indirizzi delle immagini si accettano solo se `https:`. I link si

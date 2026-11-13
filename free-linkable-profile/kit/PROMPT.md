@@ -7,9 +7,9 @@ Copia tutto il testo qui sotto e incollalo al tuo assistente AI (Claude, ChatGPT
 Voglio pubblicare sul mio sito un profilo professionale con il kit **Free Linkable Profile**, che ti allego. Il kit contiene:
 
 - `profile.json`: i miei dati, nel formato JSON Resume più un blocco `flp`;
-- `build.py`: genera `index.html` da `profile.json` (Python 3, nessuna libreria);
+- `build.py`: genera `index.html` da `profile.json` (Python 3, nessuna libreria); sa anche fare una vetrina, ospitare più profili e gestire un cambio di indirizzo (vedi `README.md`);
 - `flp.css` e `flp.js`: stile e riconoscimento reciproco tra profili;
-- `SPEC.md`: le regole del formato.
+- `README.md` e `SPEC.md`: istruzioni e regole del formato.
 
 Fai queste cose, nell'ordine:
 
@@ -20,5 +20,7 @@ Fai queste cose, nell'ordine:
 5. **Compila `profile.json`**, controlla che sia JSON valido, poi esegui `python3 build.py` e mostrami il risultato.
 6. **Dimmi come caricarlo** sul mio sito: i quattro file `index.html`, `profile.json`, `flp.css`, `flp.js` vanno nella stessa cartella, all'indirizzo scelto al punto 2. Chiedimi su cosa è fatto il mio sito (WordPress, GitHub Pages, Netlify, un hosting con FTP…) e dammi i passi esatti per quel caso.
 7. **Controlla l'ultima cosa**: perché gli altri profili possano riconoscere il mio, `profile.json` deve essere leggibile da altri siti (intestazione `Access-Control-Allow-Origin: *`). Dimmi se il mio hosting lo fa già o come attivarlo.
+
+Se non ho un sito mio, dimmelo prima di cominciare e proponimi le strade possibili: farmi ospitare da qualcuno che ha già questo kit (modalità ospitalità), oppure un hosting gratuito come GitHub Pages. Se voglio mostrare lo stesso profilo anche su un secondo sito, usa la modalità vetrina. Se sto cambiando indirizzo, segui la procedura di trasloco.
 
 Regole: il profilo è mio e resta sul mio sito. Non aggiungere servizi esterni, tracciamenti o script oltre a quelli del kit. Quando in futuro ti chiederò di aggiornare il profilo, modifica solo `profile.json` e rigenera `index.html`.

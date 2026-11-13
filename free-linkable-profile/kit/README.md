@@ -5,16 +5,16 @@ persone, si fa trovare dai motori di ricerca e riconosce gli altri profili dello
 se due persone si collegano a vicenda, le due pagine se ne accorgono da sole. Senza
 piattaforma in mezzo.
 
-Versione 0.1.
+Versione 0.2.
 
 ## Cosa c'è nel kit
 
 | File | A cosa serve |
 | --- | --- |
 | `profile.json` | I tuoi dati. È l'unico file che compili. |
-| `build.py` | Genera `index.html` da `profile.json`. |
+| `build.py` | Genera le pagine: il tuo profilo, una vetrina, i profili ospitati. |
 | `flp.css` | Lo stile. Colori e caratteri si scelgono in `profile.json`. |
-| `flp.js` | Fa riconoscere tra loro i profili collegati. |
+| `flp.js` | Fa riconoscere tra loro i profili collegati, segue i traslochi, disegna le vetrine. |
 | `PROMPT.md` | Il prompt da dare a un assistente AI perché faccia tutto con te. |
 | `SPEC.md` | Le regole del formato, per chi vuole capirle o reimplementarle. |
 
@@ -39,6 +39,48 @@ In `profile.json`, dentro `flp.connections`, aggiungi nome e indirizzo del profi
 conosci. Quando anche l'altra persona aggiunge il tuo, sulle due pagine compare
 "Collegamento reciproco".
 
+## Lo stesso profilo su un altro sito (vetrina)
+
+Il profilo ha una casa sola, ma puoi mostrarlo anche altrove, per esempio sul sito della
+tua azienda. Sul secondo sito:
+
+```
+python3 build.py --vetrina https://www.miosito.it/profilo/
+```
+
+Crea la cartella `vetrina` con `index.html`, `flp.css` e `flp.js`: caricala sul secondo
+sito. La pagina legge i dati dall'originale a ogni visita, quindi si aggiorna da sola, e
+dichiara l'originale ai motori di ricerca. I colori sono quelli del `profile.json` che sta
+accanto a `build.py`, se c'è.
+
+## Ospitare chi non ha un sito
+
+Prepara una cartella con una sottocartella per persona, ognuna con il suo `profile.json`
+(in `flp.url` va l'indirizzo che avrà sul tuo sito):
+
+```
+profili/anna-bianchi/profile.json
+profili/luca-verdi/profile.json
+```
+
+Poi:
+
+```
+python3 build.py --ospiti profili
+```
+
+Genera la pagina di ognuno e l'elenco delle persone ospitate. Carica tutta la cartella.
+Titolo e testo dell'elenco si scelgono in un file `profili/ospiti.json`:
+`{"title": "Le nostre persone", "intro": "…", "url": "https://www.miosito.it/profili/"}`.
+
+## Cambiare indirizzo (trasloco)
+
+1. Nel profilo nuovo aggiungi `"previous": ["https://vecchio-indirizzo/"]` dentro `flp`.
+2. Al vecchio indirizzo lascia un `profile.json` con `"movedTo": "https://nuovo-indirizzo/"`
+   dentro `flp`, e riesegui `build.py`: la pagina diventa un avviso che porta al nuovo.
+
+Chi era collegato a te resta collegato, senza fare niente.
+
 ## Licenza
 
 Il codice è distribuito con licenza MIT (vedi `LICENSE`): si può usare, modificare e
@@ -48,6 +90,8 @@ ridistribuire liberamente.
 
 **English, in short.** A LinkedIn-style professional profile that lives on your own website.
 Fill in `profile.json` (JSON Resume + an `flp` block), run `python3 build.py`, upload the four
-files to a folder on your site. Profiles that list each other recognise the mutual connection
+files to a folder on your site. `build.py --vetrina URL` makes a showcase page of a profile
+hosted elsewhere; `build.py --ospiti FOLDER` builds many hosted profiles plus a directory;
+`flp.movedTo` / `flp.previous` handle a change of address. Profiles that list each other recognise the mutual connection
 by reading each other's `profile.json`: no platform in between. Set `"lang": "en"` in `flp`
 for English labels. See `SPEC.md`.
