@@ -1,12 +1,55 @@
-titolo: ""
-luogo: ""
-informazioni: ""
-esperienze: []
-formazione: []
+titolo: Creativo, esperto di linguaggi e innovazione.
+luogo: Riccione RN
+informazioni: ''
+esperienze:
+  - ruolo: CEO & Founder
+    organizzazione: Stramba Srl
+    tipo: Fondatore
+    luogo: Riccione
+    inizio: Agosto 2014
+    attuale: true
+    fine: ''
+    descrizione: Ho inventato Stranba quasi per gioco, ma poi è diventata una cosa seria, un’avventura bellissima, tosta ma ricca di incontri e di talenti. Che sta oer esplodere…
+    link: www.stramba.it
+  - ruolo: F.G.
+    organizzazione: MNG-crea
+    tipo: Lavoro autonomo
+    luogo: Riccione RN
+    inizio: Febbraio 2022
+    attuale: true
+    fine: ''
+    descrizione: Attività classica di freelance, ma al centro di tantissime relazioni e connessioni. Mi occupo di branding, di marketing, di comunicazione in sinergia con team interni ed esterni.
+    link: www.mng-crea.com
+formazione:
+  - istituto: Università di Bologna
+    titolo: Laurea
+    campo: Lettere Classiche
+    inizio: ''
+    fine: ''
+    descrizione: ''
+  - istituto: Liceo Classico Dante Alighieri
+    titolo: Diploma
+    campo: ''
+    inizio: ''
+    fine: ''
+    descrizione: ''
 competenze: []
-lingue: []
-pubblicazioni: []
-brevetti: []
+lingue:
+  - lingua: Inglese
+    livello: Professionale
+pubblicazioni:
+  - titolo: L’amore può attendere
+    editore: NFC Edizioni
+    anno: '2026'
+    link: https://amzn.eu/d/0il3fR0M
+    descrizione: ''
+brevetti:
+  - titolo: Armo per barche a veka
+    ufficio: ''
+    numero: ''
+    anno: ''
+    link: ''
+    descrizione: ''
 progetti: []
 certificazioni: []
 riconoscimenti: []
