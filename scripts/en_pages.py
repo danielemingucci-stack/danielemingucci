@@ -102,6 +102,13 @@ EN = {
     "Ritratto di Daniele Mingucci": "Portrait of Daniele Mingucci",
     "Fondatore di STRAMBA, sistemi velici brevettati per la nautica e il trasporto marittimo. Ideatore di piattaforme per la qualità, l'editoria e il valore d'impresa. Oltre vent'anni alla guida di un'agenzia di comunicazione, una laurea in Lettere Classiche, diversi romanzi.":
         "Founder of STRAMBA, patented sail systems for boating and maritime transport. Creator of platforms for quality, publishing and business value. More than twenty years at the head of a communication agency, a degree in Classics, several novels.",
+    "Attitude branding: identità, linguaggi e strategie di marketing e comunicazione per manager e imprese.":
+        "Attitude branding: identity, languages and marketing and communication strategies for managers and companies.",
+    "Dopo più di vent'anni di empresaCreativa.com, le nuove pagine sono su Mng-crea.com e fattorcomune.com":
+        "After more than twenty years of empresaCreativa.com, the new pages are at Mng-crea.com and fattorcomune.com",
+    "Entra in fattorcomune.com ↗": "Visit fattorcomune.com ↗", "fattorcomune.com": "fattorcomune.com",
+    "Lo storytelling è una cosa seria, un fronte su cui mi sono messo alla prova, su cui continuo a mettermi alla prova. Fra cose serie (i romanzi) e pensieri o suggestioni meno strutturate…":
+        "Storytelling is a serious matter, a front on which I have put myself to the test and on which I keep doing so. Between serious things (the novels) and thoughts or suggestions that are less structured…",
     "Contatti": "Contact", "Curriculum completo →": "Full profile →",
     "I nuovi scritti,": "New writings,", "via email.": "by email.",
     "Torna alla soglia": "Back to the threshold", "Tutti i": "All the", "mondi": "worlds",
