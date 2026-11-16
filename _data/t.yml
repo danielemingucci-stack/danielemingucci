@@ -84,6 +84,22 @@ it:
   altri_profili: Altri profili
   flp_tuo: "Questo profilo vive sul mio sito, senza piattaforma in mezzo. Puoi farne uno uguale sul tuo."
   flp_fai: Fai il tuo
+  ct_titolo: "Parliamone."
+  ct_intro: "Scrivimi due righe: ti rispondo io."
+  ct_nome: Nome
+  ct_cognome: Cognome
+  ct_email: Email
+  ct_motivo: "Per cosa mi contatti?"
+  ct_motivi: ["Un progetto o una collaborazione", "STRAMBA e la nautica", "Startup: Traspality, Books121, Capital Units", "Comunicazione e linguaggi", "Scritti e romanzi", "Altro"]
+  ct_messaggio: Messaggio
+  ct_invia: Invia
+  ct_invio: Invio in corso…
+  ct_ok: "Ricevuto, grazie. Ti rispondo presto."
+  ct_errore: "Qualcosa non ha funzionato. Riprova tra poco."
+  ct_posta: "Si apre il tuo programma di posta con il messaggio già scritto: premi invia."
+  ct_privacy: "I dati servono solo per risponderti e non vengono ceduti a nessuno."
+  ct_oggetto: "Dal sito"
+
 en:
   codice: en
   altra_sigla: IT
@@ -169,3 +185,18 @@ en:
   altri_profili: Other profiles
   flp_tuo: "This profile lives on my own site, with no platform in between. You can make one just like it on yours."
   flp_fai: Make yours
+  ct_titolo: "Let's talk."
+  ct_intro: "Write me a few lines: I answer in person."
+  ct_nome: "First name"
+  ct_cognome: "Last name"
+  ct_email: Email
+  ct_motivo: "What is it about?"
+  ct_motivi: ["A project or collaboration", "STRAMBA and sailing", "Startups: Traspality, Books121, Capital Units", "Communication and languages", "Writings and novels", "Other"]
+  ct_messaggio: Message
+  ct_invia: Send
+  ct_invio: Sending…
+  ct_ok: "Received, thank you. I will reply soon."
+  ct_errore: "Something went wrong. Please try again in a moment."
+  ct_posta: "Your mail app is opening with the message already written: press send."
+  ct_privacy: "Your details are used only to reply to you and are never passed on."
+  ct_oggetto: "From the website"

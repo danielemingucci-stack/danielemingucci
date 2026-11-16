@@ -54,3 +54,9 @@ exclude:
   - scripts
   - "free-linkable-profile/kit/*.md"
   - free-linkable-profile/kit/LICENSE
+
+# Modulo di contatto della home. Per riceverlo direttamente nella tua casella:
+# vai su web3forms.com, inserisci la tua email, e incolla qui la chiave che ti arriva.
+# Finché è vuota, "Invia" apre il programma di posta con il messaggio già scritto.
+contatti:
+  web3forms_key: ""

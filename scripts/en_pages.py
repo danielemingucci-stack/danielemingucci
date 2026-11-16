@@ -16,7 +16,7 @@ SAME = {"Daniele Mingucci", "Daniele", "Mingucci", "Stramba", "Traspality", "Boo
         "Up to Cinema", "MNG-crea", "Tumblr", "Substack", "Peerlist", "dacco@mng-crea.com", "AI", "Online",
         "Co-Founder, STRAMBA India", "Inventor in Chief · CTO &amp; CEO, STRAMBA Italy", "Founder · attitude branding",
         "· Privacy · Cookie policy", "width=device-width, initial-scale=1", "https://www.danielemingucci.com/img/boat.jpg",
-        "{{ ultimo.title | escape }}", "{{ post.title | escape }}", "far west", "IT", "EN", "English", "Italiano"}
+        "{{ ultimo.title | escape }}", "{% include contatto.html %}", "{{ post.title | escape }}", "far west", "IT", "EN", "English", "Italiano"}
 
 EN = {
     "Daniele Mingucci — inventore, imprenditore, autore. Stramba, Traspality, Books121, Capital Units, MNG-crea, scritti e romanzi.":
@@ -26,7 +26,8 @@ EN = {
     "Acqua · Mare": "Water · Sea", "Terra · Startup": "Earth · Startups", "Aria · Parole": "Air · Words",
     "Fuoco · Linguaggi": "Fire · Languages", "Altrove": "Elsewhere", "Profilo": "Profile",
     "Innovazione · Impresa · Comunicazione": "Innovation · Enterprise · Communication",
-    "Mondi paralleli. Uno alla volta.": "Parallel worlds. One at a time.",
+    "I mondi possibili sono infiniti.": "The possible worlds are infinite.",
+    "In arrivo": "Coming soon", "In arrivo": "Coming soon",
     "Mare · Stramba": "Sea · Stramba",
     "Startup · Traspality, Books121, Capital Units": "Startups · Traspality, Books121, Capital Units",
     "Parole · scritti e romanzi": "Words · writings and novels",

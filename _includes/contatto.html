@@ -1,0 +1,93 @@
+{%- include lingua.html -%}
+<section id="contatto" aria-label="{{ t.ct_titolo }}" class="ct">
+<style>
+.ct{background:#121212;color:#F7F7F5;border-top:1px solid #2A2A28}
+.ct-in{max-width:1360px;margin:0 auto;padding:96px 24px 88px;display:flex;flex-wrap:wrap;gap:56px 80px}
+.ct-testo{flex:1 1 300px;min-width:0}
+.ct-testo h2{margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:72px;line-height:1}
+.ct-testo p{margin:24px 0 0;max-width:360px;font-size:16px;line-height:1.7;color:#A3A29E}
+.ct form{flex:999 1 460px;min-width:0;max-width:720px}
+.ct .riga{display:flex;flex-wrap:wrap;gap:0 32px}
+.ct .campo{flex:1 1 220px;min-width:0;margin:0 0 28px}
+.ct label.et,.ct legend{display:block;margin:0 0 4px;padding:0;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#A3A29E}
+.ct input[type=text],.ct input[type=email],.ct textarea{width:100%;box-sizing:border-box;padding:10px 0;border:0;border-bottom:1px solid #57564F;border-radius:0;background:transparent;color:#F7F7F5;font:400 18px/1.5 Jost,sans-serif;outline:none}
+.ct textarea{min-height:140px;resize:vertical}
+.ct input:focus,.ct textarea:focus{border-bottom-color:#B8925A}
+.ct fieldset{margin:0 0 28px;padding:0;border:0;min-width:0}
+.ct legend{margin-bottom:12px}
+.ct .motivi{display:flex;flex-wrap:wrap;gap:10px}
+.ct .motivi label{position:relative;cursor:pointer}
+.ct .motivi input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.ct .motivi span{display:block;padding:9px 16px;border:1px solid #57564F;border-radius:999px;font-size:14px;color:#D4D3CF;transition:background .2s,color .2s,border-color .2s}
+.ct .motivi input:checked+span{background:#F7F7F5;border-color:#F7F7F5;color:#121212}
+.ct .motivi input:focus-visible+span{outline:2px solid #B8925A;outline-offset:2px}
+.ct .esca{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.ct button{padding:14px 0;border:0;border-bottom:1px solid #B8925A;background:transparent;color:#F7F7F5;font:400 13px Jost,sans-serif;letter-spacing:.18em;text-transform:uppercase;cursor:pointer}
+.ct button[disabled]{opacity:.5;cursor:default}
+.ct .esito{margin:20px 0 0;min-height:1.5em;font-size:15px;color:#D4D3CF}
+.ct .nota{margin:20px 0 0;font-size:12px;color:#A3A29E}
+@media (max-width:760px){.ct-testo h2{font-size:48px}.ct-in{padding:64px 24px 56px}}
+</style>
+<div class="ct-in">
+  <div class="ct-testo">
+    <h2>{{ t.ct_titolo }}</h2>
+    <p>{{ t.ct_intro }}</p>
+  </div>
+  <form id="ct-form" novalidate data-key="{{ site.contatti.web3forms_key }}" data-oggetto="{{ t.ct_oggetto }}" data-invio="{{ t.ct_invio }}" data-ok="{{ t.ct_ok }}" data-errore="{{ t.ct_errore }}" data-posta="{{ t.ct_posta }}" data-invia="{{ t.ct_invia }}" data-motivo="{{ t.ct_motivo }}" data-nome="{{ t.ct_nome }}" data-messaggio="{{ t.ct_messaggio }}">
+    <div class="riga">
+      <div class="campo"><label class="et" for="ct-nome">{{ t.ct_nome }}</label><input type="text" id="ct-nome" name="nome" autocomplete="given-name" required></div>
+      <div class="campo"><label class="et" for="ct-cognome">{{ t.ct_cognome }}</label><input type="text" id="ct-cognome" name="cognome" autocomplete="family-name" required></div>
+    </div>
+    <div class="campo"><label class="et" for="ct-email">{{ t.ct_email }}</label><input type="email" id="ct-email" name="email" autocomplete="email" inputmode="email" required></div>
+    <fieldset>
+      <legend>{{ t.ct_motivo }}</legend>
+      <div class="motivi">
+        {%- for m in t.ct_motivi %}
+        <label><input type="checkbox" name="motivo" value="{{ m | escape }}"><span>{{ m }}</span></label>
+        {%- endfor %}
+      </div>
+    </fieldset>
+    <div class="campo"><label class="et" for="ct-messaggio">{{ t.ct_messaggio }}</label><textarea id="ct-messaggio" name="messaggio" required></textarea></div>
+    <div class="esca" aria-hidden="true"><label>Non compilare <input type="text" name="sito" tabindex="-1" autocomplete="off"></label></div>
+    <button type="submit">{{ t.ct_invia }}</button>
+    <p class="esito" role="status" aria-live="polite"></p>
+    <p class="nota">{{ t.ct_privacy }}</p>
+  </form>
+</div>
+<script>
+(function(){
+  var f=document.getElementById('ct-form'); if(!f) return;
+  var esito=f.querySelector('.esito'), btn=f.querySelector('button'), D=f.dataset;
+  function val(n){return (f.elements[n].value||'').trim();}
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(val('sito')) return;                       // trappola per i robot
+    var ok=true;
+    ['nome','cognome','email','messaggio'].forEach(function(n){
+      var el=f.elements[n], buono=val(n)&&(n!=='email'||/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(val(n)));
+      el.setAttribute('aria-invalid',buono?'false':'true'); if(!buono) ok=false;
+    });
+    if(!ok){ var primo=f.querySelector('[aria-invalid=true]'); if(primo) primo.focus(); return; }
+    var motivi=[].map.call(f.querySelectorAll('input[name=motivo]:checked'),function(c){return c.value;});
+    var nome=val('nome')+' '+val('cognome');
+    var corpo=val('messaggio');
+    if(D.key){
+      btn.disabled=true; esito.textContent=D.invio;
+      fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},
+        body:JSON.stringify({access_key:D.key,subject:D.oggetto+(motivi.length?' · '+motivi.join(', '):''),from_name:nome,name:nome,email:val('email'),
+          message:corpo,motivo:motivi.join(', ')})})
+      .then(function(r){return r.json();})
+      .then(function(j){ if(j.success){esito.textContent=D.ok; f.reset();} else {esito.textContent=D.errore;} })
+      .catch(function(){esito.textContent=D.errore;})
+      .then(function(){btn.disabled=false;});
+    } else {
+      // Nessun servizio collegato: apre la posta con il messaggio pronto. L'indirizzo si compone qui, non sta scritto nella pagina.
+      var a=['dacco','mng-crea.com'].join('@');
+      var testo=D.nome+': '+nome+'\n'+'Email: '+val('email')+'\n'+(motivi.length?D.motivo+' '+motivi.join(', ')+'\n':'')+'\n'+corpo;
+      esito.textContent=D.posta;
+      location.href='mailto:'+a+'?subject='+encodeURIComponent(D.oggetto+(motivi.length?' · '+motivi.join(', '):''))+'&body='+encodeURIComponent(testo);
+    }
+  });
+})();
+</script>
+</section>
