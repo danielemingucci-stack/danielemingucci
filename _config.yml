@@ -38,6 +38,7 @@ collections:
 # Feed per chi segue: /feed.xml (tutto) e /feed/scritti.xml (solo gli scritti, per le email)
 plugins:
   - jekyll-feed
+  - jekyll-sitemap
 feed:
   categories:
     - scritti
