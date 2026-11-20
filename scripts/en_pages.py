@@ -32,7 +32,7 @@ EN = {
     "Startup · Traspality, Books121, Capital Units": "Startups · Traspality, Books121, Capital Units",
     "Parole · scritti e romanzi": "Words · writings and novels",
     "Linguaggi · MNG-crea": "Languages · MNG-crea",
-    "Ultimo scritto · {% include data.html d=ultimo.date %}": "Latest piece · {% include data.html d=ultimo.date %}",
+    "{{ etichetta }} · {% include data.html d=ultimo.date %}": "{{ etichetta }} · {% include data.html d=ultimo.date %}",
     "Ultimo scritto · 9 novembre 2026": "Latest piece · 9 November 2026",
     "Lavoro, opera,": "Labour, work,", "azione": "action",
     "Arendt, la Vita Activa, e il senso del fare.": "Arendt, the Vita Activa, and the meaning of making.",
@@ -189,6 +189,8 @@ def main():
             assign = ("{%- assign en_scritti = site.en | where_exp: \"p\", \"p.categories contains 'scritti'\" "
                       "| sort: \"date\" | reverse -%}\n")
             body = body.replace("site.categories.scritti", "en_scritti")
+            body = body.replace("p.path contains site.home_scritto", "p.orig == site.home_scritto")
+            body = body.replace('"Ultimo scritto"', '"Latest piece"').replace('"In evidenza"', '"Featured"')
             body = body.replace("{{ ultimo.excerpt | strip_html", "{{ ultimo.excerpt | default: ultimo.content | strip_html")
             e = "---" + head + "---\n" + assign + body
         open(os.path.join(ROOT, "en", page + ".html"), "w", encoding="utf-8").write(e)

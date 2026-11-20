@@ -61,3 +61,7 @@ exclude:
 # Finché è vuota, "Invia" apre il programma di posta con il messaggio già scritto.
 contatti:
   web3forms_key: ""
+
+# Home: scritto mostrato in evidenza (nome del file in _posts, senza estensione).
+# Lascia vuoto per mostrare sempre l'ultimo scritto pubblicato.
+home_scritto: "2026-11-09-lavoro-opera-azione-mi-ha-un-po-scandalizzato"
