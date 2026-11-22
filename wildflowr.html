@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wildflowr — Daniele Mingucci</title>
+<meta name="description" content="Wildflowr: la cartellina che diventa un fiore. File, messaggi, posta e calendario dello stesso lavoro in un solo posto. Uno standard aperto, nato da un racconto.">
+<link rel="canonical" href="https://www.danielemingucci.com/wildflowr.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* layout: una colonna larga, la finestra del fiore come pezzo centrale; bianco, salvia e giallo margherita */
+  --paper:#fbfcfa; --mist:#f1f5f2; --line:#dce6e0; --ink:#1f2a26; --soft:#5b6b64;
+  --sage:#8fae9f; --sage-pale:#cfdcd5; --sage-deep:#3f5d50; --sun:#f2c21a; --sun-pale:#fdf3c4;
+  --warn:#c2571a;
+  --display:"Jost","Futura","Century Gothic",system-ui,sans-serif;
+  --body:"Newsreader","Iowan Old Style",Georgia,serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--display);font-size:17px;line-height:1.55}
+a{color:var(--sage-deep)}
+:focus-visible{outline:2px solid var(--sage-deep);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.banner{background:var(--sun-pale);font-size:14px;padding:6px 20px;text-align:center;letter-spacing:.02em}
+header.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;padding:18px 0}
+.brand{display:flex;align-items:center;gap:10px;font-size:26px;font-weight:500;letter-spacing:.01em;text-decoration:none;color:var(--ink)}
+.brand svg{width:38px;height:38px}
+nav{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:15px}
+nav a{text-decoration:none;color:var(--soft)}
+nav a:hover{color:var(--ink)}
+h1,h2,h3{font-weight:400;text-wrap:balance;margin:0}
+h1{font-size:clamp(34px,5.4vw,60px);line-height:1.08;font-weight:300;letter-spacing:-.01em}
+h2{font-size:clamp(26px,3.4vw,38px);font-weight:300;line-height:1.15}
+h3{font-size:19px;font-weight:500}
+p{margin:0}
+.lead{font-family:var(--body);font-size:21px;line-height:1.5;color:var(--soft);max-width:34em}
+.hero{display:grid;grid-template-columns:1.25fr .75fr;gap:32px;align-items:center;padding:36px 0 56px}
+.hero .txt{display:flex;flex-direction:column;gap:20px}
+.hero svg{width:100%;max-width:340px;height:auto;justify-self:center}
+section{padding:56px 0;border-top:1px solid var(--line)}
+.head{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
+.eyebrow{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--sage-deep)}
+.prose{font-family:var(--body);font-size:19px;max-width:38em;color:var(--ink)}
+.archives{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;list-style:none;padding:0;margin:0}
+.archives li{border:1px solid var(--line);border-radius:10px;padding:16px;background:#fff;display:flex;flex-direction:column;gap:6px}
+.archives b{font-weight:500}
+.archives li>span{font-size:15px;color:var(--soft)}
+
+/* la finestra del fiore */
+.win{border:1px solid var(--sage-pale);border-radius:14px;background:#fff;box-shadow:0 18px 40px -28px rgba(31,42,38,.45);overflow:hidden}
+.bar{background:var(--mist);border-bottom:1px solid var(--line);padding:8px 14px;font-size:14px;text-align:center;color:var(--soft)}
+.grid{display:grid;grid-template-columns:1.05fr 1.25fr 1fr;grid-template-areas:"private shared team" "private shared mail" "todo report mail";min-height:560px}
+.zone{position:relative;padding:54px 16px 16px;min-width:0}
+.zone>.wm{position:absolute;left:14px;top:6px;font-weight:300;font-size:34px;letter-spacing:.08em;color:var(--sage-pale);line-height:1.1;pointer-events:none;white-space:nowrap}
+.z-private{grid-area:private;background:var(--mist)}
+.z-shared{grid-area:shared;border-left:1px solid var(--line)}
+.z-team{grid-area:team;border-left:1px solid var(--line)}
+.z-mail{grid-area:mail;border-left:1px solid var(--line);border-top:1px solid var(--line)}
+.z-todo{grid-area:todo;background:var(--mist);border-top:1px solid var(--line)}
+.z-report{grid-area:report;border-left:1px solid var(--line);border-top:1px solid var(--line)}
+.zone.over{outline:2px dashed var(--sage);outline-offset:-6px}
+.files{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:10px;list-style:none;margin:0;padding:0}
+.file{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;font-size:13px;line-height:1.25;padding:8px 4px;border-radius:8px;cursor:grab;border:1px solid transparent;background:none;font-family:inherit;color:inherit;width:100%;overflow-wrap:break-word;hyphens:none}
+.file:hover,.file.sel{border-color:var(--sage-pale);background:#fff}
+.file svg{width:34px;height:40px}
+.file small{color:var(--soft);font-size:11.5px}
+.act{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px;color:var(--soft);min-height:32px}
+button.btn{font-family:inherit;font-size:13.5px;border:1px solid var(--sage);background:#fff;color:var(--sage-deep);border-radius:999px;padding:5px 12px;cursor:pointer}
+button.btn:hover{background:var(--sage-deep);color:#fff;border-color:var(--sage-deep)}
+button.btn[aria-pressed="true"]{background:var(--sage-deep);color:#fff;border-color:var(--sage-deep)}
+.msgs{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.msg{font-size:14px;line-height:1.35;display:grid;grid-template-columns:auto 1fr;gap:2px 10px}
+.av{grid-row:span 2;width:30px;height:30px;border-radius:50%;background:var(--sage-pale);display:grid;place-items:center;font-size:12px;font-weight:500;color:var(--sage-deep)}
+.msg .who{display:flex;flex-wrap:wrap;gap:6px;align-items:baseline;font-weight:500}
+.chip{font-size:11px;font-weight:400;border:1px solid var(--line);border-radius:999px;padding:0 7px;color:var(--soft);white-space:nowrap}
+.chip.doubt{border-color:var(--warn);color:var(--warn);cursor:pointer;background:#fff;font-family:inherit}
+.msg .tx{color:var(--soft);overflow-wrap:anywhere}
+.todo{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:14.5px}
+.todo label{display:flex;gap:8px;align-items:flex-start;cursor:pointer}
+.todo input{margin-top:4px;accent-color:var(--sage-deep)}
+.todo .done{text-decoration:line-through;color:var(--soft)}
+.rep{font-size:14.5px;line-height:1.4;margin:10px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.rep li small{color:var(--soft)}
+.note{font-size:13.5px;color:var(--soft);margin-top:12px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.card{border:1px solid var(--line);border-radius:12px;padding:20px;background:#fff;display:flex;flex-direction:column;gap:8px}
+.card p{font-family:var(--body);color:var(--soft);font-size:17.5px}
+ol.principi{list-style:none;counter-reset:p;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:22px}
+ol.principi li{counter-increment:p;display:flex;flex-direction:column;gap:6px;border-top:3px solid var(--sun);padding-top:12px}
+ol.principi li::before{content:counter(p);font-size:30px;font-weight:300;color:var(--sage)}
+ol.principi p{font-family:var(--body);color:var(--soft);font-size:17px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.story{font-family:var(--body);font-size:19.5px;line-height:1.62;max-width:36em;margin:0 auto;display:flex;flex-direction:column;gap:1em}
+.story .sig{font-style:italic;color:var(--soft)}
+.story h3{font-family:var(--display);font-size:15px;letter-spacing:.18em;font-weight:500;color:var(--sage-deep)}
+footer{border-top:1px solid var(--line);padding:26px 0 40px;font-size:14px;color:var(--soft);display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr}
+  .archives{grid-template-columns:1fr 1fr}
+  .grid{grid-template-columns:1fr;grid-template-areas:"report" "team" "mail" "shared" "private" "todo";min-height:0}
+  .zone{border-left:0!important;border-top:1px solid var(--line)}
+  .two{grid-template-columns:1fr}
+  ol.principi{grid-template-columns:1fr 1fr}
+}
+html[lang="it"] [data-l="en"],html[lang="en"] [data-l="it"]{display:none!important}
+nav{align-items:center}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="banner"><span data-l="it">I dati nella dimostrazione sono esempi inventati.</span><span data-l="en" lang="en">The data in the demo are invented examples.</span></div>
+<div class="wrap">
+<header class="top">
+  <a class="brand" href="#inizio"><svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="8" rx="3.6" ry="7.5" fill="#fff" stroke="#3f5d50" stroke-width="1" transform="rotate(0 20 20)"/><ellipse cx="20" cy="8" rx="3.6" ry="7.5" fill="#fff" stroke="#3f5d50" stroke-width="1" transform="rotate(30 20 20)"/><ellipse cx="20" cy="8" rx="3.6" ry="7.5" fill="#fff" stroke="#3f5d50" stroke-width="1" transform="rotate(60 20 20)"/><ellipse cx="20" cy="8" rx="3.6" ry="7.5" fill="#fff" stroke="#3f5d50" stroke-width="1" transform="rotate(90 20 20)"/><ellipse cx="20" cy="8" rx="3.6" ry="7.5" fill="#fff" stroke="#3f5d50" stroke-width="1" transform="rotate(120 20 20)"/><ellipse cx="20" cy="8" rx="3.6" ry="7.5" fill="#fff" stroke="#3f5d50" stroke-width="1" transform="rotate(150 20 20)"/><ellipse cx="20" cy="8" rx="3.6" ry="7.5" fill="#fff" stroke="#3f5d50" stroke-width="1" transform="rotate(180 20 20)"/><ellipse cx="20" cy="8" rx="3.6" ry="7.5" fill="#fff" stroke="#3f5d50" stroke-width="1" transform="rotate(210 20 20)"/><ellipse cx="20" cy="8" rx="3.6" ry="7.5" fill="#fff" stroke="#3f5d50" stroke-width="1" transform="rotate(240 20 20)"/><ellipse cx="20" cy="8" rx="3.6" ry="7.5" fill="#fff" stroke="#3f5d50" stroke-width="1" transform="rotate(270 20 20)"/><ellipse cx="20" cy="8" rx="3.6" ry="7.5" fill="#fff" stroke="#3f5d50" stroke-width="1" transform="rotate(300 20 20)"/><ellipse cx="20" cy="8" rx="3.6" ry="7.5" fill="#fff" stroke="#3f5d50" stroke-width="1" transform="rotate(330 20 20)"/><circle cx="20" cy="20" r="6" fill="#f2c21a" stroke="#3f5d50" stroke-width="1"/></svg><span>Wildflowr</span></a>
+  <nav aria-label="Sezioni">
+    <a href="#problema"><span data-l="it">Il problema</span><span data-l="en" lang="en">The problem</span></a><a href="#fiore"><span data-l="it">Il fiore</span><span data-l="en" lang="en">The flower</span></a><a href="#principi"><span data-l="it">Principi</span><span data-l="en" lang="en">Principles</span></a><a href="#modello"><span data-l="it">Libero e a pagamento</span><span data-l="en" lang="en">Free and paid</span></a><a href="#racconto"><span data-l="it">Il racconto</span><span data-l="en" lang="en">The story</span></a><a href="#colonia"><span data-l="it">La Colonia</span><span data-l="en" lang="en">The Colony</span></a><button class="btn" id="lang" type="button">English</button>
+  </nav>
+</header>
+
+<div class="hero" id="inizio">
+  <div class="txt">
+    <h1><span data-l="it">Dovrebbe essere più semplice di così.</span><span data-l="en" lang="en">It should be simpler than this.</span></h1>
+    <p class="lead"><span data-l="it">Lo stesso lavoro vive in cinque archivi che non si parlano. Wildflowr li riunisce dove è naturale che stiano: nella cartellina, che smette di essere una scatola e diventa un fiore.</span><span data-l="en" lang="en">The same job lives in five archives that don't talk to each other. Wildflowr brings them together where they naturally belong: in the folder, which stops being a box and becomes a flower.</span></p>
+  </div>
+  <svg viewBox="0 0 340 280" role="img" aria-label="Una cartellina gialla con sei petali: team, messaggi, calendario, aggiungi, report, to do">
+    <g fill="none" stroke="#3f5d50" stroke-width="1.5">
+      <path d="M170 150 C150 110 110 92 86 96"/><path d="M170 150 C160 100 150 74 140 58"/><path d="M170 150 C176 100 190 70 204 54"/><path d="M170 150 C196 112 232 92 258 96"/><path d="M170 150 C214 132 250 136 276 150"/><path d="M170 150 C128 134 92 138 64 152"/>
+    </g>
+    <circle cx="80" cy="94" r="20" fill="#2f6fb0"/><circle cx="138" cy="50" r="20" fill="#b03a8c"/><circle cx="206" cy="46" r="20" fill="#d8342c"/><circle cx="264" cy="94" r="20" fill="#f2c21a"/><circle cx="286" cy="152" r="20" fill="#3d9a57"/><circle cx="54" cy="154" r="20" fill="#8fae9f"/>
+    <g fill="#fff"><circle cx="74" cy="90" r="5"/><circle cx="86" cy="90" r="5"/><path d="M66 104c0-6 16-6 16 0zM78 104c0-6 16-6 16 0z"/></g>
+    <g fill="none" stroke="#fff" stroke-width="2"><rect x="127" y="42" width="22" height="16" rx="2"/><path d="M127 43l11 9l11-9"/></g>
+    <path d="M206 36v20M196 46h20" stroke="#fff" stroke-width="3" fill="none"/>
+    <g stroke="#1f2a26" stroke-width="2" fill="none"><path d="M256 88h16M256 94h16M256 100h16"/></g>
+    <g fill="#fff"><rect x="276" y="146" width="20" height="13" rx="2"/><rect x="279" y="141" width="14" height="4" rx="1"/></g>
+    <g fill="none" stroke="#fff" stroke-width="2"><rect x="44" y="145" width="20" height="18" rx="2"/><path d="M44 151h20"/></g>
+    <path d="M96 150h54l12 14h82a8 8 0 0 1 8 8v70a8 8 0 0 1-8 8H96a8 8 0 0 1-8-8v-84a8 8 0 0 1 8-8z" fill="#f2c21a" stroke="#1f2a26" stroke-width="2"/>
+    <path d="M112 214l14-22l14 22l14-22l14 22l14-22l14 22l14-22l14 22" fill="none" stroke="#1f2a26" stroke-width="2"/>
+  </svg>
+</div>
+
+<section id="problema">
+  <div class="head"><span class="eyebrow"><span data-l="it">Il problema</span><span data-l="en" lang="en">The problem</span></span><h2><span data-l="it">Perché cercare le stesse cose in tanti archivi paralleli?</span><span data-l="en" lang="en">Why look for the same things in so many parallel archives?</span></h2></div>
+  <ul class="archives">
+    <li><b><span data-l="it">Scrivania</span><span data-l="en" lang="en">Desktop</span></b><span><span data-l="it">La cartellina con i file del cliente.</span><span data-l="en" lang="en">The folder with the client's files.</span></span></li>
+    <li><b><span data-l="it">Posta</span><span data-l="en" lang="en">Mail</span></b><span><span data-l="it">I messaggi dello stesso cliente, in un altro archivio.</span><span data-l="en" lang="en">The same client's messages, in another archive.</span></span></li>
+    <li><b>Chat</b><span><span data-l="it">Le stesse persone, sul telefono, in tre app diverse.</span><span data-l="en" lang="en">The same people, on your phone, in three different apps.</span></span></li>
+    <li><b><span data-l="it">Calendario</span><span data-l="en" lang="en">Calendar</span></b><span><span data-l="it">Gli appuntamenti dello stesso lavoro.</span><span data-l="en" lang="en">The appointments for the same job.</span></span></li>
+    <li><b><span data-l="it">Cloud e AI</span><span data-l="en" lang="en">Cloud and AI</span></b><span><span data-l="it">Cartelle condivise e assistenti, ognuno nel suo recinto.</span><span data-l="en" lang="en">Shared folders and assistants, each inside its own fence.</span></span></li>
+  </ul>
+  <p class="prose" style="margin-top:24px"><span data-l="it">Quando è nata la scrivania del computer non c'erano internet, la posta, le chat, il cloud. Sono arrivati dopo, uno sopra l'altro, e nessuno ha più toccato l'impianto. Il risultato è una giornata passata a cercare e a chiedere «me lo rimandi?».</span><span data-l="en" lang="en">When the computer desktop was born there was no internet, no email, no chat, no cloud. They came later, one on top of the other, and nobody touched the foundations again. The result is a day spent searching and asking “can you send it again?”.</span></p>
+</section>
+
+<section id="fiore">
+  <div class="head"><span class="eyebrow"><span data-l="it">Il fiore</span><span data-l="en" lang="en">The flower</span></span><h2><span data-l="it">Apri la cartellina: dentro c'è tutto il lavoro.</span><span data-l="en" lang="en">Open the folder: the whole job is inside.</span></h2>
+  <p class="prose"><span data-l="it">Provala. Trascina un file da Private a Shared, spunta un to do, sistema il messaggio dubbio, passa dalla sintesi al dettaglio del report.</span><span data-l="en" lang="en">Try it. Drag a file from Private to Shared, tick a to-do, sort out the doubtful message, switch the report from summary to detail.</span></p></div>
+  <div class="win" id="demo">
+    <div class="bar"><span data-l="it">Studio Rossi · ristrutturazione villa</span><span data-l="en" lang="en">Studio Rossi · villa renovation</span></div>
+    <div class="grid">
+      <div class="zone z-private" data-zone="private"><span class="wm">PRIVATE</span><ul class="files" id="f-private"></ul><div class="act" id="a-private"></div></div>
+      <div class="zone z-shared" data-zone="shared"><span class="wm">SHARED</span><ul class="files" id="f-shared"></ul><div class="act" id="a-shared"></div></div>
+      <div class="zone z-team"><span class="wm">team</span><ul class="msgs" id="team"></ul></div>
+      <div class="zone z-mail"><span class="wm">mail</span><ul class="msgs" id="mail"></ul></div>
+      <div class="zone z-todo"><span class="wm">to do</span><ul class="todo" id="todo"></ul></div>
+      <div class="zone z-report"><span class="wm">report</span>
+        <div class="act" style="margin-top:0"><button class="btn" id="b-sint" aria-pressed="true"><span data-l="it">Sintesi</span><span data-l="en" lang="en">Summary</span></button><button class="btn" id="b-dett" aria-pressed="false"><span data-l="it">Dettaglio</span><span data-l="en" lang="en">Detail</span></button></div>
+        <ol class="rep" id="rep"></ol>
+      </div>
+    </div>
+  </div>
+  <p class="note"><span data-l="it">Le app continuano a lavorare come sempre: ogni messaggio si riapre nell'app da cui arriva. Il fiore li riunisce, non li sostituisce.</span><span data-l="en" lang="en">Your apps keep working as usual: every message reopens in the app it came from. The flower brings them together, it doesn't replace them.</span></p>
+</section>
+
+<section id="principi">
+  <div class="head"><span class="eyebrow"><span data-l="it">Cinque principi</span><span data-l="en" lang="en">Five principles</span></span><h2><span data-l="it">Cosa non cambierà mai.</span><span data-l="en" lang="en">What will never change.</span></h2></div>
+  <ol class="principi">
+    <li><h3><span data-l="it">Un solo posto</span><span data-l="en" lang="en">One place</span></h3><p><span data-l="it">La scrivania. Niente altro luogo dove andare a cercare.</span><span data-l="en" lang="en">The desktop. No other place to go looking.</span></p></li>
+    <li><h3><span data-l="it">Le app restano</span><span data-l="en" lang="en">Apps stay</span></h3><p><span data-l="it">Lavorano come sempre. Il fiore le riunisce.</span><span data-l="en" lang="en">They work as usual. The flower brings them together.</span></p></li>
+    <li><h3><span data-l="it">Includere</span><span data-l="en" lang="en">Include</span></h3><p><span data-l="it">I messaggi arrivano da dove arrivano. Nessuno cambia app per lavorare con te.</span><span data-l="en" lang="en">Messages come from wherever they come. Nobody switches apps to work with you.</span></p></li>
+    <li><h3><span data-l="it">Sei dentro</span><span data-l="en" lang="en">You're in</span></h3><p><span data-l="it">Non ci devi entrare. Con la tua privacy e quello che decidi di condividere.</span><span data-l="en" lang="en">You don't have to get in. With your privacy and whatever you choose to share.</span></p></li>
+    <li><h3><span data-l="it">Insieme</span><span data-l="en" lang="en">Together</span></h3><p><span data-l="it">Un fiore è fatto per stare in un prato.</span><span data-l="en" lang="en">A flower is made to stand in a meadow.</span></p></li>
+  </ol>
+</section>
+
+<section id="sotto">
+  <div class="head"><span class="eyebrow"><span data-l="it">Come è fatto</span><span data-l="en" lang="en">How it's made</span></span><h2><span data-l="it">Semplice anche sotto.</span><span data-l="en" lang="en">Simple underneath, too.</span></h2></div>
+  <div class="cards">
+    <div class="card"><h3><span data-l="it">Una cartella normale</span><span data-l="en" lang="en">An ordinary folder</span></h3><p><span data-l="it">Il fiore è una cartella con un piccolo file di testo che lo descrive. Chi non ha Wildflowr vede una cartella e lavora come sempre.</span><span data-l="en" lang="en">The flower is a folder with a small text file that describes it. Anyone without Wildflowr sees a folder and works as usual.</span></p></div>
+    <div class="card"><h3><span data-l="it">I messaggi restano tuoi</span><span data-l="en" lang="en">Your messages stay yours</span></h3><p><span data-l="it">Chat e posta non lasciano il tuo dispositivo. Con il team viaggiano solo i file che sposti in Shared, i to do e la cronologia.</span><span data-l="en" lang="en">Chats and email never leave your device. Only the files you move to Shared, the to-dos and the history travel to the team.</span></p></div>
+    <div class="card"><h3><span data-l="it">Nessun server obbligatorio</span><span data-l="en" lang="en">No mandatory server</span></h3><p><span data-l="it">La parte condivisa viaggia su qualsiasi sincronizzazione di cartelle che un gruppo usa già.</span><span data-l="en" lang="en">The shared part travels over any folder sync a group already uses.</span></p></div>
+    <div class="card"><h3><span data-l="it">Aperto alle AI, con permesso</span><span data-l="en" lang="en">Open to AI, with permission</span></h3><p><span data-l="it">Un assistente entra in un fiore solo se lo apri tu, e ogni suo accesso resta scritto nel registro.</span><span data-l="en" lang="en">An assistant enters a flower only if you open it, and every access stays written in the log.</span></p></div>
+  </div>
+</section>
+
+<section id="modello">
+  <div class="head"><span class="eyebrow"><span data-l="it">Il patto</span><span data-l="en" lang="en">The pact</span></span><h2><span data-l="it">Cosa è di tutti e cosa no.</span><span data-l="en" lang="en">What belongs to everyone and what doesn't.</span></h2></div>
+  <div class="two">
+    <div class="card" style="border-top:3px solid var(--sage)"><h3><span data-l="it">Libero, per sempre</span><span data-l="en" lang="en">Free, forever</span></h3><p><span data-l="it">Lo standard Wildflowr: il formato del fiore e le sue regole. Chiunque può adottarlo, costruirci sopra, copiarlo. Farsi copiare è lo scopo.</span><span data-l="en" lang="en">The Wildflowr standard: the flower's format and its rules. Anyone can adopt it, build on it, copy it. Being copied is the point.</span></p></div>
+    <div class="card" style="border-top:3px solid var(--sun)"><h3><span data-l="it">A pagamento</span><span data-l="en" lang="en">Paid</span></h3><p><span data-l="it">I prodotti che realizzano lo standard e il lavoro di chi aiuta ad adottarlo. Il confine è questo, dichiarato dal primo giorno.</span><span data-l="en" lang="en">The products that implement the standard and the work of those who help adopt it. That is the line, stated from day one.</span></p></div>
+  </div>
+</section>
+
+<section id="racconto">
+  <div class="head"><span class="eyebrow"><span data-l="it">Il racconto</span><span data-l="en" lang="en">The story</span></span><h2><span data-l="it">Wildflower, il potere dei fiori di campo.</span><span data-l="en" lang="en">Wildflower, the power of wild flowers.</span></h2></div>
+  <div class="story" data-l="it" lang="it">
+    <p>Prima del progetto c'era un racconto. Due ragazzi, una colonia abbandonata sulla spiaggia di Riccione, una base fatta di pannelli solari rubati e una parabola, e un sistema che fa fiorire le cartelle. Scritto nel 2020.</p>
+    <p><a href="/scritti/wildflower-il-potere-dei-fiori-di-campo/">Leggi il racconto</a></p>
+  </div>
+  <div class="story" data-l="en" lang="en">
+    <p>Before the project there was a story. Two boys, an abandoned holiday colony on the beach at Riccione, a base built from stolen solar panels and a satellite dish, and a system that makes folders bloom. Written in 2020.</p>
+    <p><a href="/en/scritti/wildflower-il-potere-dei-fiori-di-campo/">Read the story</a></p>
+  </div>
+</section>
+
+<section id="colonia">
+  <div class="head"><span class="eyebrow"><span data-l="it">La Colonia</span><span data-l="en" lang="en">The Colony</span></span><h2><span data-l="it">Un fiore di campo non lo pianta nessuno.</span><span data-l="en" lang="en">Nobody plants a wildflower.</span></h2>
+  <p class="prose"><span data-l="it">Cresce dove trova terra, e l'anno dopo ce ne sono cento. Wildflowr è un'idea messa in terra perché altri la facciano crescere: sviluppatori, designer, studi, scuole, aziende. La Colonia è il gruppo dei primi. Per entrare, scrivi a Daniele Mingucci dal <a href="/#contatto">modulo di contatto</a>.</span><span data-l="en" lang="en">It grows wherever it finds soil, and a year later there are a hundred. Wildflowr is an idea put in the ground for others to grow: developers, designers, firms, schools, companies. The Colony is the group of the first. To join, write to Daniele Mingucci through the <a href="/en/#contatto">contact form</a>.</span></p></div>
+</section>
+
+<footer><span><span data-l="it">Wildflowr è un progetto di Daniele Mingucci, Riccione.</span><span data-l="en" lang="en">Wildflowr is a project by Daniele Mingucci, Riccione.</span></span><a href="/terra.html"><span data-l="it">← danielemingucci.com</span><span data-l="en" lang="en">← danielemingucci.com</span></a></footer>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement, lang=(location.hash==="#en")?"en":"it";
+  function L(a,b){return lang==="en"?b:a;}
+  function P(v){return Array.isArray(v)?(lang==="en"?v[1]:v[0]):v;}
+  var YOU=["tu","you"];
+  var files=[
+    {id:"f1",n:["bozza contratto.docx","contract draft.docx"],z:"private"},
+    {id:"f2",n:["appunti sopralluogo.txt","site visit notes.txt"],z:"private"},
+    {id:"f3",n:["conti miei.xlsx","my numbers.xlsx"],z:"private"},
+    {id:"f4",n:["preventivo v3.pdf","quote v3.pdf"],z:"shared",by:"Anna"},
+    {id:"f5",n:["pianta piano terra.pdf","ground floor plan.pdf"],z:"shared",by:"Marco"},
+    {id:"f6",n:["foto cantiere","site photos"],z:"shared",by:YOU,dir:true}
+  ];
+  var team=[
+    {w:"Anna Bianchi",i:"AB",net:"WhatsApp",t:["Ho caricato il preventivo aggiornato, guarda la voce infissi.","I've uploaded the updated quote, check the windows line."]},
+    {w:"Marco Gatti",i:"MG",net:"Telegram",t:["Giovedì alle 9 per il sopralluogo va bene a tutti?","Thursday at 9 for the site visit, OK for everyone?"]},
+    {w:"Anna Bianchi",i:"AB",net:"WhatsApp",t:["Stasera pizza? Porto io il vino.","Pizza tonight? I'll bring the wine."],doubt:true},
+    {w:"Sara Neri",i:"SN",net:"Slack",t:["Il cliente chiede i campioni del parquet.","The client is asking for the parquet samples."]}
+  ];
+  var mail=[
+    {w:"Studio Rossi",i:"SR",net:["Posta","Mail"],t:["[Rossi] Conferma dell'acconto ricevuto.","[Rossi] Confirmation of the deposit received."]},
+    {w:"Geom. Villa",i:"GV",net:["Posta","Mail"],t:["Pratica edilizia: mancano due firme.","Building permit: two signatures missing."]}
+  ];
+  var todo=[
+    {id:"t1",t:["Inviare preventivo firmato","Send the signed quote"],who:"Anna",d:false},
+    {id:"t2",t:["Scegliere i materiali","Choose the materials"],who:YOU,d:false},
+    {id:"t3",t:["Sopralluogo","Site visit"],who:"Marco",d:true}
+  ];
+  var log=[
+    {g:["lun","Mon"],t:["Anna ha caricato preventivo v3.pdf","Anna uploaded quote v3.pdf"],s:["terza versione","third version"]},
+    {g:["lun","Mon"],t:["Marco ha chiuso il to do Sopralluogo","Marco closed the to-do Site visit"],s:""},
+    {g:["mar","Tue"],t:["Marco ha aggiornato pianta piano terra.pdf","Marco updated ground floor plan.pdf"],s:["versione precedente conservata","previous version kept"]},
+    {g:["mar","Tue"],t:["4 messaggi da 3 persone su 3 reti","4 messages from 3 people on 3 networks"],s:"WhatsApp, Telegram, Slack"},
+    {g:["oggi","today"],t:["2 mail attribuite a questo fiore","2 emails assigned to this flower"],s:""}
+  ];
+  var NOW=["adesso","now"];
+  var sel=null, mode="s";
+  function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
+  function $(id){return document.getElementById(id);}
+  function ico(dir){
+    return dir
+     ? '<svg viewBox="0 0 34 40" aria-hidden="true"><path d="M3 10h10l3 4h15v20H3z" fill="#f2c21a" stroke="#1f2a26" stroke-width="1.5"/></svg>'
+     : '<svg viewBox="0 0 34 40" aria-hidden="true"><path d="M7 3h13l8 8v26H7z" fill="#fff" stroke="#8fae9f" stroke-width="1.5"/><path d="M20 3v8h8" fill="none" stroke="#8fae9f" stroke-width="1.5"/></svg>';
+  }
+  function move(id,z){
+    var f=files.filter(function(x){return x.id===id;})[0]; if(!f||f.z===z)return;
+    f.z=z; f.by=YOU; sel=null;
+    log.push({mine:true,g:NOW,
+      t:z==="shared"?["Hai condiviso "+f.n[0]+" con il team","You shared "+f.n[1]+" with the team"]:["Hai riportato "+f.n[0]+" in Private","You moved "+f.n[1]+" back to Private"],
+      s:z==="shared"?["lo vedono Anna, Marco e Sara","Anna, Marco and Sara can see it"]:["non è più visibile al team","the team can no longer see it"]});
+    draw();
+  }
+  function drawFiles(z){
+    var ul=$("f-"+z); ul.textContent="";
+    files.filter(function(f){return f.z===z;}).forEach(function(f){
+      var li=el("li"), b=el("button","file"+(sel===f.id?" sel":""));
+      b.type="button"; b.draggable=true; b.innerHTML=ico(f.dir);
+      b.appendChild(el("span",null,P(f.n)));
+      if(z==="shared") b.appendChild(el("small",null,L("ultimo: ","last: ")+P(f.by)));
+      b.addEventListener("click",function(){sel=(sel===f.id?null:f.id);draw();});
+      b.addEventListener("dragstart",function(e){e.dataTransfer.setData("text/plain",f.id);});
+      li.appendChild(b); ul.appendChild(li);
+    });
+    var a=$("a-"+z); a.textContent="";
+    var s=files.filter(function(f){return f.id===sel&&f.z===z;})[0];
+    if(s){
+      var bt=el("button","btn",z==="private"?L("Condividi col team","Share with the team"):L("Riporta in Private","Move back to Private")); bt.type="button";
+      bt.addEventListener("click",function(){move(s.id,z==="private"?"shared":"private");});
+      a.appendChild(bt);
+      a.appendChild(el("span",null,z==="private"?L("Lo vedranno Anna, Marco e Sara.","Anna, Marco and Sara will see it."):L("Tornerà visibile solo a te.","Only you will see it again.")));
+    } else if(z==="private"){ a.appendChild(el("span",null,L("Solo tu vedi questi file.","Only you can see these files."))); }
+  }
+  function drawMsgs(id,arr){
+    var ul=$(id); ul.textContent="";
+    arr.forEach(function(m,ix){
+      var li=el("li","msg"); li.appendChild(el("span","av",m.i));
+      var who=el("span","who"); who.appendChild(el("span",null,m.w)); who.appendChild(el("span","chip",P(m.net)));
+      if(m.doubt){
+        var q=el("button","chip doubt",L("? non è di questo fiore","? not for this flower")); q.type="button";
+        q.title=L("Attribuzione dubbia: tocca per toglierlo","Doubtful: tap to remove it");
+        q.addEventListener("click",function(){
+          arr.splice(ix,1);
+          log.push({mine:true,g:NOW,t:["Hai tolto un messaggio di Anna da questo fiore","You removed one of Anna's messages from this flower"],s:["è tornato nel Prato","it went back to the Meadow"]});
+          draw();
+        });
+        who.appendChild(q);
+      }
+      li.appendChild(who); li.appendChild(el("span","tx",P(m.t))); ul.appendChild(li);
+    });
+  }
+  function drawTodo(){
+    var ul=$("todo"); ul.textContent="";
+    todo.forEach(function(t){
+      var li=el("li"), lb=el("label"), c=el("input"); c.type="checkbox"; c.id="c-"+t.id; c.checked=t.d;
+      c.addEventListener("change",function(){t.d=c.checked;
+        log.push({mine:true,g:NOW,t:[(t.d?"Hai chiuso":"Hai riaperto")+" il to do "+t.t[0],(t.d?"You closed":"You reopened")+" the to-do "+t.t[1]],s:""});draw();});
+      lb.appendChild(c); lb.appendChild(el("span",t.d?"done":null,P(t.t)+" · "+P(t.who))); li.appendChild(lb); ul.appendChild(li);
+    });
+  }
+  function drawRep(){
+    var ol=$("rep"); ol.textContent="";
+    $("b-sint").setAttribute("aria-pressed",mode==="s"); $("b-dett").setAttribute("aria-pressed",mode==="d");
+    var rows;
+    if(mode==="s"){
+      rows=[{t:L("Il preventivo è alla terza versione: Anna ha cambiato la voce infissi.","The quote is at its third version: Anna changed the windows line."),s:""},
+            {t:L("Marco propone il sopralluogo giovedì alle 9 e aspetta risposta.","Marco proposes the site visit on Thursday at 9 and is waiting for an answer."),s:""},
+            {t:L("Alla pratica edilizia mancano due firme.","The building permit is missing two signatures."),s:""}];
+      var mine=log.filter(function(x){return x.mine;});
+      if(mine.length){var last=P(mine[mine.length-1].t); last=last.charAt(0).toLowerCase()+last.slice(1);
+        rows.push({t:L("Da quando sei tornato: "+mine.length+(mine.length===1?" azione tua":" azioni tue")+", l'ultima: "+last+".","Since you came back: "+mine.length+(mine.length===1?" action of yours":" actions of yours")+", the latest: "+last+"."),s:""});}
+    } else { rows=log.map(function(x){return {t:P(x.g)+" · "+P(x.t),s:P(x.s)};}); }
+    rows.forEach(function(r){var li=el("li",null,r.t); if(r.s){li.appendChild(document.createTextNode(" ")); li.appendChild(el("small",null,r.s));} ol.appendChild(li);});
+  }
+  function draw(){drawFiles("private");drawFiles("shared");drawMsgs("team",team);drawMsgs("mail",mail);drawTodo();drawRep();}
+  function setLang(l){lang=l; root.lang=l; $("lang").textContent=l==="en"?"Italiano":"English"; draw();}
+  ["private","shared"].forEach(function(z){
+    var zn=document.querySelector('[data-zone="'+z+'"]');
+    zn.addEventListener("dragover",function(e){e.preventDefault();zn.classList.add("over");});
+    zn.addEventListener("dragleave",function(){zn.classList.remove("over");});
+    zn.addEventListener("drop",function(e){e.preventDefault();zn.classList.remove("over");move(e.dataTransfer.getData("text/plain"),z);});
+  });
+  $("b-sint").addEventListener("click",function(){mode="s";drawRep();});
+  $("b-dett").addEventListener("click",function(){mode="d";drawRep();});
+  $("lang").addEventListener("click",function(){setLang(lang==="en"?"it":"en");});
+  setLang(lang);
+})();
+</script>
+</body>
+</html>
