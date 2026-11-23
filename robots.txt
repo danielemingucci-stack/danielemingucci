@@ -1,4 +1,5 @@
 User-agent: *
 Disallow: /scrivi/
+Disallow: /ringphone/ingresso-k7m2x/
 
 Sitemap: https://www.danielemingucci.com/sitemap.xml
