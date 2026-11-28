@@ -1,0 +1,40 @@
+---
+layout: null
+title: "Di cosa mi sto occupando"
+---
+<!doctype html>
+<html lang="{{ page.lang | default: "it" }}">
+<head>
+{% include testa.html %}
+{% include lingua.html testa=true %}
+<title>Di cosa mi sto occupando — Daniele Mingucci</title>
+<meta name="description" content="Di cosa mi sto occupando: il mio profilo su Traspality, con i lavori e i progetti su cui sto lavorando adesso.">
+<meta property="og:title" content="Di cosa mi sto occupando">
+<meta property="og:description" content="Di cosa mi sto occupando: il mio profilo su Traspality, con i lavori e i progetti su cui sto lavorando adesso.">
+<meta property="og:image" content="{{ site.url }}/img/avatar.jpg">
+<style>.trsp-embed iframe{width:100%;height:900px;border:1px solid #e8e8e8;border-radius:16px;display:block;background:#fff}@media (max-width:760px){.trsp-embed iframe{height:80vh}}</style>
+</head>
+<body class="li">
+{% include testata.html attivo="profilo" %}
+{%- assign headline = ruolo_base -%}
+
+<main class="li-pagina li-due">
+  <div class="li-col">
+    <section class="li-card li-pad">
+      <h1 style="margin: 0; font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 34px">Di cosa mi sto occupando</h1>
+      <p class="li-sub" style="margin-top: 8px">Il mio profilo su Traspality: cosa sto facendo adesso, aggiornato in diretta.</p>
+    </section>
+    <section class="li-card li-pad trsp-embed" aria-label="Di cosa mi sto occupando">
+      <iframe src="https://www.traspality.com/public.html?team=8124b687-38c0-4e47-ae61-b60f83360f69&amp;embed=1" title="Di cosa mi sto occupando" loading="lazy"></iframe>
+      <p style="margin: 14px 0 0; font-size: 14px"><a href="https://www.traspality.com/public.html?team=8124b687-38c0-4e47-ae61-b60f83360f69" rel="noopener">Apri la pagina su Traspality →</a></p>
+    </section>
+  </div>
+  <aside class="li-col">
+    {% include biglietto.html %}
+    {% include mondi.html %}
+  </aside>
+</main>
+
+{% include piede.html %}
+</body>
+</html>
